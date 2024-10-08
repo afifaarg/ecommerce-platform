@@ -199,7 +199,7 @@ export default function NavBar() {
                   FAQ
                 </a>
                 <a
-                  href="#"
+                  href="/contact"
                   className="text-base font-medium text-secondary hover:text-secondary-dark"
                 >
                   Contact

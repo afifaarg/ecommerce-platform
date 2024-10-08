@@ -4,7 +4,8 @@ const ContactUs = () => {
   return (
     <section id="contact" className="py-12 px-4">
       <div className="container rounded-xl bg-primary mx-auto flex flex-col md:flex-row items-center space-y-12 md:space-y-0 md:space-x-12">
-        <div className="md:w-1/2 flex flex-col items-start space-y-6">
+        {/* Left Section */}
+        <div className="md:w-1/2 p-4 flex flex-col items-start space-y-6">
           <h2 className="text-4xl font-bold text-center text-secondary-dark px-4">
             Rejoignez-nous
           </h2>
@@ -56,8 +57,8 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* Formulaire de contact */}
-        <div className="md:w-1/2 bg-gray-50 rounded-r-lg shadow-lg p-6">
+        {/* Contact Form Section */}
+        <div className="w-full md:w-1/2 bg-gray-50 rounded-b-lg sm:rounded-r-lg shadow-lg  p-6">
           <h3 className="text-3xl font-bold text-primary-dark mb-4">
             Contactez Nous!
           </h3>
@@ -69,7 +70,7 @@ const ContactUs = () => {
               <input
                 type="text"
                 id="name"
-                className="w-full p-3 border border-primary rounded-full outline-none"
+                className="w-full p-3 border border-primary rounded-full outline-none focus:ring focus:ring-primary-dark"
                 placeholder="Votre nom"
                 required
               />
@@ -81,7 +82,7 @@ const ContactUs = () => {
               <input
                 type="email"
                 id="email"
-                className="w-full p-3 border border-primary rounded-full outline-none"
+                className="w-full p-3 border border-primary rounded-full outline-none focus:ring focus:ring-primary-dark"
                 placeholder="Votre email"
                 required
               />
@@ -93,14 +94,14 @@ const ContactUs = () => {
               <textarea
                 id="message"
                 rows="5"
-                className="w-full p-3 border border-primary rounded-lg outline-none"
+                className="w-full p-3 border border-primary rounded-lg outline-none focus:ring focus:ring-primary-dark"
                 placeholder="Votre message"
                 required
               ></textarea>
             </div>
             <button
               type="submit"
-              className="w-full p-3 bg-primary-dark text-white rounded hover:bg-primary"
+              className="w-full p-3 bg-primary-dark text-white rounded hover:bg-primary focus:outline-none focus:ring focus:ring-primary-dark"
             >
               Envoyer
             </button>
