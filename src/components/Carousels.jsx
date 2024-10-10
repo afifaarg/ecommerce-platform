@@ -116,7 +116,7 @@ function Carousel() {
       </div>
 
       {/* Cards Section */}
-      <section className="pb-12 bg-blueGray-200 -mt-24">
+      <section className="pb-12  -mt-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="px-4 text-center">

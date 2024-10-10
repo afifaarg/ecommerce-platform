@@ -13,21 +13,21 @@ export default {
           dark: '#3658B5',      // Darker shade of Royal Blue
         },
         secondary: {
-          DEFAULT: '#F5F5DC',   // Beige (Secondary color)
-          light: '#FFFBEA',     // Lighter beige for subtle elements
-          dark: '#E5E5C9',      // Darker beige for contrast
+          DEFAULT: '#F5E4B8',   // Slightly richer beige for better contrast
+          light: '#FFFAE0',     // Softer, lighter beige with more warmth
+          dark: '#E5D1A3',      // Darker beige for more pronounced contrast
         },
         background: {
           light: '#FFFFFF',     // White (Background for light sections)
-          dark: '#F8F9FA',      // Light grey background for darker sections
+          dark: '#F2F2F2',      // Slightly darker grey for better separation of sections
         },
         text: {
-          primary: '#333333',   // Dark grey/black for primary text
-          secondary: '#666666', // Light grey for secondary text
-          light: '#F8F8F8',     // White for text on dark backgrounds
+          primary: '#2C2C2C',   // Slightly darker grey for better readability
+          secondary: '#4D4D4D', // Deeper grey for clearer contrast with the background
+          light: '#FAFAFA',     // Slightly brighter white for better visibility on dark backgrounds
         },
         border: {
-          light: '#D3D3D3',     // Light grey for borders
+          light: '#C0C0C0',     // A bit darker grey for clearer border definition
         },
       },
     },
