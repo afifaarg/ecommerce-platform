@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Product from "./ProductCard";
 const products = [
   {
@@ -73,9 +74,11 @@ export default function ProductsSection() {
         <h1 className="font-bold pb-2 text-2xl sm:text-4xl text-primary-dark  text-start">
           Nouveautés Produits
         </h1>
-        <a href="" className="text-lg text-primary underline">
+        <Link
+        to="/products"
+        className="text-lg text-primary underline">
           Voir Plus
-        </a>
+        </Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-12 py-8">
         {products.map((product) => (

@@ -1,6 +1,48 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios"
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const sendEmail = async () => {
+    try { // Axios POST request to the Django backend
+      const payload ={
+        email: email
+      }
+      const response = await axios.post(
+        "http://localhost:8000/backendAPI/newsletters/",
+        payload, // Send the payload as is, no need to stringify
+        {
+          headers: {
+            "Content-Type": "application/json", // Set content type for Django
+          },
+        }
+      );
+
+      // Handle success
+      if (response.status === 201) {
+       alert("Email Enregistré!")
+      } else {
+        alert("Error submitting form:", response.status, response.data);
+      }
+    } catch (error) {
+      // Detailed error handling
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error("Error response:", error.response.data);
+        alert(
+          `Error: ${error.response.data.detail || "Something went wrong!"}`
+        );
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error("No response from server:", error.request);
+      } else {
+        // Something else happened
+        console.error("Error:", error.message);
+      }
+    }
+  };
+
+  
   return (
     <div className="bg-primary py-4">
       {/* Flex Container */}
@@ -80,18 +122,18 @@ const Footer = () => {
 
         {/* Input Container */}
         <div className="flex flex-col justify-between">
-          <form>
             <div className="flex space-x-3">
               <input
                 type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 rounded-full focus:outline-none"
                 placeholder="Abonne Newsletter"
               />
-              <button className="px-6 py-2 text-primary rounded-full bg-secondary-dark hover:bg-secondary focus:outline-none">
+              <button className="px-6 py-2 text-primary rounded-full bg-secondary-dark hover:bg-secondary focus:outline-none" onClick={sendEmail}>
                 Envoyer
               </button>
             </div>
-          </form>
           <div className="hidden text-white md:block">
             Copyright © All Rights Reserved
           </div>
