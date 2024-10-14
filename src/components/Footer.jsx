@@ -9,7 +9,7 @@ const Footer = () => {
         email: email
       }
       const response = await axios.post(
-        "http://localhost:8000/backendAPI/newsletters/",
+        "https://ecommerce-platform-api.onrender.com/backendAPI/newsletters/",
         payload, // Send the payload as is, no need to stringify
         {
           headers: {

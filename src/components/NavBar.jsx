@@ -52,7 +52,7 @@ export default function NavBar() {
                   className="group rounded-md justify-center text-secondary-light hover:text-secondary-dark inline-flex items-center text-base font-medium focus:outline-none"
                   onClick={() => setFlyer(!flyer)}
                 >
-                  <span>Nos Matelas</span>
+                  <span>Nos Produits</span>
                   <svg
                     className={`ml-2 h-5 w-5 text-secondary-light hover:text-secondary-dark transition-transform ease-out duration-200 ${
                       flyer ? "rotate-180" : "rotate-0"
@@ -85,24 +85,24 @@ export default function NavBar() {
                 </div>
               </div>
 
-              <Link
-                to="#products"
+              <a
+                href="#products"
                 className="text-base font-medium text-secondary-light hover:text-secondary-dark"
               >
                 Nouveautés
-              </Link>
-              <Link
-                to="#about"
+              </a>
+              <a
+                href="#about"
                 className="text-base font-medium text-secondary-light hover:text-secondary-dark"
               >
                 A propos
-              </Link>
-              <Link
-                to="#faq"
+              </a>
+              <a
+                href="#faq"
                 className="text-base font-medium text-secondary-light hover:text-secondary-dark"
               >
                 FAQ
-              </Link>
+              </a>
               <Link
                 to="/contact"
                 className="text-base font-medium text-secondary-light hover:text-secondary-dark"

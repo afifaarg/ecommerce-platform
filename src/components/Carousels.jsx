@@ -189,7 +189,7 @@ function Carousel() {
                   </h6>
                   <p className="mt-2 mb-4 text-dark">
                     Notre engagement envers la qualité et la satisfaction client
-                    nous permet d'offrir une garantie complète sur tous nos
+                    nous permet doffrir une garantie complète sur tous nos
                     produits.
                   </p>
                 </div>
