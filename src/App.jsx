@@ -6,19 +6,24 @@ import HomePage from "./pages/HomePage";
 import ContactUs from "./pages/ContactUs";
 import Productspage from "./pages/Productspage";
 import Productpage from "./pages/ProductPage"
+import { CartProvider } from "./providers/CartProvider";
+import Cart from "./pages/CartPage";
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<Productspage />} />
-            <Route path="/products/:id" element={<Productpage />} />
-            <Route path="/contact" element={<ContactUs />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+       <CartProvider> 
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route path="products" element={<Productspage />} />
+                <Route path="products/:id" element={<Productpage />} />
+                <Route path="contact" element={<ContactUs />} />
+                <Route path="cart" element={<Cart />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
     </>
   );
 }

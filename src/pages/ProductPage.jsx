@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { CartContext } from "../contexts/CartContext";
+
 export default function ProductPage() {
   const [productData, setProductData] = useState({});
   const [images, setImages] = useState([]);
   const [isLightbox, setLightbox] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { addToCart } = useContext(CartContext);
   const { id } = useParams(); // This will give you the product id
 
   useEffect(() => {
@@ -212,6 +215,7 @@ export default function ProductPage() {
           <div className="flex py-4 space-x-4">
             <button
               type="button"
+              onClick={() => addToCart(productData)}
               className="h-14 flex items-center space-x-3 px-6 py-2 font-semibold rounded-xl bg-primary text-secondary hover:shadow-lg active:scale-80 transition-transform	active:outline-none"
             >
               <svg fill="none" viewBox="0 0 15 15" height="1.5em" width="1.5em">

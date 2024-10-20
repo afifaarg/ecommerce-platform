@@ -119,18 +119,18 @@ export default function NavBar() {
                 <svg
                   viewBox="0 0 940 1000"
                   fill="currentColor"
-                  height="1em"
-                  width="1em"
+                  height="1.5em"
+                  width="1.5em"
                 >
                   <path d="M736 722c136 48 204 88.667 204 122v106H470 0V844c0-33.333 68-74 204-122 62.667-22.667 105.333-45.667 128-69s34-55 34-95c0-14.667-7.333-31-22-49s-25.333-42.333-32-73c-1.333-8-4.333-14-9-18s-9.333-6.667-14-8c-4.667-1.333-9.333-7-14-17s-7.667-24.333-9-43c0-10.667 1.667-19.333 5-26 3.333-6.667 6.333-10.667 9-12l4-4c-5.333-33.333-9.333-62.667-12-88-2.667-36 11-73.333 41-112s82.333-58 157-58 127.333 19.333 158 58 44 76 40 112l-12 88c12 5.333 18 19.333 18 42-1.333 18.667-4.333 33-9 43s-9.333 15.667-14 17c-4.667 1.333-9.333 4-14 8s-7.667 10-9 18c-5.333 32-15.667 56.667-31 74s-23 33.333-23 48c0 40 11.667 71.667 35 95s65.667 46.333 127 69" />
                 </svg>
               </Link>
 
               <Link
-                to="#"
-                className="px-2 whitespace-nowrap inline-flex items-center justify-center text-secondary font-bold"
+                to="/cart"
+                className="px-2 whitespace-nowrap inline-flex items-center justify-center text-secondary font-bold cursor-pointer hover:text-secondary-dark"
               >
-                <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em">
+                <svg fill="none" viewBox="0 0 15 15" height="1.5em" width="1.5em">
                   <path
                     fill="currentColor"
                     d="M6.929.757L4.383 5h6.234L8.07.757 8.93.243 11.783 5h2.514c.388 0 .703.315.703.703v.439a18.96 18.96 0 01-2.002 8.48.684.684 0 01-.612.378H2.614a.685.685 0 01-.612-.379A18.96 18.96 0 010 6.141v-.438C0 5.315.315 5 .703 5h2.514L6.07.243l.858.514z"
@@ -214,9 +214,9 @@ export default function NavBar() {
                     <path d="M736 722c136 48 204 88.667 204 122v106H470 0V844c0-33.333 68-74 204-122 62.667-22.667 105.333-45.667 128-69s34-55 34-95c0-14.667-7.333-31-22-49s-25.333-42.333-32-73c-1.333-8-4.333-14-9-18s-9.333-6.667-14-8c-4.667-1.333-9.333-7-14-17s-7.667-24.333-9-43c0-10.667 1.667-19.333 5-26 3.333-6.667 6.333-10.667 9-12l4-4c-5.333-33.333-9.333-62.667-12-88-2.667-36 11-73.333 41-112s82.333-58 157-58 127.333 19.333 158 58 44 76 40 112l-12 88c12 5.333 18 19.333 18 42-1.333 18.667-4.333 33-9 43s-9.333 15.667-14 17c-4.667 1.333-9.333 4-14 8s-7.667 10-9 18c-5.333 32-15.667 56.667-31 74s-23 33.333-23 48c0 40 11.667 71.667 35 95s65.667 46.333 127 69" />
                   </svg>
                 </a>
-                <a
-                  href="#"
-                  className="px-2 whitespace-nowrap inline-flex items-center justify-center  text-secondary rounded-md shadow-sm text-base font-medium font-bold"
+                <Link
+                  to="/cart"
+                  className="px-2 whitespace-nowrap inline-flex items-center justify-center  text-secondary rounded-md shadow-sm text-base font-medium font-bold cursor-pointer hover:text-secondary-dark"
                 >
                   <svg fill="none" viewBox="0 0 15 15" height="1.5em" width="1.5em">
                     <path
@@ -224,7 +224,7 @@ export default function NavBar() {
                       d="M6.929.757L4.383 5h6.234L8.07.757 8.93.243 11.783 5h2.514c.388 0 .703.315.703.703v.439a18.96 18.96 0 01-2.002 8.48.684.684 0 01-.612.378H2.614a.685.685 0 01-.612-.379A18.96 18.96 0 010 6.141v-.438C0 5.315.315 5 .703 5h2.514L6.07.243l.858.514z"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
           </div>
         </div>

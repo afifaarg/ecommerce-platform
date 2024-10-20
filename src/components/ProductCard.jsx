@@ -1,9 +1,11 @@
-// import { CartContext } from "~contexts/CartContext";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { CartContext } from "../contexts/CartContext";
 export default function Product({ product }) {
-  // const { addToCart } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
   // const { id, image, category, name, price } = product;
+  
 
   return (
     <div
@@ -70,6 +72,7 @@ export default function Product({ product }) {
             <button
               type="button"
               data-tooltip-target={`tooltip-add-to-favorites-${product.id}`}
+              
               className="rounded-lg p-2 rounded-lg p-2 text-primary hover:bg-gray-100"
             >
               <span className="sr-only">Ajouter aux favories</span>
@@ -185,6 +188,7 @@ export default function Product({ product }) {
         <div className="mt-4">
           <button
             type="button"
+            onClick={() => addToCart(product)}
             className="inline-flex justify-center items-center rounded-lg bg-primary w-full  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             <svg

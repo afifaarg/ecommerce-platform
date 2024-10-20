@@ -7,7 +7,7 @@ export default function Layout() {
     <>
       <div className="flex flex-col justify-between min-h-screen">
         <Navbar />
-        <main className="flex-grow ">
+        <main className="flex-grow">
           <Outlet />
         </main>
         <Footer />

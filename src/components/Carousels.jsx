@@ -58,10 +58,10 @@ function Carousel() {
   }
 
   return (
-    <section className="relative">
+    <section className="relative ">
       {/* Carousel Section */}
       <div
-        className="relative py-32 flex content-center items-center justify-center min-h-screen-75"
+        className="relative py-36 flex content-center items-center justify-center min-h-screen-75"
         {...swipeHandlers}
       >
         <div
