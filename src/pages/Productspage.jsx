@@ -1,6 +1,6 @@
 // src/pages/Productspage.jsx
 
-import { useState, useMemo , useEffect} from "react";
+import { useState, useMemo, useEffect } from "react";
 import Product from "../components/ProductCard";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -15,53 +15,51 @@ export default function Productspage() {
 
   // Fetch products on component mount
   useEffect(() => {
-      const fetchProducts = async () => {
-          try {
-              const response = await axios.get("https://ecommerce-platform-api.onrender.com/backendAPI/produits/");
-              console.log("Response data:", response.data); // Log API response
-              setProductsData(response.data); // Update state with API data
-          } catch (error) {
-              console.error("Error fetching products:", error);
-          }
-      };
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "https://ecommerce-platform-api.onrender.com/backendAPI/produits/"
+        );
+        console.log("Response data:", response.data); // Log API response
+        setProductsData(response.data); // Update state with API data
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
 
-      fetchProducts();
+    fetchProducts();
   }, []);
-
-
 
   // Extract unique categories from products data
   const categories = useMemo(() => {
-      const cats = productsData.map((product) => product.category);
-      return ["All", ...new Set(cats)];
+    const cats = productsData.map((product) => product.category);
+    return ["All", ...new Set(cats)];
   }, [productsData]);
 
   // Filtered products based on search, category, and price
   const filteredProducts = useMemo(() => {
-      return productsData.filter((product) => {
-          const matchesSearch = product.name
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase());
-          const matchesCategory =
-              selectedCategory === "All" || product.category === selectedCategory;
-          const matchesPrice =
-              product.price >= priceRange[0] && product.price <= priceRange[1];
-          return matchesSearch && matchesCategory && matchesPrice;
-      });
+    return productsData.filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "All" || product.category === selectedCategory;
+      const matchesPrice =
+        product.price >= priceRange[0] && product.price <= priceRange[1];
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
   }, [searchTerm, selectedCategory, priceRange, productsData]);
 
   // Calculate pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
-      indexOfFirstProduct,
-      indexOfLastProduct
+    indexOfFirstProduct,
+    indexOfLastProduct
   );
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  
 
   return (
     <div>
@@ -73,19 +71,20 @@ export default function Productspage() {
               <nav className="flex" aria-label="Breadcrumb">
                 <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                   <li className="flex items-center">
-                    <Link to="/" className="flex items-center hover:underline hover:text-gray-600">
-                        <svg
-                          className="me-2.5 h-3 w-3"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
-                        </svg>
-                        <span>
-                          Accueil 
-                        </span>
+                    <Link
+                      to="/"
+                      className="flex items-center hover:underline hover:text-gray-600"
+                    >
+                      <svg
+                        className="me-2.5 h-3 w-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                      </svg>
+                      <span>Accueil</span>
                     </Link>
                   </li>
                   <li aria-current="page">
@@ -175,42 +174,41 @@ export default function Productspage() {
               <Product key={product.id} product={product} />
             ))}
           </div>
-
-          {/* Show More Button */}
-          <div className="mt-6 flex justify-center">
-            <button
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-              className="mx-1 rounded-md border px-3 py-1"
-            >
-              Précedent
-            </button>
-            {[...Array(totalPages).keys()].map((num) => (
+          {filteredProducts.length > 0 && (
+            <div className="mt-6 flex justify-center">
               <button
-                key={num}
-                onClick={() => handlePageChange(num + 1)}
-                className={`mx-1 rounded-md border px-3 py-1 ${
-                  currentPage === num + 1
-                    ? "bg-primary text-white"
-                    : "bg-white text-primary"
-                }`}
+                disabled={currentPage === 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+                className="mx-1 rounded-md border px-3 py-1"
               >
-                {num + 1}
+                Précedent
               </button>
-            ))}
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}
-              className="mx-1 rounded-md border px-3 py-1"
-            >
-              Suivant
-            </button>
-          </div>
-
+              {[...Array(totalPages).keys()].map((num) => (
+                <button
+                  key={num}
+                  onClick={() => handlePageChange(num + 1)}
+                  className={`mx-1 rounded-md border px-3 py-1 ${
+                    currentPage === num + 1
+                      ? "bg-primary text-white"
+                      : "bg-white text-primary"
+                  }`}
+                >
+                  {num + 1}
+                </button>
+              ))}
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+                className="mx-1 rounded-md border px-3 py-1"
+              >
+                Suivant
+              </button>
+            </div>
+          )}
           {/* No Products Found */}
           {filteredProducts.length === 0 && (
             <div className="w-full text-center text-gray-500 dark:text-gray-400">
-              <p>No products found matching your criteria.</p>
+              <p>Page Vide.</p>
             </div>
           )}
         </div>
