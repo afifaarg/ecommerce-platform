@@ -8,56 +8,64 @@ import "slick-carousel/slick/slick-theme.css"; // Import slick theme CSS
 const products = [
   {
     id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
+    image:
+      "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
     category: "Matelas",
     name: "Matelas Confort Plus",
     price: 299.99,
   },
   {
-    id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
+    id: 2,
+    image:
+      "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
     category: "Matelas",
     name: "Matelas Ergonomique",
     price: 349.99,
   },
   {
-    id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
+    id: 3,
+    image:
+      "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
     category: "Meuble",
     name: "Canapé en Cuir",
     price: 599.99,
   },
   {
-    id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
+    id: 4,
+    image:
+      "https://noom-literie.com/cdn/shop/files/141af561f9577dd74cdefb1cb2d8809f.jpg?v=1726862626&width=360",
     category: "Meuble",
     name: "Table en Bois Massif",
     price: 199.99,
   },
   {
-    id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
+    id: 5,
+    image:
+      "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
     category: "Matelas",
     name: "Matelas Hybride",
     price: 399.99,
   },
   {
-    id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
+    id: 6,
+    image:
+      "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
     category: "Meuble",
     name: "Fauteuil Relax",
     price: 249.99,
   },
   {
-    id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
+    id: 7,
+    image:
+      "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
     category: "Matelas",
     name: "Matelas Bio",
     price: 349.99,
   },
   {
-    id: 1,
-    image: "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
+    id: 8,
+    image:
+      "https://noom-literie.com/cdn/shop/files/paulo.jpg?v=1701957615&width=360",
     category: "Meuble",
     name: "Bibliothèque Moderne",
     price: 159.99,
@@ -68,7 +76,7 @@ const products = [
 const settings = {
   dots: true,
   infinite: true,
-  speed: 500,
+  speed: 400,
   slidesToShow: 4,
   arrows: true,
   slidesToScroll: 1,
@@ -97,21 +105,27 @@ const settings = {
   ],
 };
 
-
 export default function ProductsSection() {
   return (
-    <div className="mt-2 mb-10  overflow-hidden" id="products"> {/* Added margin-bottom here */}
+    <div className="mt-2 mb-10  overflow-hidden" id="products">
+      {" "}
+      {/* Added margin-bottom here */}
       <div className="py-2 border-primary-dark flex flex-col justify-center mx-12 items-center">
         <h1 className="font-bold pb-2 text-2xl sm:text-4xl text-primary-dark text-start">
           Nouveautés Produits
         </h1>
-        <Link to="/products" className="text-lg text-primary underline">
+        <Link
+          to="/products"
+          className="text-lg font-bold text-primary hover:underline"
+        >
           Voir Plus
         </Link>
       </div>
-      <Slider {...settings} className=" max-w-full px-4 py-6">
+      <Slider {...settings} className=" max-w-full px-4 mx-4 py-6 mb-6">
         {products.map((product) => (
-          <div key={product.id} className="px-2"> {/* Added padding for space between cards */}
+          <div key={product.id} className="px-2">
+            {" "}
+            {/* Added padding for space between cards */}
             <Product product={product} />
           </div>
         ))}
