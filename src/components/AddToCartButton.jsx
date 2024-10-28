@@ -6,10 +6,12 @@ import PropTypes from "prop-types";
 const CartButton = ({ product }) => {
   const [clicked, setClicked] = useState(false);
   const [isAdded, setIsAdded] = useState(false); // New state to track when the item is added
+  const [isEnded, setIsEnded] = useState(true)
   const { addToCart } = useContext(CartContext);
 
   const onButtonClick = () => {
     setClicked(true);
+    setIsEnded(false);
     addToCart(product);
 
     // Set the state to display "Ajouté" after animation completes
@@ -21,12 +23,14 @@ const CartButton = ({ product }) => {
     setTimeout(() => {
       setClicked(false);
       setIsAdded(false); // Reset to show "Ajouter au panier"
+      setIsEnded(true)
     }, 3000); // Reset after 3 seconds (1.5s animation + 1.5s display time)
+    
   };
 
   return (
     <button
-      className={`relative px-2 w-full inline-block h-12 border-0 rounded-lg bg-primary text-white outline-none cursor-pointer transition duration-300 ease-in-out overflow-hidden hover:bg-primary-dark active:scale-90 ${
+      className={`relative px-2 w-full inline-block h-12 border-0 rounded-lg bg-primary text-white outline-none cursor-pointer transition duration-300 ease-in-out overflow-hidden hover:shadow-lg active:scale-90 ${
         clicked ? 'clicked' : ''
       }`}
       onClick={onButtonClick}
@@ -42,14 +46,14 @@ const CartButton = ({ product }) => {
         }`}
       />
       <span
-        className={`absolute z-30 left-1/2 top-1/2 text-lg transform -translate-x-1/2 -translate-y-1/2 transition-opacity ${
-          clicked && !isAdded ? 'opacity-0' : 'opacity-100'
+        className={`absolute z-30 left-1/2 top-1/2 text-base font-bold transform -translate-x-1/2 -translate-y-1/2 transition-opacity ${
+          !isEnded ? 'opacity-0' : 'opacity-100'
         }`}
       >
         Ajouter au panier
       </span>
       <span
-        className={`absolute z-30 left-1/2 top-1/2 text-lg transform -translate-x-1/2 -translate-y-1/2 transition-opacity ${
+        className={`absolute z-30 left-1/2 top-1/2 text-base font-bold transform -translate-x-1/2 -translate-y-1/2 transition-opacity ${
           isAdded ? 'opacity-100' : 'opacity-0'
         }`}
       >

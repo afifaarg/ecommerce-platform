@@ -59,11 +59,7 @@ const Cart = () => {
 
           {cartItems.map((cart) => (
             <div
-<<<<<<< HEAD
-              className="flex flex-col sm:flex-row items-start sm:items-cesnter hover:bg-gray-100 -mx-8 px-6 py-5"
-=======
-              className="flex flex-col border-b  sm:flex-row items-start sm:items-center hover:bg-gray-100  px-6 py-5"
->>>>>>> 0d58f4b42d0e2bc75880a80987652cad9b2a57b5
+              className="flex flex-col sm:flex-row items-start sm:items-center hover:bg-gray-100 border-b px-6 py-5"
               key={cart.id}
             >
               <div className="flex w-full sm:w-2/5">
@@ -81,7 +77,7 @@ const Cart = () => {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col  sm:flex-row justify-between w-full sm:w-3/5 mt-4 sm:mt-0">
+              <div className="flex flex-col sm:flex-row justify-between items-center w-full sm:w-3/5 mt-4 sm:mt-0">
                 <div className="flex items-center justify-between sm:w-1/3 mb-4 sm:mb-0">
                   <span className="text-center font-semibold text-sm sm:hidden">
                     Quantité:
@@ -180,39 +176,64 @@ const Cart = () => {
       </div>
 
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg w-11/12 sm:w-2/3 lg:w-1/3">
-            <h2 className="text-2xl font-bold mb-4">
-              Informations de commande
-            </h2>
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold">Détails du Client</h3>
-              <input
-                type="text"
-                placeholder="Nom"
-                className="w-full px-4 py-2 mt-2 border rounded-md"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full px-4 py-2 mt-2 border rounded-md"
-              />
-            </div>
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-red-600 font-bold px-4 py-2"
-              >
-                Annuler
-              </button>
-              <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded">
-                Confirmer
-              </button>
-            </div>
-          </div>
+      {/* Modal */}
+{showModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-8 rounded-lg w-11/12 sm:w-2/3 lg:w-1/3 shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-left text-primary">
+        Confirmation de commande
+      </h2>
+      <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2">
+          <label className="text-base text-primary">Nom Complet</label>
+          <input
+            type="text"
+            placeholder="Nom complet"
+            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
+          />
         </div>
-      )}
+        <div className="flex flex-col space-y-2">
+          <label className="text-base text-primary">Email</label>
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
+          />
+        </div>
+        <div className="flex flex-col space-y-2"> 
+          <label className="text-base text-primary">Numéro de Téléphone</label> 
+          <input
+            type="text"
+            placeholder="Numéro de téléphone"
+            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
+          />
+        </div>
+        <div className="flex flex-col space-y-2">  
+          <label className="text-base text-primary">Adresse de livraison</label>
+          <input
+            type="text"
+            placeholder="Adresse de livraison"
+            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
+          />
+        </div>
+      </div>
+
+      <div className="flex justify-between mt-6">
+        <button
+          onClick={() => setShowModal(false)}
+          className="text-gray-600 font-bold px-4 py-2 hover:text-red-600 transition-colors duration-200"
+        >
+          Annuler
+        </button>
+        
+        <button className="bg-primary text-secondary hover:bg-white hover:text-primary border hover:border-primary font-bold px-6 py-3 rounded-md  transition-colors duration-200">
+          Confirmer
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
