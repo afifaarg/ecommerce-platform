@@ -31,3 +31,40 @@
     transform: translateX(0);
   }
   
+  .tabs {
+    margin-top: 20px;
+  }
+  
+  .tab-links {
+    display: flex;
+  }
+  
+  .tab-link {
+    padding: 10px 15px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .tab-link.active {
+    border-bottom: 2px solid #1A2C5A; /* Active tab indicator */
+    color: #1A2C5A; /* Change text color for active tab */
+  }
+  
+  .tab-content {
+    margin-top: 20px;
+    
+  }
+  
+  .carousel {
+    display: flex;
+    overflow-x: auto;
+  }
+  
+  .carousel-item {
+    min-width: 200px;
+    margin-right: 20px;
+  }
+  

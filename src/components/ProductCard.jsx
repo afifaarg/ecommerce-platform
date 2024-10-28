@@ -30,7 +30,7 @@ export default function Product({ product }) {
           {/* Action Buttons */}
           <div className="flex items-center justify-end gap-1">
             <Link
-              to={`/products/${product.id}`} // Link to the product details page
+              to={`/products/1`} // Link to the product details page
               className="rounded-lg p-2 text-primary hover:bg-gray-100"
               data-tooltip-target={`tooltip-quick-look-${product.id}`}
             >

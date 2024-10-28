@@ -1,17 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../contexts/CartContext";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 const Cart = () => {
-  const { cartItems, removeFromCart, clearCart, updateCart } =
-    useContext(CartContext);
+  const { cartItems, removeFromCart, clearCart, updateCart } = useContext(CartContext);
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [orderData, setOrderData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const total = cartItems.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
-    }, 0);
+    const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     setTotal(total);
   }, [cartItems]);
 
@@ -26,6 +30,42 @@ const Cart = () => {
     updateCart(updatedCart);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setOrderData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleOrderSubmit = async () => {
+    setLoading(true);
+    try {
+      const cItems = cartItems.map((item) => ({
+        product: 1, // The ID of the product
+        quantity: item.quantity,
+        total_price: item.price * item.quantity, // Calculate the total price for this item
+      }));
+
+      const response = await axios.post("http://127.0.0.1:8000/backendAPI/orders/", {
+        customer_fullname: orderData.name,
+        customer_phonenumber: orderData.phone,
+        shipping_address: orderData.address,
+        billing_address: orderData.address,
+        total_price: total,
+        payment_status: "en attente", 
+        items: cItems,
+      });
+     
+      if (response.status === 201) {
+        clearCart(); // Clear the cart after a successful order
+        setShowModal(false); // Close the modal
+        alert("Commande soumise avec succès !");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la soumission de la commande", error);
+      alert("Une erreur est survenue lors de la soumission de la commande.");
+    } finally {
+      setLoading(false);
+    }
+  };
   if (cartItems.length === 0) {
     return (
       <div className="h-[55vh] flex flex-col py-[5vh] justify-center items-center">
@@ -78,7 +118,7 @@ const Cart = () => {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row justify-between items-center w-full sm:w-3/5 mt-4 sm:mt-0">
-                <div className="flex items-center justify-between sm:w-1/3 mb-4 sm:mb-0">
+                <div className="flex items-center justify-between w-full sm:w-1/3 mb-4 sm:mb-0">
                   <span className="text-center font-semibold text-sm sm:hidden">
                     Quantité:
                   </span>
@@ -91,7 +131,7 @@ const Cart = () => {
                     }
                   />
                 </div>
-                <div className="flex items-center justify-between sm:w-1/3 mb-4 sm:mb-0">
+                <div className="flex items-center justify-between w-full sm:w-1/3 mb-4 sm:mb-0">
                   <span className="text-center font-semibold text-sm sm:hidden">
                     Prix:
                   </span>
@@ -99,7 +139,7 @@ const Cart = () => {
                     DZD {cart.price}
                   </span>
                 </div>
-                <div className="flex items-center justify-between sm:w-1/3 mb-4 sm:mb-0">
+                <div className="flex items-center justify-between w-full sm:w-1/3 mb-4 sm:mb-0">
                   <span className="text-center font-semibold text-sm sm:hidden">
                     Total:
                   </span>
@@ -177,62 +217,28 @@ const Cart = () => {
 
       {/* Modal */}
       {/* Modal */}
-{showModal && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white p-8 rounded-lg w-11/12 sm:w-2/3 lg:w-1/3 shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-left text-primary">
-        Confirmation de commande
-      </h2>
-      <div className="flex flex-col space-y-2">
-        <div className="flex flex-col space-y-2">
-          <label className="text-base text-primary">Nom Complet</label>
-          <input
-            type="text"
-            placeholder="Nom complet"
-            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
-          />
-        </div>
-        <div className="flex flex-col space-y-2">
-          <label className="text-base text-primary">Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
-          />
-        </div>
-        <div className="flex flex-col space-y-2"> 
-          <label className="text-base text-primary">Numéro de Téléphone</label> 
-          <input
-            type="text"
-            placeholder="Numéro de téléphone"
-            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
-          />
-        </div>
-        <div className="flex flex-col space-y-2">  
-          <label className="text-base text-primary">Adresse de livraison</label>
-          <input
-            type="text"
-            placeholder="Adresse de livraison"
-            className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:ring-2 outline-none border border-primry rounded-xl"
-          />
-        </div>
-      </div>
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg w-11/12 sm:w-2/3 lg:w-1/3 shadow-lg">
+            <h2 className="text-2xl font-bold mb-6 text-left text-primary">Confirmation de commande</h2>
+            <div className="space-y-4">
+              <input type="text" name="name" placeholder="Nom complet" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
+              <input type="email" name="email" placeholder="Email" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
+              <input type="text" name="phone" placeholder="Numéro de téléphone" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
+              <input type="text" name="address" placeholder="Adresse de livraison" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
+            </div>
 
-      <div className="flex justify-between mt-6">
-        <button
-          onClick={() => setShowModal(false)}
-          className="text-gray-600 font-bold px-4 py-2 hover:text-red-600 transition-colors duration-200"
-        >
-          Annuler
-        </button>
-        
-        <button className="bg-primary text-secondary hover:bg-white hover:text-primary border hover:border-primary font-bold px-6 py-3 rounded-md  transition-colors duration-200">
-          Confirmer
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+            <div className="flex justify-between mt-6">
+              <button onClick={() => setShowModal(false)} className="text-gray-600 font-bold px-4 py-2 hover:text-red-600">
+                Annuler
+              </button>
+              <button onClick={handleOrderSubmit} disabled={loading} className="bg-primary text-white font-bold px-6 py-3 rounded-md">
+                {loading ? "En cours..." : "Confirmer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
