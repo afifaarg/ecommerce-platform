@@ -1,15 +1,16 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import { CartContext } from "../contexts/CartContext";
+// import { CartContext } from "../contexts/CartContext";
 import SimilarProducts from "../components/SimilarProducts"
+import CartButton from "../components/AddToCartButton";
 export default function ProductPage() {
   const [productData, setProductData] = useState({});
   const [images, setImages] = useState([]);
   const [isLightbox, setLightbox] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { addToCart } = useContext(CartContext);
+  // const { addToCart } = useContext(CartContext);
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("description");
 
@@ -158,7 +159,8 @@ export default function ProductPage() {
           <p className="text-gray-500">{productData.description}</p>
 
           <div className="flex py-4 space-x-4">
-            <button
+           <CartButton product={productData} />
+            {/* <button
               type="button"
               onClick={() => addToCart(productData)}
               className="h-14 flex items-center space-x-3 px-6 py-2 font-semibold rounded-xl bg-primary text-secondary hover:shadow-lg active:scale-80 transition-transform active:outline-none"
@@ -167,7 +169,7 @@ export default function ProductPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l1 9h11l1-9h2M1 1h2l2 10h14l2-10h2M1 1h2l2 10h14l2-10h2M6 23h12M9 23h6M9 23h2m4 0h2m0 0H5m2 0h2m-4 0h2m4 0h4m0 0H7m0 0h6m0 0h2" />
               </svg>
               <span>Ajouter au panier</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -175,8 +177,8 @@ export default function ProductPage() {
       {/* Tabs Section */}
       <div className="tabs">
         <div className="tab-links flex space-x-4 mb-4">
-          <button onClick={() => setActiveTab("description")} className={`tab-link active:outline-none ${activeTab === "description" ? "active" : ""}`}>Produits Similaires </button>
-          <button onClick={() => setActiveTab("feedbacks")} className={`tab-link ${activeTab === "feedbacks" ? "active" : ""}`}>Feedbacks</button>
+          <span onClick={() => setActiveTab("description")} className={`tab-link active:outline-none ${activeTab === "description" ? "active" : ""}`}>Produits Similaires </span>
+          <span onClick={() => setActiveTab("feedbacks")} className={`tab-link ${activeTab === "feedbacks" ? "active" : ""}`}>Feedbacks</span>
         </div>
 
         <div className="tab-content">
