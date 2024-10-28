@@ -33,7 +33,7 @@ function Carousel() {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 5000);
+    }, 2000);
   };
 
   const nextSlide = () => {
@@ -48,11 +48,6 @@ function Carousel() {
     startAutoSlide();
   };
 
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: nextSlide,
-    onSwipedRight: prevSlide,
-  });
-
   if (!slides.length || !slides[index]) {
     return null;
   }
@@ -60,10 +55,7 @@ function Carousel() {
   return (
     <section className="relative ">
       {/* Carousel Section */}
-      <div
-        className="relative py-36 flex content-center items-center justify-center min-h-screen-75"
-        {...swipeHandlers}
-      >
+      <div className="relative py-36 flex content-center items-center justify-center min-h-screen-75">
         <div
           className="absolute top-0 w-full h-full bg-center bg-cover"
           style={{
@@ -116,7 +108,7 @@ function Carousel() {
       </div>
 
       {/* Cards Section */}
-      <section className="pb-12  -mt-24">
+      <section className="pb-12  -mt-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="px-4 text-center">

@@ -5,3 +5,29 @@
 @tailwind components;
 @tailwind utilities;
 
+.slick-next{
+    right: 15px !important;
+    color:#1A2C5A !important ;
+}
+.slick-arrow{
+    background-color: #1A2C5A  !important;
+}
+.slick-prev{
+    left: 10px !important;
+
+
+    
+    color:#1A2C5A !important ;
+}
+.transition-transform {
+    transition: transform 0.7s ease-in-out;
+  }
+  
+  .translate-x-full {
+    transform: translateX(100%);
+  }
+  
+  .translate-x-0 {
+    transform: translateX(0);
+  }
+  
