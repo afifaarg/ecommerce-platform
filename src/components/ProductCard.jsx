@@ -11,7 +11,7 @@ export default function Product({ product }) {
     >
       <div className="h-64 w-full rounded-t-xl overflow-hidden">
       <Link
-          to={`/products/${product.id}`} >
+          to={`/products/1`} >
           <img
             className="w-full h-full rounded-t-xl object-cover object-cover transform transition-transform duration-500 hover:scale-110"
             src={product.image}
