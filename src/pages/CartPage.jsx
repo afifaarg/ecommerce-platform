@@ -51,7 +51,7 @@ const Cart = () => {
       <div className="w-full md:w-3/4 shadow-md my-10">
         <div className="bg-white px-10 py-1">
           <div className="flex justify-between border-b pb-8">
-            <h1 className="font-semibold text-2xl">Panier d'Achat</h1>
+            <h1 className="font-semibold text-2xl">Panier d&#39;Achat</h1>
             <h2 className="font-semibold text-2xl">
               {cartItems.length} Articles
             </h2>
@@ -59,7 +59,7 @@ const Cart = () => {
 
           {cartItems.map((cart) => (
             <div
-              className="flex flex-col sm:flex-row items-start sm:items-center hover:bg-gray-100 -mx-8 px-6 py-5"
+              className="flex flex-col sm:flex-row items-start sm:items-cesnter hover:bg-gray-100 -mx-8 px-6 py-5"
               key={cart.id}
             >
               <div className="flex w-full sm:w-2/5">
@@ -145,7 +145,7 @@ const Cart = () => {
       <div className="w-full flex flex-col md:w-1/3  shadow-md my-5 md:ml-4 rounded-xl">
         <div className="bg-white p-6  border-b ">
           <h2 className="font-semibold text-xl border-b pb-4">
-            Résumé d'achats
+            Résumé des achats
           </h2>
           <ul className="mt-4">
             {cartItems.map((item) => (

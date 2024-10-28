@@ -30,6 +30,32 @@ export default {
           light: '#C0C0C0',     // A bit darker grey for clearer border definition
         },
       },
+      keyframes: {
+        cart: {
+          '0%': { left: '-10%' },
+          '40%, 60%': { left: '50%' },
+          '100%': { left: '110%' },
+        },
+        box: {
+          '0%, 40%': { top: '-20%' },
+          '60%': { top: '40%', left: '52%' },
+          '100%': { top: '40%', left: '112%' },
+        },
+        txt1: {
+          '0%': { opacity: 1 },
+          '20%, 100%': { opacity: 0 },
+        },
+        txt2: {
+          '0%, 80%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+      },
+      animation: {
+        cart: 'cart 1.5s ease-in-out forwards',
+        box: 'box 1.5s ease-in-out forwards',
+        txt1: 'txt1 1.5s ease-in-out forwards',
+        txt2: 'txt2 1.5s ease-in-out forwards',
+      },
     },
   },
   plugins: [],
