@@ -78,7 +78,7 @@ const Cart = () => {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row justify-between items-center w-full sm:w-3/5 mt-4 sm:mt-0">
-                <div className="flex items-center justify-between sm:w-1/3 mb-4 sm:mb-0">
+                <div className="flex items-center justify-between w-full sm:w-1/3 mb-4 sm:mb-0">
                   <span className="text-center font-semibold text-sm sm:hidden">
                     Quantité:
                   </span>
@@ -91,7 +91,7 @@ const Cart = () => {
                     }
                   />
                 </div>
-                <div className="flex items-center justify-between sm:w-1/3 mb-4 sm:mb-0">
+                <div className="flex items-center justify-between w-full sm:w-1/3 mb-4 sm:mb-0">
                   <span className="text-center font-semibold text-sm sm:hidden">
                     Prix:
                   </span>
@@ -99,7 +99,7 @@ const Cart = () => {
                     DZD {cart.price}
                   </span>
                 </div>
-                <div className="flex items-center justify-between sm:w-1/3 mb-4 sm:mb-0">
+                <div className="flex items-center justify-between w-full sm:w-1/3 mb-4 sm:mb-0">
                   <span className="text-center font-semibold text-sm sm:hidden">
                     Total:
                   </span>
