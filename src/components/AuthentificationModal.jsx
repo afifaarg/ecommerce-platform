@@ -16,7 +16,7 @@ export default function AuthentificationModal() {
     const handleSignIn = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://127.0.0.1:8000/backendAPI/login/", {
+            const response = await axios.post("https://ecommerce-platform-api.onrender.com/backendAPI/login/", {
                 username,
                 password,
             });
@@ -36,7 +36,7 @@ export default function AuthentificationModal() {
             return;
         }
         try {
-            const response = await axios.post("http://127.0.0.1:8000/backendAPI/signup/", {
+            const response = await axios.post("https://ecommerce-platform-api.onrender.com/backendAPI/signup/", {
                 username,
                 full_name: fullName,
                 role: "customer",
