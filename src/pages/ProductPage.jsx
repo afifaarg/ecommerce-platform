@@ -1,7 +1,6 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-// import { CartContext } from "../contexts/CartContext";
 import SimilarProducts from "../components/SimilarProducts"
 import CartButton from "../components/AddToCartButton";
 export default function ProductPage() {
