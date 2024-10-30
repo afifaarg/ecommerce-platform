@@ -50,12 +50,12 @@ const Testimonial = () => {
   };
 
   return (
-    <section id="testimonials" className="bg-gray-50 py-12">
+    <section id="testimonials" className="bg-gray-50 py-8">
       {/* Container for heading and testimonials */}
       <div className="max-w-6xl px-5 mx-auto text-center">
         {/* Heading */}
-        <h2 className="text-4xl font-bold text-center text-primary-dark">
-          Pourquoi choisir nos matelas ?
+        <h2 className="text-6xl font-bold text-center text-primary-dark">
+          Ils ont dit ...
         </h2>
         {/* Testimonials Container */}
         <div className="flex items-center justify-center mt-10">
@@ -109,7 +109,7 @@ const Testimonial = () => {
           </button>
         </div>
         {/* Button to get started */}
-        <div className="my-16">
+        <div className="mt-6">
           <Link
             to="#"
             className="p-3 px-8 pt-2 font-bold  rounded-full baseline bg-primary text-white hover:shadow-lg hover:text-text-secondary "

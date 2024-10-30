@@ -1,4 +1,5 @@
 import Carousel from "../components/Carousels";
+import Categories from "../components/Categories";
 import CallToAction from "../components/Cta";
 import Features from "../components/Features";
 import ProductsSection from "../components/ProductsSection";
@@ -9,8 +10,10 @@ export default function HomePage() {
     <>
       <Carousel />
       <ProductsSection />
-      <Features />
+      <Categories />
+      {/* <Features /> */}
       <Testimonial />
+      <ProductsSection />
       <CallToAction />
     </>
   );

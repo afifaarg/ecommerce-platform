@@ -107,18 +107,21 @@ const settings = {
 
 export default function ProductsSection() {
   return (
-    <div className="mt-2 mb-10  overflow-hidden" id="products">
+    <div className="mt-14 mb-10 mx-auto  overflow-hidden" id="products">
       {" "}
       {/* Added margin-bottom here */}
-      <div className="py-2 border-primary-dark flex flex-col justify-center mx-12 items-center">
-        <h1 className="font-bold pb-2 text-2xl sm:text-4xl text-primary-dark text-start">
-          Nouveautés Produits
+      <div className="mt-4 border-gray-500 flex justify-between border-b mx-12 items-center">
+        <h1 className="font-semibold text-xl sm:text-2xl border-b-2 border-primary text-gray-800 text-start ">
+          Profitez des meilleures{" "}
+          <span className="font-bold cursor-default text-primary">
+            Nouveautés
+          </span>
         </h1>
         <Link
           to="/products"
-          className="text-lg font-bold text-primary hover:underline"
+          className="text-lg font-bold text-gray-500 hover:underline"
         >
-          Voir Plus
+          Voir Tout
         </Link>
       </div>
       <Slider {...settings} className=" max-w-full px-4 mx-4 py-6 mb-6">
