@@ -124,7 +124,7 @@ export default function ProductsSection() {
           Voir Tout
         </Link>
       </div>
-      <Slider {...settings} className=" max-w-full px-4 mx-4 py-6 mb-6">
+      <Slider {...settings} className="max-w-full px-4 mx-4 py-6 mb-6">
         {products.map((product) => (
           <div key={product.id} className="px-2">
             {" "}

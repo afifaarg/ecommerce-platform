@@ -3,22 +3,20 @@ import { Link } from "react-router-dom";
 
 import CartButton from "./AddToCartButton";
 export default function Product({ product }) {
-
   return (
     <div
       key={product.id}
       className="rounded-xl border border-gray-200 bg-white  hover:shadow-xl shadow-sm dark:border-gray-700 dark:bg-gray-800"
     >
       <div className="h-64 w-full rounded-t-xl overflow-hidden">
-      <Link
-          to={`/products/1`} >
+        <Link to={`/products/1`}>
           <img
             className="w-full h-full rounded-t-xl object-cover object-cover transform transition-transform duration-500 hover:scale-110"
             src={product.image}
             alt={product.name}
           />
           {/* If you have dark mode images, you can add them here */}
-          </Link>
+        </Link>
       </div>
       <div className="pt-4 p-4">
         <div className="mb-4 flex items-center justify-between gap-4">
@@ -69,7 +67,6 @@ export default function Product({ product }) {
             <button
               type="button"
               data-tooltip-target={`tooltip-add-to-favorites-${product.id}`}
-              
               className="rounded-lg p-2 rounded-lg p-2 text-primary hover:bg-gray-100"
             >
               <span className="sr-only">Ajouter aux favories</span>
@@ -182,7 +179,7 @@ export default function Product({ product }) {
         </ul>
 
         {/* Price and Add to Cart */}
-        <div className="mt-4">
+        <div className="mt-4 relative ">
           <CartButton product={product} />
         </div>
       </div>

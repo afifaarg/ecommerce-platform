@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import SimilarProducts from "../components/SimilarProducts"
+import SimilarProducts from "../components/SimilarProducts";
 import CartButton from "../components/AddToCartButton";
 export default function ProductPage() {
   const [productData, setProductData] = useState({});
@@ -16,11 +16,14 @@ export default function ProductPage() {
   useEffect(() => {
     const idProduct = id;
     axios
-      .get(`https://ecommerce-platform-api.onrender.com/backendAPI/produits/${idProduct}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(
+        `https://ecommerce-platform-api.onrender.com/backendAPI/produits/${idProduct}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           console.log("API RESPONSE", response.data);
@@ -31,7 +34,7 @@ export default function ProductPage() {
           console.log("Error Fetching Data:", response.status, response.data);
         }
       })
-     
+
       .catch((error) => {
         if (error.response) {
           console.error("Error response:", error.response.data);
@@ -68,24 +71,54 @@ export default function ProductPage() {
   }
 
   function prevImage() {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-    setSelectedImage(images[(currentIndex - 1 + images.length) % images.length]);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
+    setSelectedImage(
+      images[(currentIndex - 1 + images.length) % images.length]
+    );
   }
 
   return (
     <section className="w-full px-4 sm:w-4/5 mx-auto py-8 flex flex-col">
       <div className="max-w-7xl px-4 py-4">
         <div className="flex items-center space-x-2 text-dark text-sm">
-          <Link to="/" className="hover:underline hover:text-gray-600">Accueil</Link>
+          <Link to="/" className="hover:underline hover:text-gray-600">
+            Accueil
+          </Link>
           <span>
-            <svg className="h-5 w-5 leading-none text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+            <svg
+              className="h-5 w-5 leading-none text-gray-700"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </span>
-          <Link to="/products" className="hover:underline hover:text-gray-600">{productData.category}</Link>
+          <Link to="/products" className="hover:underline hover:text-gray-600">
+            {productData.category}
+          </Link>
           <span>
-            <svg className="h-5 w-5 leading-none text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+            <svg
+              className="h-5 w-5 leading-none text-gray-700"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </span>
           <span>{productData.name}</span>
@@ -130,7 +163,13 @@ export default function ProductPage() {
                 src="images/icon-next.svg"
                 alt="Next"
               />
-              <svg className="fill-white active:fill-orange cursor-pointer" width="15" height="25" xmlns="http://www.w3.org/2000/svg" onClick={handleClick}>
+              <svg
+                className="fill-white active:fill-orange cursor-pointer"
+                width="15"
+                height="25"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={handleClick}
+              >
                 <path d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z" />
               </svg>
               <img
@@ -143,13 +182,22 @@ export default function ProductPage() {
           </div>
         </div>
         <div className="max-w-lg px-4 py-12">
-          <h2 className="mb-2 leading-tight tracking-tight font-bold text-gray-800 text-2xl md:text-4xl">{productData.name}</h2>
-          <p className="text-gray-500 text-sm">By <a href="#" className="text-primary-dark font-bold hover:underline">SLEEPWELL</a></p>
+          <h2 className="mb-2 leading-tight tracking-tight font-bold text-gray-800 text-2xl md:text-4xl">
+            {productData.name}
+          </h2>
+          <p className="text-gray-500 text-sm">
+            By{" "}
+            <a href="#" className="text-primary-dark font-bold hover:underline">
+              SLEEPWELL
+            </a>
+          </p>
 
           <div className="flex items-center space-x-4 my-4">
             <div>
               <div className="rounded-lg bg-gray-100 flex py-1 px-3">
-                <span className="font-bold text-primary-dark text-xl">{productData.price}</span>
+                <span className="font-bold text-primary-dark text-xl">
+                  {productData.price}
+                </span>
                 <span className="text-indigo-400 ml-1 mt-1">DZD</span>
               </div>
             </div>
@@ -157,8 +205,8 @@ export default function ProductPage() {
 
           <p className="text-gray-500">{productData.description}</p>
 
-          <div className="flex py-4 space-x-4">
-           <CartButton product={productData} />
+          <div className=" py-4 ">
+            <CartButton product={productData} />
             {/* <button
               type="button"
               onClick={() => addToCart(productData)}
@@ -176,24 +224,36 @@ export default function ProductPage() {
       {/* Tabs Section */}
       <div className="tabs">
         <div className="tab-links flex space-x-4 mb-4">
-          <span onClick={() => setActiveTab("description")} className={`tab-link active:outline-none ${activeTab === "description" ? "active" : ""}`}>Produits Similaires </span>
-          <span onClick={() => setActiveTab("feedbacks")} className={`tab-link ${activeTab === "feedbacks" ? "active" : ""}`}>Feedbacks</span>
+          <span
+            onClick={() => setActiveTab("description")}
+            className={`tab-link active:outline-none ${
+              activeTab === "description" ? "active" : ""
+            }`}
+          >
+            Produits Similaires{" "}
+          </span>
+          <span
+            onClick={() => setActiveTab("feedbacks")}
+            className={`tab-link ${activeTab === "feedbacks" ? "active" : ""}`}
+          >
+            Feedbacks
+          </span>
         </div>
 
         <div className="tab-content">
           {activeTab === "description" && (
             <div className="tab-description">
-            <h1 className="text-left text-2xl "></h1>
-            <SimilarProducts />
+              <h1 className="text-left text-2xl "></h1>
+              <SimilarProducts />
             </div>
           )}
           {activeTab === "feedbacks" && (
             <div className="tab-feedbacks">
               <h3>Feedbacks</h3>
-              <p>Aucun feedback disponible pour ce produit.</p> {/* Placeholder */}
+              <p>Aucun feedback disponible pour ce produit.</p>{" "}
+              {/* Placeholder */}
             </div>
           )}
-         
         </div>
       </div>
 

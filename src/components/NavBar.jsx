@@ -131,18 +131,19 @@ const Navbar = () => {
               "Taies d'oreiller",
               "Housses de matelas",
             ].map((category, index) => (
-              <div
+              <Link
+                to="/products"
                 key={index}
                 className="px-4 py-1 whitespace-nowrap text-gray-700 hover:text-primary cursor-pointer rounded-full bg-gray-200"
               >
                 {category}
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </nav>
       {/* Mobile View */}
-      <nav className="md:hidden">
+      <nav className="md:hidden shadow-xl">
         <div className="flex items-center justify-between p-2">
           <button className="text-gray-500" onClick={() => setOpen(!open)}>
             <svg
@@ -274,12 +275,13 @@ const Navbar = () => {
                       "Taies d'oreiller",
                       "Housses de matelas",
                     ].map((category, index) => (
-                      <div
+                      <Link
+                        to="/products"
                         key={index}
                         className="px-4 py-1 whitespace-nowrap text-gray-700 hover:text-primary cursor-pointer rounded-full "
                       >
                         {category}
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 </div>
