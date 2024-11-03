@@ -4,9 +4,9 @@ export default function Carousel() {
 
   // Array of image paths
   const images = [
-    "https://pictureserver.net/pic_storage/pic/a0/73/french_src_mobilebanner_picid_8896_image.jpg?ver=1", // Replace with actual image paths
+    "https://www.sealythailand.com/wp-content/uploads/2021/10/AW_Banner_Astra_Promo_1360x405px.jpg", // Replace with actual image paths
     "https://contract.sonpura.com/WebRoot/StoreContract/Shops/SonpuraContract/MediaGallery/landing_colchones/Banner_landing_FR_comprimido.jpg",
-    "https://www.lematelas.fr/media//wysiwyg/page_cms/page_promotion/2023-05-epeda-721x250pagecms-min.jpg",
+    "https://cincinnatioverstockwarehouse.com/wp-content/uploads/2017/01/Home-banner-mattress.gif",
   ];
 
   // Automatically switch to the next slide every 5 seconds
@@ -37,7 +37,7 @@ export default function Carousel() {
         <div className="relative overflow-hidden  flex content-center items-center justify-center h-[500px]">
           {/* Wrapper for sliding animation */}
           <div
-            className="flex transition-transform duration-1000 ease-in-out h-full h-[500px]" // Adjust the duration to 1000ms (1 second) for slower transitions
+            className="flex transition-transform obejct-contain duration-1000 ease-in-out h-full h-[500px]" // Adjust the duration to 1000ms (1 second) for slower transitions
             style={{
               transform: `translateX(-${currentSlide * 100}%)`,
               width: `${images.length * 100}%`,

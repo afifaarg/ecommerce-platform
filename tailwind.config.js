@@ -13,9 +13,9 @@ export default {
           dark: '#3658B5',      // Darker shade of Royal Blue
         },
         secondary: {
-          DEFAULT: '#F5E4B8',   // Slightly richer beige for better contrast
-          light: '#FFFAE0',     // Softer, lighter beige with more warmth
-          dark: '#E5D1A3',      // Darker beige for more pronounced contrast
+          DEFAULT: '#ffde43',   // Slightly richer beige for better contrast
+          light: '#ffde43',     // Softer, lighter beige with more warmth
+          dark: '#ffde43',      // Darker beige for more pronounced contrast
         },
         background: {
           light: '#FFFFFF',     // White (Background for light sections)

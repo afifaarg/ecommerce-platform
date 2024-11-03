@@ -3,7 +3,8 @@ import { CartContext } from "../contexts/CartContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 const Cart = () => {
-  const { cartItems, removeFromCart, clearCart, updateCart } = useContext(CartContext);
+  const { cartItems, removeFromCart, clearCart, updateCart } =
+    useContext(CartContext);
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [orderData, setOrderData] = useState({
@@ -15,7 +16,10 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const total = cartItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
     setTotal(total);
   }, [cartItems]);
 
@@ -44,16 +48,19 @@ const Cart = () => {
         total_price: item.price * item.quantity, // Calculate the total price for this item
       }));
 
-      const response = await axios.post("http://127.0.0.1:8000/backendAPI/orders/", {
-        customer_fullname: orderData.name,
-        customer_phonenumber: orderData.phone,
-        shipping_address: orderData.address,
-        billing_address: orderData.address,
-        total_price: total,
-        payment_status: "en attente", 
-        items: cItems,
-      });
-     
+      const response = await axios.post(
+        "http://127.0.0.1:8000/backendAPI/orders/",
+        {
+          customer_fullname: orderData.name,
+          customer_phonenumber: orderData.phone,
+          shipping_address: orderData.address,
+          billing_address: orderData.address,
+          total_price: total,
+          payment_status: "en attente",
+          items: cItems,
+        }
+      );
+
       if (response.status === 201) {
         clearCart(); // Clear the cart after a successful order
         setShowModal(false); // Close the modal
@@ -220,26 +227,51 @@ const Cart = () => {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded-lg w-11/12 sm:w-2/3 lg:w-1/3 shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-left text-primary">Confirmation de commande</h2>
+            <h2 className="text-2xl font-bold mb-6 text-left text-primary">
+              Confirmation de commande
+            </h2>
             <div className="space-y-4">
-              <input type="text" name="name" placeholder="Nom complet" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
-              <input type="email" name="email" placeholder="Email" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
-              <input type="text" name="phone" placeholder="Numéro de téléphone" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
-              <input type="text" name="address" placeholder="Adresse de livraison" onChange={handleInputChange} className="w-full px-4 py-3 border rounded-md" />
+              <input
+                type="text"
+                name="name"
+                placeholder="Nom complet"
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border rounded-md"
+              />
+              <input
+                type="text"
+                name="phone"
+                placeholder="Numéro de téléphone"
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border rounded-md"
+              />
+              <input
+                type="text"
+                name="address"
+                placeholder="Adresse de livraison"
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border rounded-md"
+              />
             </div>
 
             <div className="flex justify-between mt-6">
-              <button onClick={() => setShowModal(false)} className="text-gray-600 font-bold px-4 py-2 hover:text-red-600">
+              <button
+                onClick={() => setShowModal(false)}
+                className="text-gray-600 font-bold px-4 py-2 hover:text-red-600"
+              >
                 Annuler
               </button>
-              <button onClick={handleOrderSubmit} disabled={loading} className="bg-primary text-white font-bold px-6 py-3 rounded-md">
+              <button
+                onClick={handleOrderSubmit}
+                disabled={loading}
+                className="bg-primary text-white font-bold px-6 py-3 rounded-md"
+              >
                 {loading ? "En cours..." : "Confirmer"}
               </button>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 };

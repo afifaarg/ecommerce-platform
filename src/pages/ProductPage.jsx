@@ -207,16 +207,6 @@ export default function ProductPage() {
 
           <div className=" py-4 ">
             <CartButton product={productData} />
-            {/* <button
-              type="button"
-              onClick={() => addToCart(productData)}
-              className="h-14 flex items-center space-x-3 px-6 py-2 font-semibold rounded-xl bg-primary text-secondary hover:shadow-lg active:scale-80 transition-transform active:outline-none"
-            >
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l1 9h11l1-9h2M1 1h2l2 10h14l2-10h2M1 1h2l2 10h14l2-10h2M6 23h12M9 23h6M9 23h2m4 0h2m0 0H5m2 0h2m-4 0h2m4 0h4m0 0H7m0 0h6m0 0h2" />
-              </svg>
-              <span>Ajouter au panier</span>
-            </button> */}
           </div>
         </div>
       </div>

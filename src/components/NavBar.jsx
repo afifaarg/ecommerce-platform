@@ -10,8 +10,8 @@ const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <nav className="bg-white shadow-md hidden md:block">
-        <div className="container mx-auto px-4 flex items-center justify-between py-2">
+      <nav className="bg-[#ffde43] shadow-md hidden md:block">
+        <div className="container mx-auto px-4 flex items-center justify-around py-2">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <button className="text-gray-500 md:hidden">
@@ -34,58 +34,94 @@ const Navbar = () => {
               SLEEPWELL
             </Link>
             {/* Search Bar */}
-            <div className="flex-1 mx-2 hidden md:flex items-center border  border-gray-300 rounded-full px-4">
-              <svg
-                viewBox="0 0 1024 1024"
-                fill="currentColor"
-                height="1.2em"
-                width="1.2em"
-                className="text-gray-400 mr-2  border-r-2"
-              >
-                <path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Recherchez des essentiels, literie et plus..."
-                className="w-full  focus:outline-none rounded-full border-none"
-              />
-            </div>
           </div>
-          <div className="flex justify-end w-2/3">
-            <nav className="hidden md:flex space-x-10 mr-6 border-r px-4 justify-center items-center">
-              <a
-                href="#"
-                className="text-base font-medium text-primary hover:text-primary-dark"
+          <nav className="hidden md:flex mx-auto space-x-10 mr-6 border-r border-primary px-4 justify-start items-center">
+            <a
+              href="#"
+              className="text-base font-medium text-primary hover:text-primary-dark"
+            >
+              Accueil
+            </a>
+            <div className="relative">
+              <button
+                type="button"
+                className="group rounded-md justify-center text-primary inline-flex items-center text-base font-medium focus:outline-none"
+                onClick={() => setFlyer(!flyer)}
               >
-                Accueil
-              </a>
-              <a
-                href="#products"
-                className="text-base font-medium text-primary hover:text-primary-dark"
-              >
-                Produits
-              </a>
-              <a
-                href="#about"
-                className="text-base font-medium text-primary hover:text-primary-dark"
-              >
-                A propos
-              </a>
+                <span>Nos Produits</span>
+                <svg
+                  className={`ml-2 h-5 w-5 text-primary transition-transform ease-out duration-200 ${
+                    flyer ? "rotate-180" : "rotate-0"
+                  }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
 
-              <Link
-                to="/contact"
-                className="text-base font-medium text-primary hover:text-primary-dark"
+              {/* Dropdown */}
+              <div
+                className={`${
+                  flyer
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-1 pointer-events-none"
+                } transition ease-out duration-200 absolute z-10 mt-3 w-screen max-w-md sm:px-0 lg:left-1/2 lg:-translate-x-1/2`}
+                onMouseLeave={() => setFlyer(false)}
               >
-                Contact
-              </Link>
-            </nav>
+                <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                  <div className="bg-white p-5">
+                    <div className="container mx-auto items-start justify-start py-2 flex  flex-col  overflow-x-auto">
+                      {[
+                        "Literie",
+                        "Draps",
+                        "Coussins",
+                        "Couettes",
+                        "Oreillers",
+                        "Plaids",
+                        "Taies d'oreiller",
+                        "Housses de matelas",
+                      ].map((category, index) => (
+                        <Link
+                          to="/products"
+                          key={index}
+                          className="px-4 py-1 whitespace-nowrap text-gray-700 hover:text-primary cursor-pointer rounded-full "
+                        >
+                          {category}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a
+              href="#about"
+              className="text-base font-medium text-primary hover:text-primary-dark"
+            >
+              A propos
+            </a>
 
+            <Link
+              to="/contact"
+              className="text-base font-medium text-primary hover:text-primary-dark"
+            >
+              Contact
+            </Link>
+          </nav>
+          <div className="flex justify-end ">
             {/* Icons */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <a
                 href="#"
                 onClick={() => setShowModal(true)}
-                className="text-gray-500 hover:text-primary flex space-x-2"
+                className="text-primary flex space-x-2"
               >
                 <svg
                   viewBox="0 0 940 1000"
@@ -117,33 +153,9 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
-        {/* Categories */}
-        <div className="border-t border-b border-gray-100 shadow-lg hidden md:block">
-          <div className="container mx-auto px-4 py-2 flex space-x-2 overflow-x-auto">
-            {[
-              "Literie",
-              "Draps",
-              "Coussins",
-              "Couettes",
-              "Oreillers",
-              "Plaids",
-              "Taies d'oreiller",
-              "Housses de matelas",
-            ].map((category, index) => (
-              <Link
-                to="/products"
-                key={index}
-                className="px-4 py-1 whitespace-nowrap text-gray-700 hover:text-primary cursor-pointer rounded-full bg-gray-200"
-              >
-                {category}
-              </Link>
-            ))}
-          </div>
-        </div>
       </nav>
       {/* Mobile View */}
-      <nav className="md:hidden shadow-xl">
+      <nav className="md:hidden shadow-xl bg-[#ffde43] ">
         <div className="flex items-center justify-between p-2">
           <button className="text-gray-500" onClick={() => setOpen(!open)}>
             <svg
@@ -202,8 +214,8 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {open && (
-          <div className="flex flex-col space-y-2 p-4 bg-gray-200 rounded-lg m-2">
-            <div className="flex-1 mx-2 hidden md:flex items-center border  border-gray-300 rounded-full px-4">
+          <div className="flex flex-col space-y-2 p-4  rounded-lg m-2">
+            <div className="flex-1 mx-2 hidden md:flex items-center border   rounded-full px-4">
               <svg
                 viewBox="0 0 1024 1024"
                 fill="currentColor"
