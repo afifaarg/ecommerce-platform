@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 const Footer = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const sendEmail = async () => {
-    try { // Axios POST request to the Django backend
-      const payload ={
-        email: email
-      }
+    try {
+      // Axios POST request to the Django backend
+      const payload = {
+        email: email,
+      };
       const response = await axios.post(
         "https://ecommerce-platform-api.onrender.com/backendAPI/newsletters/",
         payload, // Send the payload as is, no need to stringify
@@ -20,7 +21,7 @@ const Footer = () => {
 
       // Handle success
       if (response.status === 201) {
-       alert("Email Enregistré!")
+        alert("Email Enregistré!");
       } else {
         alert("Error submitting form:", response.status, response.data);
       }
@@ -42,7 +43,6 @@ const Footer = () => {
     }
   };
 
-  
   return (
     <div className="bg-primary py-4">
       {/* Flex Container */}
@@ -50,7 +50,7 @@ const Footer = () => {
         {/* Logo and social links container */}
         <div className="flex flex-col-reverse items-center justify-between space-y-12 md:flex-col md:space-y-0 md:items-start">
           <div className="mx-auto my-6 text-center text-white md:hidden">
-            Copyright © 2022, All Rights Reserved
+            Copyright ©, All Rights Reserved
           </div>
           {/* Logo */}
           <div>
@@ -122,18 +122,21 @@ const Footer = () => {
 
         {/* Input Container */}
         <div className="flex flex-col justify-between">
-            <div className="flex space-x-3">
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 rounded-full focus:outline-none"
-                placeholder="Abonne Newsletter"
-              />
-              <button className="px-6 py-2 text-primary rounded-full bg-secondary-dark hover:bg-secondary focus:outline-none" onClick={sendEmail}>
-                Envoyer
-              </button>
-            </div>
+          <div className="flex space-x-3">
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 px-4 rounded-full focus:outline-none"
+              placeholder="Abonne Newsletter"
+            />
+            <button
+              className="px-6 py-2 text-primary rounded-full bg-secondary-dark hover:bg-secondary focus:outline-none"
+              onClick={sendEmail}
+            >
+              Envoyer
+            </button>
+          </div>
           <div className="hidden text-white md:block">
             Copyright © All Rights Reserved
           </div>
