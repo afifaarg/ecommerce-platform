@@ -51,7 +51,7 @@ export default function Categories() {
     <section className="bg-white py-8">
       <div className="container mx-auto px-4">
         <div className="flex justify-between border-b border-gray-500 mb-4">
-          <h2 className="font-semibold text-xl py-2 sm:text-2xl border-b-2 border-primary text-gray-150">
+          <h2 className="font-semibold text-lg sm:text-2xl border-b-2 border-primary text-gray-800 text-start ">
             Magasinez parmi{" "}
             <span className="cursor-default font-bold capitalize text-primary">
               les meilleures catégories
@@ -60,7 +60,7 @@ export default function Categories() {
           </h2>
           <Link
             to="/products"
-            className="text-lg font-bold py-2 text-gray-500 hover:underline"
+            className="text-sm sm:text-base font-bold text-gray-500 hover:underline"
           >
             Voir Tout
           </Link>

@@ -107,11 +107,11 @@ const settings = {
 
 export default function ProductsSection() {
   return (
-    <div className="mt-14 mb-10 mx-auto  overflow-hidden" id="products">
+    <div className="mt-14 mb-10  sm:mx-auto  overflow-hidden" id="products">
       {" "}
       {/* Added margin-bottom here */}
-      <div className="mt-4 border-gray-500 flex justify-between border-b mx-12 items-center">
-        <h1 className="font-semibold text-xl sm:text-2xl border-b-2 border-primary text-gray-800 text-start ">
+      <div className="mt-4 border-gray-500 flex justify-between border-b mx-4 sm:mx-12 items-center">
+        <h1 className="font-semibold text-lg sm:text-2xl border-b-2 border-primary text-gray-800 text-start ">
           Profitez des meilleures{" "}
           <span className="font-bold cursor-default text-primary">
             Nouveautés
@@ -119,12 +119,12 @@ export default function ProductsSection() {
         </h1>
         <Link
           to="/products"
-          className="text-lg font-bold text-gray-500 hover:underline"
+          className="text-sm sm:text-base font-bold text-gray-500 hover:underline"
         >
           Voir Tout
         </Link>
       </div>
-      <Slider {...settings} className="max-w-full px-4 mx-4 py-6 mb-6">
+      <Slider {...settings} className="max-w-full sm:px-4 sm:mx-4 py-6 mb-6">
         {products.map((product) => (
           <div key={product.id} className="px-2">
             {" "}

@@ -91,7 +91,7 @@ const Navbar = () => {
                         <Link
                           to="/products"
                           key={index}
-                          className="px-4 py-1 whitespace-nowrap text-gray-700 hover:text-primary cursor-pointer rounded-full "
+                          className=" py-1 whitespace-nowrap text-gray-700 border-b border-primary hover:text-primary cursor-pointer  "
                         >
                           {category}
                         </Link>
