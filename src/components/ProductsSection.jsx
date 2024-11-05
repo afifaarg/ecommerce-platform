@@ -78,7 +78,6 @@ const settings = {
   infinite: true,
   speed: 400,
   slidesToShow: 4,
-  arrows: true,
   slidesToScroll: 1,
   responsive: [
     {

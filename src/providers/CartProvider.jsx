@@ -12,10 +12,12 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (item) => {
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === item.id);
+      const existingItem = prevItems.find(
+        (i) => i.id === item.id && i.price === item.price
+      );
       if (existingItem) {
         const updatedItems = prevItems.map((i) =>
-          i.id === item.id
+          i.id === item.id && i.price === item.price
             ? { ...existingItem, quantity: existingItem.quantity + 1 }
             : i
         );

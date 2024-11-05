@@ -1,23 +1,24 @@
 @import "../node_modules/slick-carousel/slick/slick.css";
 @import "../node_modules/slick-carousel/slick/slick-theme.css";
-
+@import "../node_modules/react-image-gallery/styles/css/image-gallery.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.slick-next{
-    right: 15px !important;
-    color:#1A2C5A !important ;
+:root {
+  --gold: #fde047;
 }
-.slick-arrow{
-    background-color: #1A2C5A  !important;
-}
-.slick-prev{
-    left: 10px !important;
+
+/* Additional CSS rules for styling your React components */
 
 
-    
-    color:#1A2C5A !important ;
+
+.react-rater-star.is-active-half:before {
+  color: var(--gold) !important;
+}
+
+.react-rater-star.is-active {
+  color: var(--gold) !important;
 }
 .transition-transform {
     transition: transform 0.7s ease-in-out;
