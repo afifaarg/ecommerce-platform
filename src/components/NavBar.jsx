@@ -1,13 +1,70 @@
 // components/Navbar.js
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import AuthentificationModal from "./AuthentificationModal";
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [flyer, setFlyer] = useState(false);
   const { cartLength } = useContext(CartContext);
   const [showModal, setShowModal] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown visibility
+  const [user, setUser] = useState(null);
+  const [signedIn, setSignedIn] = useState(false);
+  const navigate = useNavigate(); // Hook to programmatically navigate
+  // Fetch user info from localStorage or an API (for demo purposes using localStorage)
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user_data"));
+    console.log(storedUser);
+    if (storedUser) {
+      setUser(storedUser);
+    }
+    const refreshToken = localStorage.getItem("access_token");
+    console.log(refreshToken);
+    if (refreshToken) {
+      setSignedIn(true);
+    } else {
+      setSignedIn(false);
+    }
+    console.log(signedIn);
+  }, []);
+
+  // Helper function to get the initials of the user's full name
+  const getInitials = () => {
+    if (!user) return "";
+    const names = user.name[0];
+    console.log(names);
+    return names.toUpperCase();
+  };
+  const handleLogout = () => {
+    const refreshToken = localStorage.getItem("refresh_token"); // Get refresh token from local storage
+    console.log(refreshToken);
+    axios
+      .post("https://ecommerce-platform-api.onrender.com/backendAPI/logout/", {
+        refresh_token: refreshToken, // Send refresh token to logout
+      })
+      .then(() => {
+        console.log("loggedOut");
+        // Clear tokens from local storage upon successful logout
+        console.log(localStorage.getItem("refresh_token"));
+
+        navigate("/"); // Redirect to the home page
+      })
+      .catch((error) => {
+        alert("Logout error:", error); // Log any errors
+      });
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    setSignedIn(false);
+  };
+
+  // Function to toggle dropdown menu visibility
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
   return (
     <>
       <nav className="bg-[#ffde43] shadow-md hidden md:block">
@@ -118,20 +175,6 @@ const Navbar = () => {
           <div className="flex justify-end ">
             {/* Icons */}
             <div className="flex items-center space-x-2">
-              <a
-                href="#"
-                onClick={() => setShowModal(true)}
-                className="text-primary flex space-x-2"
-              >
-                <svg
-                  viewBox="0 0 940 1000"
-                  fill="currentColor"
-                  height="1.5em"
-                  width="1.5em"
-                >
-                  <path d="M736 722c136 48 204 88.667 204 122v106H470 0V844c0-33.333 68-74 204-122 62.667-22.667 105.333-45.667 128-69s34-55 34-95c0-14.667-7.333-31-22-49s-25.333-42.333-32-73c-1.333-8-4.333-14-9-18s-9.333-6.667-14-8c-4.667-1.333-9.333-7-14-17s-7.667-24.333-9-43c0-10.667 1.667-19.333 5-26 3.333-6.667 6.333-10.667 9-12l4-4c-5.333-33.333-9.333-62.667-12-88-2.667-36 11-73.333 41-112s82.333-58 157-58 127.333 19.333 158 58 44 76 40 112l-12 88c12 5.333 18 19.333 18 42-1.333 18.667-4.333 33-9 43s-9.333 15.667-14 17c-4.667 1.333-9.333 4-14 8s-7.667 10-9 18c-5.333 32-15.667 56.667-31 74s-23 33.333-23 48c0 40 11.667 71.667 35 95s65.667 46.333 127 69" />
-                </svg>
-              </a>
               <Link
                 to="/cart"
                 className=" relative px-2 whitespace-nowrap inline-flex items-center justify-center text-primary font-bold cursor-pointer hover:text-primary-dark"
@@ -150,6 +193,60 @@ const Navbar = () => {
                   </div>
                 )}
               </Link>
+              {signedIn === false ? (
+                <a
+                  href="#"
+                  onClick={() => setShowModal(!showModal)}
+                  className="text-gray-500 hover:text-primary flex space-x-2"
+                >
+                  <svg
+                    viewBox="0 0 940 1000"
+                    fill="currentColor"
+                    height="1.5em"
+                    width="1.5em"
+                  >
+                    <path d="M736 722c136 48 204 88.667 204 122v106H470 0V844c0-33.333 68-74 204-122 62.667-22.667 105.333-45.667 128-69s34-55 34-95c0-14.667-7.333-31-22-49s-25.333-42.333-32-73c-1.333-8-4.333-14-9-18s-9.333-6.667-14-8c-4.667-1.333-9.333-7-14-17s-7.667-24.333-9-43c0-10.667 1.667-19.333 5-26 3.333-6.667 6.333-10.667 9-12l4-4c-5.333-33.333-9.333-62.667-12-88-2.667-36 11-73.333 41-112s82.333-58 157-58 127.333 19.333 158 58 44 76 40 112l-12 88c12 5.333 18 19.333 18 42-1.333 18.667-4.333 33-9 43s-9.333 15.667-14 17c-4.667 1.333-9.333 4-14 8s-7.667 10-9 18c-5.333 32-15.667 56.667-31 74s-23 33.333-23 48c0 40 11.667 71.667 35 95s65.667 46.333 127 69" />
+                  </svg>
+                </a>
+              ) : (
+                <div>
+                  <a
+                    onClick={toggleDropdown}
+                    className=" text-center flex  items-center justify-center text-sm text-white w-8 h-8 rounded-full bg-primary hover:bg-blue-900 rounded-full cursor-pointer"
+                  >
+                    <span>{getInitials()}</span>
+                  </a>
+
+                  <div
+                    className={`${
+                      dropdownOpen
+                        ? "opacity-100 translate-y-0 right-0 "
+                        : "opacity-0 translate-y-1 pointer-events-none right-0 "
+                    } transition flex flex-col bg-gray-100 rounded-lg border w-36 shadow-lg ease-out duration-200 absolute z-10 mt-3  sm:px-0 right-2 `}
+                  >
+                    <a
+                      onClick={handleLogout}
+                      className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base  text-gray-700  border-b "
+                    >
+                      <span>Profile</span>
+                    </a>
+                    <a
+                      onClick={handleLogout}
+                      className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base font-medium text-gray-700  "
+                    >
+                      <svg
+                        viewBox="0 0 900 1000"
+                        fill="currentColor"
+                        height="1em"
+                        width="1em"
+                      >
+                        <path d="M502 850V750h98v100c0 26.667-9.667 50-29 70s-43 30-71 30H100c-26.667 0-50-10-70-30S0 876.667 0 850V150c0-28 10-51.667 30-71s43.333-29 70-29h400c28 0 51.667 9.667 71 29s29 43 29 71v150h-98V150H100v700h402m398-326L702 720V600H252V450h450V330l198 194" />
+                      </svg>
+                      <span>Logout</span>
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -176,21 +273,7 @@ const Navbar = () => {
           <Link to="/" className="text-primary text-xl font-bold">
             SLEEPWELL
           </Link>
-          <div className="flex space-x-4">
-            <a
-              href="#"
-              onClick={() => setShowModal(true)}
-              className="text-gray-500 hover:text-primary flex space-x-2"
-            >
-              <svg
-                viewBox="0 0 940 1000"
-                fill="currentColor"
-                height="1.5em"
-                width="1.5em"
-              >
-                <path d="M736 722c136 48 204 88.667 204 122v106H470 0V844c0-33.333 68-74 204-122 62.667-22.667 105.333-45.667 128-69s34-55 34-95c0-14.667-7.333-31-22-49s-25.333-42.333-32-73c-1.333-8-4.333-14-9-18s-9.333-6.667-14-8c-4.667-1.333-9.333-7-14-17s-7.667-24.333-9-43c0-10.667 1.667-19.333 5-26 3.333-6.667 6.333-10.667 9-12l4-4c-5.333-33.333-9.333-62.667-12-88-2.667-36 11-73.333 41-112s82.333-58 157-58 127.333 19.333 158 58 44 76 40 112l-12 88c12 5.333 18 19.333 18 42-1.333 18.667-4.333 33-9 43s-9.333 15.667-14 17c-4.667 1.333-9.333 4-14 8s-7.667 10-9 18c-5.333 32-15.667 56.667-31 74s-23 33.333-23 48c0 40 11.667 71.667 35 95s65.667 46.333 127 69" />
-              </svg>
-            </a>
+          <div className="flex items-center space-x-4">
             <Link
               to="/cart"
               className="relative whitespace-nowrap inline-flex items-center justify-center text-primary font-bold cursor-pointer hover:text-primary-dark"
@@ -209,6 +292,60 @@ const Navbar = () => {
                 </div>
               )}
             </Link>
+            {signedIn === false ? (
+              <a
+                href="#"
+                onClick={() => setShowModal(!showModal)}
+                className="text-gray-500 hover:text-primary flex space-x-2"
+              >
+                <svg
+                  viewBox="0 0 940 1000"
+                  fill="currentColor"
+                  height="1.5em"
+                  width="1.5em"
+                >
+                  <path d="M736 722c136 48 204 88.667 204 122v106H470 0V844c0-33.333 68-74 204-122 62.667-22.667 105.333-45.667 128-69s34-55 34-95c0-14.667-7.333-31-22-49s-25.333-42.333-32-73c-1.333-8-4.333-14-9-18s-9.333-6.667-14-8c-4.667-1.333-9.333-7-14-17s-7.667-24.333-9-43c0-10.667 1.667-19.333 5-26 3.333-6.667 6.333-10.667 9-12l4-4c-5.333-33.333-9.333-62.667-12-88-2.667-36 11-73.333 41-112s82.333-58 157-58 127.333 19.333 158 58 44 76 40 112l-12 88c12 5.333 18 19.333 18 42-1.333 18.667-4.333 33-9 43s-9.333 15.667-14 17c-4.667 1.333-9.333 4-14 8s-7.667 10-9 18c-5.333 32-15.667 56.667-31 74s-23 33.333-23 48c0 40 11.667 71.667 35 95s65.667 46.333 127 69" />
+                </svg>
+              </a>
+            ) : (
+              <div>
+                <a
+                  onClick={toggleDropdown}
+                  className=" text-center flex  items-center justify-center text-sm text-white w-8 h-8 rounded-full bg-primary hover:bg-blue-900 rounded-full cursor-pointer"
+                >
+                  <span>{getInitials()}</span>
+                </a>
+
+                <div
+                  className={`${
+                    dropdownOpen
+                      ? "opacity-100 translate-y-0 right-0 "
+                      : "opacity-0 translate-y-1 pointer-events-none right-0 "
+                  } transition flex flex-col bg-gray-100 rounded-lg border w-36 shadow-lg ease-out duration-200 absolute z-10 mt-3  sm:px-0 right-2 `}
+                >
+                  <a
+                    onClick={handleLogout}
+                    className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base  text-gray-700  border-b "
+                  >
+                    <span>Profile</span>
+                  </a>
+                  <a
+                    onClick={handleLogout}
+                    className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base font-medium text-gray-700  "
+                  >
+                    <svg
+                      viewBox="0 0 900 1000"
+                      fill="currentColor"
+                      height="1em"
+                      width="1em"
+                    >
+                      <path d="M502 850V750h98v100c0 26.667-9.667 50-29 70s-43 30-71 30H100c-26.667 0-50-10-70-30S0 876.667 0 850V150c0-28 10-51.667 30-71s43.333-29 70-29h400c28 0 51.667 9.667 71 29s29 43 29 71v150h-98V150H100v700h402m398-326L702 720V600H252V450h450V330l198 194" />
+                    </svg>
+                    <span>Logout</span>
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -316,7 +453,13 @@ const Navbar = () => {
         )}
       </nav>
       {/* Auth Modal */}
-      {showModal && <AuthentificationModal />}
+      {showModal && (
+        <AuthentificationModal
+          isOpen={showModal}
+          setIsOpen={setShowModal}
+          setSignedIn={setSignedIn}
+        />
+      )}
     </>
   );
 };

@@ -1,7 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-export default function AuthentificationModal() {
+export default function AuthentificationModal({
+  isOpen,
+  setIsOpen,
+  setSignedIn,
+}) {
+  if (!isOpen) return null;
   const [activeTab, setActiveTab] = useState("signin");
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
@@ -29,6 +35,8 @@ export default function AuthentificationModal() {
         "user_data",
         JSON.stringify(response.data.user_data)
       );
+      setSignedIn(true);
+      setIsOpen(false);
       alert("Login successful!");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
@@ -140,6 +148,12 @@ export default function AuthentificationModal() {
               >
                 Connexion
               </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="w-full mt-2 inline-block bg-primary text-white py-2 rounded-md border font-bold hover:border-primary hover:bg-white hover:text-primary"
+              >
+                Annuler
+              </button>
             </form>
           ) : (
             // Sign-Up Form
@@ -220,6 +234,12 @@ export default function AuthentificationModal() {
                 className="w-full bg-primary text-white py-2 rounded-md border font-bold hover:border-primary hover:bg-white hover:text-primary"
               >
                 Inscription
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="w-full mt-2 inline-block bg-primary text-white py-2 rounded-md border font-bold hover:border-primary hover:bg-white hover:text-primary"
+              >
+                Annuler
               </button>
             </form>
           )}
