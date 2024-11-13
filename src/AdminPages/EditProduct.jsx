@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import PageTitle from "../AdminComponents/Typography/PageTitle";
 import {
   Card,
@@ -13,9 +13,8 @@ import {
 } from "@windmill/react-ui";
 import axios from "axios";
 
-// You can fetch the categories from the backend
-
-const AddProduct = () => {
+export default function EditProduct() {
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const [categories, setCategories] = useState([]);
   const [productImages, setProductImages] = useState([]);
@@ -40,33 +39,48 @@ const AddProduct = () => {
   });
   const API_URL =
     "https://ecommerce-platform-api.onrender.com/backendAPI/categories/";
-  const PRODUCT_API =
-    "https://ecommerce-platform-api.onrender.com/backendAPI/produits/";
+  const PRODUCT_API = `http://127.0.0.1:8000/backendAPI/produits/${id}/`;
 
   useEffect(() => {
-    axios
-      .get(API_URL, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setCategories(response.data);
-        } else {
-          console.log("Error Fetching Data:", response.status, response.data);
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.error("Error response:", error.response.data);
-        } else if (error.request) {
-          console.error("No response from server:", error.request);
-        } else {
-          console.error("Error:", error.message);
-        }
+    // Fetch categories
+    console.log(id);
+    axios.get(API_URL).then((response) => setCategories(response.data));
+
+    // Fetch product details
+    axios.get(PRODUCT_API).then((response) => {
+      const product = response.data;
+      setFormData({
+        name: product.name,
+        category: product.category,
+        description: product.description,
+        reference: product.reference,
+        price: product.price,
+        cost_price: product.cost_price,
+        margin: product.margin,
+        tva: product.tva,
+        in_stock: product.in_stock,
+        is_active: product.is_active,
+        promo: product.promo,
       });
-  }, []);
+      setProductImages(product.gallery_images);
+      setPromoVideo(product.promo_video);
+      setVariants(
+        product.variants.map((item) => {
+          const type = item.color ? "color" : "text";
+          const value = type === "color" ? item.color : item.dimension;
+          const variantPrice = item.variant_price;
+          return {
+            type,
+            value,
+            price: variantPrice,
+          };
+        })
+      );
+    });
+  }, [PRODUCT_API]);
+  console.log(formData);
+  console.log(variants);
+  console.log(productImages);
 
   const handleAddVariant = () => {
     const newVariant = {
@@ -75,7 +89,7 @@ const AddProduct = () => {
       price: variantPrice,
     };
     setVariants([...variants, newVariant]);
-    setShowVariantModal(false); // Close the modal after adding the variant
+    setShowVariantModal(false);
     setVariantType("");
     setVariantValue("");
     setVariantPrice("");
@@ -85,34 +99,38 @@ const AddProduct = () => {
     const updatedVariants = variants.filter((_, i) => i !== index);
     setVariants(updatedVariants);
   };
+  const handleRemoveImage = (index) => {
+    const updatedImages = productImages.filter((_, i) => i !== index);
+    setProductImages(updatedImages);
+  };
   const handleImageChange = (event) => {
     const files = event.target.files;
-    setProductImages(Array.from(files)); // Convert FileList to an array
+    setProductImages([...productImages, ...Array.from(files)]);
   };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((formData) => ({ ...formData, [name]: value }));
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
+
   const handleVideoChange = (event) => {
     const file = event.target.files[0];
     setPromoVideo(file);
   };
+
   const handleSubmit = () => {
     const data = new FormData();
-    // Append product details
-    // Append product details
+
+    // Log the formData entries
     Object.entries(formData).forEach(([key, value]) => {
       data.append(key, value);
     });
 
-    // Add images
-    productImages.forEach((image, index) => {
-      data.append("gallery_images", image); // Append each image as 'gallery_images'
+    productImages.forEach((image) => {
+      data.append("gallery_images", image);
     });
 
-    // Add variants
     variants.forEach((variant) => {
-      // Append each variant as a JSON string
       data.append(
         "variants",
         JSON.stringify({
@@ -123,33 +141,29 @@ const AddProduct = () => {
       );
     });
 
-    // Add video
-    if (promoVideo) {
-      data.append("promo_video", promoVideo); // Add the promo video if selected
-    }
+    // if (promoVideo) {
+    //   data.append("promo_video", promoVideo);
+    // }
 
+    // Log FormData contents
+    for (let pair of data.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
     console.log(new URLSearchParams(data).toString());
     axios
-      .post(PRODUCT_API, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      .put(PRODUCT_API, data, {
+        headers: { "Content-Type": "multipart/form-data" },
       })
-      .then((response) => {
-        if (response.status === 201) {
-          console.log("Product created successfully:", response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error creating product:", error);
-      });
+      .then((response) =>
+        console.log("Product updated successfully:", response.data)
+      )
+      .catch((error) => console.error("Error updating product:", error));
   };
 
   return (
     <div>
-      <PageTitle>Ajouter un nouveau produit</PageTitle>
+      <PageTitle>Modifier le produit</PageTitle>
 
-      {/* Breadcrumb */}
       <div className="flex text-gray-800 dark:text-gray-300">
         <div className="flex items-center text-primary">
           <NavLink exact to="/app/dashboard" className="mx-2">
@@ -157,52 +171,35 @@ const AddProduct = () => {
           </NavLink>
         </div>
         {">"}
-        <p className="mx-2">Ajouter un produit</p>
+        <p className="mx-2">Modifier un produit</p>
       </div>
 
-      {/* Tabs */}
       <div className="mt-8">
         <div className="flex">
-          <button
-            onClick={() => setActiveTab(1)}
-            className={`px-4 py-2 mr-2 ${
-              activeTab === 1 ? "bg-primary text-white" : "bg-gray-200"
-            }`}
-          >
-            Informations générales
-          </button>
-          <button
-            onClick={() => setActiveTab(2)}
-            className={`px-4 py-2 mr-2 ${
-              activeTab === 2 ? "bg-primary text-white" : "bg-gray-200"
-            }`}
-          >
-            Informations commerciales
-          </button>
-          <button
-            onClick={() => setActiveTab(3)}
-            className={`px-4 py-2 mr-2 ${
-              activeTab === 3 ? "bg-primary text-white" : "bg-gray-200"
-            }`}
-          >
-            Galerie médias
-          </button>
-          <button
-            onClick={() => setActiveTab(4)}
-            className={`px-4 py-2 ${
-              activeTab === 4 ? "bg-primary text-white" : "bg-gray-200"
-            }`}
-          >
-            Personnalisation
-          </button>
+          {[
+            "Informations générales",
+            "Informations commerciales",
+            "Galerie médias",
+            "Personnalisation",
+          ].map((tabName, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveTab(index + 1)}
+              className={`px-4 py-2 mr-2 ${
+                activeTab === index + 1
+                  ? "bg-primary text-white"
+                  : "bg-gray-200"
+              }`}
+            >
+              {tabName}
+            </button>
+          ))}
         </div>
 
-        {/* Tab Content */}
         <div className="mt-8">
           {activeTab === 1 && (
-            <Card className="row-span-2 md:col-span-2">
+            <Card>
               <CardBody>
-                <FormTitle>Informations générales</FormTitle>
                 <Label>Référence</Label>
                 <Input
                   className="mb-4"
@@ -219,11 +216,10 @@ const AddProduct = () => {
                   onChange={handleInputChange}
                   placeholder="Désignation du produit"
                 />
-
                 <Label>Catégorie</Label>
                 <Select
                   className="mb-4"
-                  value={formData.categroy}
+                  value={formData.category}
                   name="category"
                   onChange={handleInputChange}
                 >
@@ -233,16 +229,6 @@ const AddProduct = () => {
                     </option>
                   ))}
                 </Select>
-
-                <Label>Marque</Label>
-                <Input
-                  className="mb-4"
-                  value={formData.marque}
-                  name="marque"
-                  onChange={handleInputChange}
-                  placeholder="Nom de la marque"
-                />
-
                 <Label>Description</Label>
                 <Textarea
                   className="mb-4"
@@ -257,9 +243,8 @@ const AddProduct = () => {
           )}
 
           {activeTab === 2 && (
-            <Card className="row-span-2 md:col-span-2">
+            <Card>
               <CardBody>
-                <FormTitle>Informations commerciales</FormTitle>
                 <Label>Prix de revient</Label>
                 <Input
                   className="mb-4"
@@ -268,7 +253,6 @@ const AddProduct = () => {
                   onChange={handleInputChange}
                   placeholder="Prix de revient"
                 />
-
                 <Label>Prix de vente</Label>
                 <Input
                   className="mb-4"
@@ -277,7 +261,6 @@ const AddProduct = () => {
                   onChange={handleInputChange}
                   placeholder="Prix de vente"
                 />
-
                 <Label>La marge</Label>
                 <Input
                   className="mb-4"
@@ -286,7 +269,6 @@ const AddProduct = () => {
                   onChange={handleInputChange}
                   placeholder="Marge"
                 />
-
                 <Label>TVA</Label>
                 <Select
                   value={formData.tva}
@@ -302,32 +284,50 @@ const AddProduct = () => {
           )}
 
           {activeTab === 3 && (
-            <Card className="row-span-2 md:col-span-2">
+            <Card>
               <CardBody>
-                <FormTitle>Galerie médias</FormTitle>
+                {/* Displaying current images */}
                 <Label>Images produit</Label>
+                <div className="mb-4">
+                  {productImages.map((image, index) => (
+                    <div key={index} className="flex items-center mb-2">
+                      <a
+                        href={image}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary underline mr-2"
+                      >
+                        Image {index + 1}
+                      </a>
+                      <Button
+                        size="small"
+                        layout="link"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        Supprimer
+                      </Button>
+                    </div>
+                  ))}
+                </div>
                 <input
                   type="file"
-                  className="mb-4 text-gray-800 dark:text-gray-300"
                   multiple
                   accept="image/*"
-                  onChange={handleImageChange} // Handle image selection
+                  onChange={handleImageChange}
                 />
                 <Label>Vidéo promotionnelle</Label>
                 <input
                   type="file"
-                  className="mb-4 text-gray-800 dark:text-gray-300"
                   accept="video/*"
-                  onChange={handleVideoChange} // Handle video selection
+                  onChange={handleVideoChange}
                 />
               </CardBody>
             </Card>
           )}
 
           {activeTab === 4 && (
-            <Card className="row-span-2 md:col-span-2">
+            <Card>
               <CardBody>
-                <FormTitle>Personnalisation</FormTitle>
                 <div className="overflow-x-auto mb-4">
                   <table className="min-w-full table-auto">
                     <thead>
@@ -345,7 +345,10 @@ const AddProduct = () => {
                           <td className="border px-4 py-2">{variant.value}</td>
                           <td className="border px-4 py-2">{variant.price}</td>
                           <td className="border px-4 py-2">
-                            <Button onClick={() => handleRemoveVariant(index)}>
+                            <Button
+                              size="small"
+                              onClick={() => handleRemoveVariant(index)}
+                            >
                               Supprimer
                             </Button>
                           </td>
@@ -354,85 +357,57 @@ const AddProduct = () => {
                     </tbody>
                   </table>
                 </div>
-                <button
-                  className="bg-blue-100 text-primary py-1 hover:shadow-lg"
-                  onClick={() => setShowVariantModal(true)}
-                >
+                <Button size="small" onClick={() => setShowVariantModal(true)}>
                   Ajouter une variante
-                </button>
+                </Button>
+
+                <Modal
+                  isOpen={showVariantModal}
+                  onClose={() => setShowVariantModal(false)}
+                >
+                  <Modal.Header>Ajouter une variante</Modal.Header>
+                  <Modal.Body>
+                    <Label>Type de variante</Label>
+                    <Input
+                      className="mb-4"
+                      value={variantType}
+                      onChange={(e) => setVariantType(e.target.value)}
+                      placeholder="Type de variante"
+                    />
+                    <Label>Valeur de variante</Label>
+                    <Input
+                      className="mb-4"
+                      value={variantValue}
+                      onChange={(e) => setVariantValue(e.target.value)}
+                      placeholder="Valeur de variante"
+                    />
+                    <Label>Prix de variante</Label>
+                    <Input
+                      className="mb-4"
+                      value={variantPrice}
+                      onChange={(e) => setVariantPrice(e.target.value)}
+                      placeholder="Prix de variante"
+                    />
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      layout="outline"
+                      onClick={() => setShowVariantModal(false)}
+                    >
+                      Annuler
+                    </Button>
+                    <Button onClick={handleAddVariant}>Ajouter</Button>
+                  </Modal.Footer>
+                </Modal>
               </CardBody>
             </Card>
           )}
         </div>
-      </div>
 
-      <div className="w-full mt-8">
-        <Button size="large" onClick={handleSubmit}>
-          Ajouter le produit
+        <Button className="mt-4 bg-primary text-white" onClick={handleSubmit}>
+          Enregistrer les modifications
         </Button>
       </div>
-
-      {/* Variant Modal */}
-      <Modal
-        isOpen={showVariantModal}
-        onRequestClose={() => setShowVariantModal(false)}
-        contentLabel="Ajouter une variante"
-        className="bg-white w-1/2 mx-auto p-8 rounded-lg "
-        overlayClassName="Overlay"
-      >
-        <h2 className="mb-4 text-lg font-semibold">
-          Ajouter une nouvelle variante
-        </h2>
-        <Label>Type de variante</Label>
-        <select
-          name="type variante"
-          id="typeVariante"
-          className="rounded-lg py-1 w-full mb-4 px-2 border border-gray-300"
-          onChange={(e) => setVariantType(e.target.value)}
-        >
-          <option value="">Type de variante</option>
-          <option value="color">Couleur</option>
-          <option value="text">Dimension</option>
-        </select>
-        <Label className="">Valeur de variante</Label>
-        <Input
-          className="mb-4 focus:border-none"
-          value={variantValue}
-          onChange={(e) => setVariantValue(e.target.value)}
-          placeholder="Valeur de variante"
-        />
-        <Label>Prix de variante</Label>
-        <Input
-          className="mb-4 focus:border-none"
-          value={variantPrice}
-          onChange={(e) => setVariantPrice(e.target.value)}
-          placeholder="Prix de variante"
-        />
-        <div className="flex justify-end items-center">
-          <button
-            onClick={() => setShowVariantModal(false)}
-            className="mt-4 mr-4 text-red-500 font-bold hover:underline"
-            layout="outline"
-          >
-            Annuler
-          </button>
-          <button
-            onClick={handleAddVariant}
-            className="mt-4 bg-primary rounded-lg text-white py-1 font-bold px-4 hover:shadow-lg"
-          >
-            Ajouter
-          </button>
-        </div>
-      </Modal>
     </div>
   );
-};
-const FormTitle = ({ children }) => {
-  return (
-    <h2 className="mb-3 text-sm font-semibold text-gray-600 dark:text-gray-300">
-      {children}
-    </h2>
-  );
-};
-
-export default AddProduct;
+}

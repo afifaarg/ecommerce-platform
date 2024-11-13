@@ -11,14 +11,20 @@ import {
   Badge,
   Pagination,
 } from "@windmill/react-ui";
-import response from "../utils/demo/usersData";
 
-const UsersTable = ({ resultsPerPage, filter }) => {
+const UsersTable = ({ searchTerm, users }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
+  const [paginatedData, setPaginatedData] = useState([]); // New state for paginated data
 
+  useEffect(() => {
+    const filteredData = users.filter((user) =>
+      user.full_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setPaginatedData(filteredData.slice(page - 1, page));
+  }, [data, searchTerm, page]); // Dependencies updated
   // pagination setup
-  const totalResults = response.length;
+  const totalResults = users.length;
 
   // pagination change control
   function onPageChange(p) {
@@ -28,8 +34,8 @@ const UsersTable = ({ resultsPerPage, filter }) => {
   // on page change, load new sliced data
   // here you would make another server request for new data
   useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage));
-  }, [page, resultsPerPage, filter]);
+    setData(users.slice(page - 1, page));
+  }, [page, searchTerm]);
 
   return (
     <div>
@@ -38,39 +44,20 @@ const UsersTable = ({ resultsPerPage, filter }) => {
         <Table>
           <TableHeader>
             <tr>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Joined on</TableCell>
+              <TableCell>Nom Complet</TableCell>
+              <TableCell>Nom d'utilisateur</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Adresse</TableCell>
+              <TableCell>N° Téléphone</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
-            {data.map((user, i) => (
+            {paginatedData.map((user, i) => (
               <TableRow key={i}>
-                <TableCell>
-                  <div className="flex items-center text-sm">
-                    <Avatar
-                      className="hidden mr-3 md:block"
-                      src={user.avatar}
-                      alt="User image"
-                    />
-                    <div>
-                      <p className="font-semibold">{user.first_name}</p>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{user.last_name}</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{user.email}</span>
-                </TableCell>
-
-                <TableCell>
-                  <span className="text-sm">
-                    {new Date(user.joined_on).toLocaleDateString()}
-                  </span>
-                </TableCell>
+                <TableCell>{user.full_name}</TableCell>
+                <TableCell>{user.address}</TableCell>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.phone_number}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -78,7 +65,6 @@ const UsersTable = ({ resultsPerPage, filter }) => {
         <TableFooter>
           <Pagination
             totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
             label="Table navigation"
             onChange={onPageChange}
           />

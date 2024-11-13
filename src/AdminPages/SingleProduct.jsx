@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import Icon from "../components/Icon";
-import PageTitle from "../components/Typography/PageTitle";
-import { HomeIcon } from "../icons";
+import Icon from "../AdminComponents/Icon";
+import PageTitle from "../AdminComponents/Typography/PageTitle";
 import response from "../utils/demo/productData";
 import { Card, CardBody, Badge, Button, Avatar } from "@windmill/react-ui";
-import { genRating } from "../utils/genarateRating";
-
 const SingleProduct = () => {
   const { id } = useParams();
 
@@ -24,8 +21,7 @@ const SingleProduct = () => {
       {/* Breadcum */}
       <div className="flex text-gray-800 dark:text-gray-300">
         <div className="flex items-center text-purple-600">
-          <Icon className="w-5 h-5" aria-hidden="true" icon={HomeIcon} />
-          <NavLink exact to="/app/dashboard" className="mx-2">
+          <NavLink exact to="/admin/administration-dashboard" className="mx-2">
             Dashboard
           </NavLink>
         </div>
@@ -69,7 +65,7 @@ const SingleProduct = () => {
               <p className="text-sm text-gray-900 dark:text-gray-400">
                 Product Rating
               </p>
-              <div>{genRating(product.rating, product.reviews.length, 6)}</div>
+              <div></div>
 
               <h4 className="mt-4 text-purple-600 text-2xl font-semibold">
                 {product?.price}
@@ -110,7 +106,6 @@ const SingleProduct = () => {
                 <p className="text-5xl text-gray-700 dark:text-gray-200">
                   {product.rating.toFixed(1)}
                 </p>
-                {genRating(product.rating, product.reviews.length, 6)}
 
                 <div className="mt-4">
                   {product.reviews.map((review, i) => (
@@ -125,7 +120,7 @@ const SingleProduct = () => {
                         <p className="font-medium text-lg text-gray-800 dark:text-gray-300">
                           {review.username}
                         </p>
-                        {genRating(review.rate, null, 4)}
+
                         <p className="text-sm mt-2 text-gray-600 dark:text-gray-400">
                           {review.review}
                         </p>

@@ -1,6 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    nom: "",
+    email: "",
+    etat: "ouvert", // default value if it's always set to 'ouvert'
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      console.log(formData);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/backendAPI/contact/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        alert(
+          "Votre message a été envoyé ! Nous vous répondrons dans les plus brefs délais."
+        );
+        setFormData({
+          nom: "",
+          email: "",
+          etat: "ouvert", // default value if it's always set to 'ouvert'
+          message: "",
+        });
+      } else {
+        alert("Une erreur s'est produite. Veuillez réessayer.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du message:", error);
+      alert("Une erreur s'est produite. Veuillez réessayer.");
+    }
+  };
+
   return (
     <section id="contact" className="py-12 px-4">
       <div className="container rounded-xl bg-primary mx-auto flex flex-col md:flex-row items-center space-y-12 md:space-y-0 md:space-x-12">
@@ -58,18 +108,20 @@ const ContactUs = () => {
         </div>
 
         {/* Contact Form Section */}
-        <div className="w-full md:w-1/2 bg-gray-50 rounded-b-lg sm:rounded-r-lg shadow-lg  p-6">
+        <div className="w-full md:w-1/2 bg-gray-50 rounded-b-lg sm:rounded-r-lg shadow-lg p-6">
           <h3 className="text-3xl font-bold text-primary-dark mb-4">
             Contactez Nous!
           </h3>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="name">
+              <label className="block text-gray-700 mb-2" htmlFor="nom">
                 Nom
               </label>
               <input
                 type="text"
-                id="name"
+                id="nom"
+                value={formData.nom}
+                onChange={handleChange}
                 className="w-full p-3 border border-primary rounded-full outline-none focus:ring focus:ring-primary-dark"
                 placeholder="Votre nom"
                 required
@@ -82,6 +134,8 @@ const ContactUs = () => {
               <input
                 type="email"
                 id="email"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full p-3 border border-primary rounded-full outline-none focus:ring focus:ring-primary-dark"
                 placeholder="Votre email"
                 required
@@ -93,6 +147,8 @@ const ContactUs = () => {
               </label>
               <textarea
                 id="message"
+                value={formData.message}
+                onChange={handleChange}
                 rows="5"
                 className="w-full p-3 border border-primary rounded-lg outline-none focus:ring focus:ring-primary-dark"
                 placeholder="Votre message"

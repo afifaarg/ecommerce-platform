@@ -6,7 +6,7 @@ export default function Product({ product }) {
   return (
     <div
       key={product.id}
-      className="rounded-xl border border-gray-200 bg-white  hover:shadow-xl shadow-sm dark:border-gray-700 dark:bg-gray-800"
+      className="rounded-xl border border-gray-200 bg-white  hover:shadow-xl shadow-sm "
     >
       <div className="h-64 w-full rounded-t-xl overflow-hidden">
         <Link to={`/products/1`}>
@@ -21,7 +21,7 @@ export default function Product({ product }) {
       <div className="pt-4 p-4">
         <div className="mb-4 flex items-center justify-between gap-4">
           {/* Example Badge - Adjust based on product data */}
-          <span className="me-2 rounded bg-red-500 px-2.5 py-0.5 text-xs font-medium text-secondary dark:bg-primary-dark dark:text-primary-300">
+          <span className="me-2 rounded bg-red-500 px-2.5 py-0.5 text-xs font-medium text-secondary ">
             {product.category}
           </span>
 
@@ -57,7 +57,7 @@ export default function Product({ product }) {
             <div
               id={`tooltip-quick-look-${product.id}`}
               role="tooltip"
-              className="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
+              className="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 "
               data-popper-placement="top"
             >
               Voir Produit {/* Updated tooltip text */}
@@ -90,7 +90,7 @@ export default function Product({ product }) {
             <div
               id={`tooltip-add-to-favorites-${product.id}`}
               role="tooltip"
-              className="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
+              className="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 "
               data-popper-placement="top"
             >
               Ajouter aux favories
@@ -127,7 +127,7 @@ export default function Product({ product }) {
             5
           </div>
 
-          <p className="text-lg font-bold leading-tight text-gray-900 dark:text-white">
+          <p className="text-lg font-bold leading-tight text-gray-900 ">
             {product.price} DZD
           </p>
         </div>
@@ -137,7 +137,7 @@ export default function Product({ product }) {
           <li className="flex items-center gap-2">
             {/* Fast Delivery Icon */}
             <svg
-              className="h-4 w-4 text-gray-500 dark:text-gray-400"
+              className="h-4 w-4 text-gray-500 "
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -151,7 +151,7 @@ export default function Product({ product }) {
                 d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
               />
             </svg>
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <p className="text-sm font-medium text-gray-500 ">
               Livraison rapide
             </p>
           </li>
@@ -159,7 +159,7 @@ export default function Product({ product }) {
           <li className="flex items-center gap-2">
             {/* Best Price Icon */}
             <svg
-              className="h-4 w-4 text-gray-500 dark:text-gray-400"
+              className="h-4 w-4 text-gray-500 "
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -172,9 +172,7 @@ export default function Product({ product }) {
                 d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm-10 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
               />
             </svg>
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              Meilleur Prix
-            </p>
+            <p className="text-sm font-medium text-gray-500 ">Meilleur Prix</p>
           </li>
         </ul>
 

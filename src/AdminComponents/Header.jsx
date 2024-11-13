@@ -28,8 +28,8 @@ function Header() {
   }
 
   return (
-    <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
-      <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+    <header className="z-40 py-4 bg-primary shadow-bottom ">
+      <div className="container flex items-center justify-end h-full px-6 mx-auto text-secondary ">
         {/* <!-- Mobile hamburger --> */}
         <button
           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
@@ -39,29 +39,8 @@ function Header() {
           M
         </button>
         {/* <!-- Search input --> */}
-        <div className="flex justify-center flex-1 lg:mr-32">
-          <div className="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
-            <div className="absolute inset-y-0 flex items-center pl-2">
-              SEARCH
-            </div>
-            <Input
-              className="pl-8 text-gray-700"
-              placeholder="Search for projects"
-              aria-label="Search"
-            />
-          </div>
-        </div>
+
         <ul className="flex items-center flex-shrink-0 space-x-6">
-          {/* <!-- Theme toggler --> */}
-          <li className="flex">
-            <button
-              className="rounded-md focus:outline-none focus:shadow-outline-purple"
-              onClick={toggleMode}
-              aria-label="Toggle color mode"
-            >
-              {mode === "dark" ? "SUN" : "MOON"}
-            </button>
-          </li>
           {/* <!-- Notifications menu --> */}
           <li className="relative">
             <button
@@ -70,7 +49,14 @@ function Header() {
               aria-label="Notifications"
               aria-haspopup="true"
             >
-              BELL
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                height="1.5em"
+                width="1.5em"
+              >
+                <path d="M21 19v1H3v-1l2-2v-6c0-3.1 2.03-5.83 5-6.71V4a2 2 0 012-2 2 2 0 012 2v.29c2.97.88 5 3.61 5 6.71v6l2 2m-7 2a2 2 0 01-2 2 2 2 0 01-2-2" />
+              </svg>
               {/* <!-- Notification badge --> */}
               <span
                 aria-hidden="true"

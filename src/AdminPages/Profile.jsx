@@ -1,5 +1,5 @@
 import React from "react";
-import PageTitle from "../components/Typography/PageTitle";
+import PageTitle from "../AdminComponents/Typography/PageTitle";
 
 const Profile = () => {
   return (

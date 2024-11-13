@@ -17,11 +17,6 @@ const ChatUserCard = ({
         {state && (
           <div className="absolute z-10 drop-shadow-lg bottom-4 left-0 ml-6 w-2 h-2 bg-green-500 rounded-full " />
         )}
-        <Avatar
-          className="hidden md:inline-block"
-          src={avatar}
-          alt="user icon"
-        />
       </div>
       <div>
         <p className="text-gray-800 dark:text-gray-300 text-sm">

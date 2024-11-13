@@ -42,6 +42,14 @@ export default function AuthentificationModal() {
       return;
     }
     try {
+      console.log({
+        username,
+        full_name: fullName,
+        role: "customer",
+        phone_number: phoneNumber,
+        address,
+        password,
+      });
       const response = await axios.post(
         "https://ecommerce-platform-api.onrender.com/backendAPI/signup/",
         {
