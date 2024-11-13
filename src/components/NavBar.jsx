@@ -224,12 +224,7 @@ const Navbar = () => {
                         : "opacity-0 translate-y-1 pointer-events-none right-0 "
                     } transition flex flex-col bg-gray-100 rounded-lg border w-36 shadow-lg ease-out duration-200 absolute z-10 mt-3  sm:px-0 right-2 `}
                   >
-                    <a
-                      onClick={handleLogout}
-                      className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base  text-gray-700  border-b "
-                    >
-                      <span>Profile</span>
-                    </a>
+                  
                     <a
                       onClick={handleLogout}
                       className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base font-medium text-gray-700  "
@@ -323,12 +318,7 @@ const Navbar = () => {
                       : "opacity-0 translate-y-1 pointer-events-none right-0 "
                   } transition flex flex-col bg-gray-100 rounded-lg border w-36 shadow-lg ease-out duration-200 absolute z-10 mt-3  sm:px-0 right-2 `}
                 >
-                  <a
-                    onClick={handleLogout}
-                    className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base  text-gray-700  border-b "
-                  >
-                    <span>Profile</span>
-                  </a>
+                 
                   <a
                     onClick={handleLogout}
                     className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base font-medium text-gray-700  "

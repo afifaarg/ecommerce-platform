@@ -150,7 +150,7 @@ function SidebarContent() {
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
           <Link
             exact
-            to="/admin/settings"
+            to="/admin/etat-stock"
             className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
             activeClassName="text-gray-800 dark:text-gray-100"
           >

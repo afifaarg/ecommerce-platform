@@ -14,6 +14,19 @@ const Cart = () => {
     address: "",
   });
   const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user_data"));
+    if (userData) {
+      setOrderData((prevData) => ({
+        ...prevData,
+        name: userData.name || "",
+        phone: userData.phone || "",
+        address: userData.address || "",
+      }));
+      console.log(orderData)
+    }
+  }, []);
 
   useEffect(() => {
     const total = cartItems.reduce(
@@ -234,6 +247,7 @@ const Cart = () => {
               <input
                 type="text"
                 name="name"
+                value={orderData.name}
                 placeholder="Nom complet"
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border rounded-md"
@@ -241,6 +255,7 @@ const Cart = () => {
               <input
                 type="text"
                 name="phone"
+                value={orderData.phone}
                 placeholder="Numéro de téléphone"
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border rounded-md"
@@ -248,6 +263,7 @@ const Cart = () => {
               <input
                 type="text"
                 name="address"
+                value={orderData.address}
                 placeholder="Adresse de livraison"
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border rounded-md"

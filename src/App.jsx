@@ -22,6 +22,7 @@ import CategoriesPage from "./AdminPages/categoriesPage";
 import BillingPage from "./AdminPages/BillingPage";
 import NewBillPage from "./AdminPages/NewBillPage";
 import EditPurchaseOrderPage from "./AdminPages/EditBill";
+import EtatstockPage from "./AdminPages/EtatstockPage";
 
 const App = () => (
   <CartProvider>
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="admin/" element={<Login />} />
           <Route element={<AdminLayout />}>
             <Route path="admin/orders" element={<Orders />} />
+            <Route path="admin/etat-stock" element={<EtatstockPage />} />
             <Route path="admin/products" element={<ProductsAll />} />
             <Route path="admin/categories" element={<CategoriesPage />} />
             <Route path="admin/add-product" element={<AddProduct />} />
