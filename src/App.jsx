@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout"; // Layout component for user-facing pages
 import HomePage from "./pages/HomePage";
@@ -10,7 +9,6 @@ import Login from "./AdminPages/login";
 import Dashboard from "./AdminPages/Dashboard";
 import Orders from "./AdminPages/Orders";
 import ProductsAll from "./AdminPages/ProductsAll";
-import SingleProduct from "./AdminPages/SingleProduct";
 import AddProduct from "./AdminPages/AddProduct";
 import Customers from "./AdminPages/Customers";
 import Chats from "./AdminPages/Chats";

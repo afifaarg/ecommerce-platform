@@ -1,7 +1,3 @@
-import { AiOutlineHeart } from "react-icons/ai";
-import { BiShoppingBag } from "react-icons/bi";
-import ReactImageGallery from "react-image-gallery";
-import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -16,29 +12,22 @@ export default function ProductPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [productDimensions, setProductDimensions] = useState([
     {
-      dimension: "38″ X 75″",
-      price: 7800,
+      dimension: "",
+      price: productData.price,
     },
-    {
-      dimension: "38″ X 75″",
-      price: 8000,
-    },
-    {
-      dimension: "38″ X 80″",
-      price: 8500,
-    },
-    {
-      dimension: "53″ X 75″",
-      price: 9000,
-    },
-    {
-      dimension: "38″ X 75″",
-      price: 9500,
-    },
+
   ]);
-  const [selectedDimension, setSelectedDimension] = useState(
-    productDimensions[0]
-  );
+  const [selectedDimension, setSelectedDimension] = useState({
+    dimension: "",
+    price: productData.price || 0, // Set default price to 0 if not provided
+  });
+  console.log("this is selectedDimension code"+ selectedDimension.price)
+  const [productColors, setProductColors] = useState(
+   [ {
+      color:"",
+      price:productData.price
+    }]
+  )
   console.log(selectedDimension);
   // const { addToCart } = useContext(CartContext);
   const { id } = useParams();
@@ -61,6 +50,31 @@ export default function ProductPage() {
           setProductData(response.data);
           setImages(response.data.gallery_images);
           setSelectedImage(response.data.gallery_images[0]);
+          setSelectedDimension(
+            {
+              dimension: "",
+              price: productData.price,
+            }
+        )
+          if (response.data.variants) {
+            let dimensionArray = response.data.variants.filter((item) => item.dimension);
+            let colorsArray = response.data.variants.filter((item) => item.color);
+        
+            if (dimensionArray.length > 0) {
+                setProductDimensions(dimensionArray.map((item) => ({
+                    dimension: item.dimension,
+                    price: item.variant_price
+                })));
+            }
+        
+            if (colorsArray.length > 0) {
+              setProductColors(colorsArray.map((item) => ({
+                    color: item.color,
+                    price: item.variant_price
+                })));
+            }
+        }
+        
         } else {
           console.log("Error Fetching Data:", response.status, response.data);
         }
@@ -109,56 +123,7 @@ export default function ProductPage() {
       images[(currentIndex - 1 + images.length) % images.length]
     );
   }
-
-  const productDetailItem = {
-    images: [
-      {
-        original:
-          "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600",
-        thumbnail:
-          "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600",
-      },
-      {
-        original:
-          "https://images.pexels.com/photos/1667088/pexels-photo-1667088.jpeg?auto=compress&cs=tinysrgb&w=600",
-        thumbnail:
-          "https://images.pexels.com/photos/1667088/pexels-photo-1667088.jpeg?auto=compress&cs=tinysrgb&w=600",
-      },
-      {
-        original:
-          "https://images.pexels.com/photos/2697787/pexels-photo-2697787.jpeg?auto=compress&cs=tinysrgb&w=600",
-        thumbnail:
-          "https://images.pexels.com/photos/2697787/pexels-photo-2697787.jpeg?auto=compress&cs=tinysrgb&w=600",
-      },
-      {
-        original:
-          "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        thumbnail:
-          "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      },
-      {
-        original:
-          "https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600",
-        thumbnail:
-          "https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600",
-      },
-    ],
-    title: "BIG ITALIAN SOFA",
-    reviews: "150",
-    availability: true,
-    brand: "apex",
-    category: "Sofa",
-    sku: "BE45VGTRK",
-    price: 450,
-    previousPrice: 599,
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem exercitationem voluptate sint eius ea assumenda provident eos repellendus qui neque! Velit ratione illo maiores voluptates commodi eaque illum, laudantium non!",
-
-    color: ["indigo", "red", "orange"],
-  };
-  const plusMinuceButton =
-    "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
-  return (
+return (
     <section className="flex flex-col mx-auto max-w-[1200px] border-b py-5">
       <div className="max-w-7xl px-4 py-4">
         <div className="flex items-center space-x-2 text-dark text-sm">
@@ -284,9 +249,7 @@ export default function ProductPage() {
               </p>
             </div> */}
           </div>
-          <p className="font-bold text-primary">
-            Marque : <span className="font-normal">Marque</span>
-          </p>
+       
           <p className="font-bold text-primary">
             Cathegory:{" "}
             <span className="font-normal">{productData.category}</span>
@@ -295,12 +258,13 @@ export default function ProductPage() {
             SKU: <span className="font-normal">{productData.reference}</span>
           </p>
           <p className="mt-4 text-4xl font-bold text-primary">
-            {selectedDimension.price} DZD{" "}
+            {selectedDimension.price || productData.price }DZD{" "}
           </p>
           <p className="pt-5 text-sm leading-5 text-gray-500">
             {productData.description}
           </p>
-          <div className="mt-6">
+          {productDimensions &&(
+            <div className="mt-6">
             <p className="pb-2 text-xs text-gray-500">Dimensions</p>
             <div className="flex gap-1">
               <select
@@ -311,8 +275,11 @@ export default function ProductPage() {
                   setSelectedDimension(selectedObj); // Set the whole object to selectedDimension
                 }}
                 id=""
-                className="rounded-lg w-28 px-2  outline-none space-x-2 focus:border-none focus:outline-none"
+                className="rounded-lg w-36 px-2  outline-none space-x-2 focus:border-none focus:outline-none"
               >
+                 <option value="">
+                      Dimensions
+                    </option>
                 {productDimensions.map((x, index) => {
                   return (
                     <option value={JSON.stringify(x)} key={index}>
@@ -323,18 +290,28 @@ export default function ProductPage() {
               </select>
             </div>
           </div>
+          )}
+          
           <div className="mt-6">
+           {productColors && (
+           <div>
             <p className="pb-2 text-xs text-gray-500">Couleurs</p>
             <div className="flex gap-1">
-              {productDetailItem.color.map((x, index) => {
-                return (
-                  <div
-                    key={index}
-                    className={`h-8 w-8 cursor-pointer border rounded-full border-white bg-${x}-500 focus:ring-2 focus:ring-${x}-500 active:ring-2 active:ring-${x}-500`}
-                  />
-                );
-              })}
+            {productColors.map((x, index) => {
+  return (
+    <div
+      key={index}
+      onClick={() => setSelectedDimension(x)}
+      style={{ backgroundColor: `#${x.color}` }}
+      className="h-8 w-8 cursor-pointer border rounded-full border-white focus:ring-2 active:ring-2"
+    />
+  );
+})}
             </div>
+
+           </div>
+
+           )}
           </div>
 
           <div className="mt-7 flex flex-row items-center gap-2">
@@ -345,10 +322,7 @@ export default function ProductPage() {
               image={productData.image}
               price={selectedDimension.price}
             />
-            <button className="flex h-12 w-1/2 rounded-xl items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300">
-              <AiOutlineHeart className="mx-2" />
-              Liste des Favories
-            </button>
+         
           </div>
         </div>
       </div>
@@ -363,12 +337,7 @@ export default function ProductPage() {
           >
             Produits Similaires{" "}
           </span>
-          <span
-            onClick={() => setActiveTab("feedbacks")}
-            className={`tab-link ${activeTab === "feedbacks" ? "active" : ""}`}
-          >
-            Feedbacks
-          </span>
+        
         </div>
 
         <div className="tab-content mt-2">
@@ -378,13 +347,7 @@ export default function ProductPage() {
               <SimilarProducts />
             </div>
           )}
-          {activeTab === "feedbacks" && (
-            <div className="tab-feedbacks">
-              <h3>Feedbacks</h3>
-              <p>Aucun feedback disponible pour ce produit.</p>{" "}
-              {/* Placeholder */}
-            </div>
-          )}
+        
         </div>
       </div>
     </section>
