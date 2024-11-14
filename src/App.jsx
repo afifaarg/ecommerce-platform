@@ -5,7 +5,7 @@ import ContactUs from "./pages/ContactUs";
 import Productspage from "./pages/Productspage";
 import Productpage from "./pages/ProductPage";
 import Cart from "./pages/CartPage";
-import Login from "./AdminPages/login";
+import Login from "./AdminPages/Login";
 import Dashboard from "./AdminPages/Dashboard";
 import Orders from "./AdminPages/Orders";
 import ProductsAll from "./AdminPages/ProductsAll";

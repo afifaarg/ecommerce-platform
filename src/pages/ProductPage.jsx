@@ -10,24 +10,13 @@ export default function ProductPage() {
   const [isLightbox, setLightbox] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [productDimensions, setProductDimensions] = useState([
-    {
-      dimension: "",
-      price: productData.price,
-    },
-
-  ]);
+  const [productDimensions, setProductDimensions] = useState([]);
   const [selectedDimension, setSelectedDimension] = useState({
     dimension: "",
     price: productData.price || 0, // Set default price to 0 if not provided
   });
-  console.log("this is selectedDimension code"+ selectedDimension.price)
-  const [productColors, setProductColors] = useState(
-   [ {
-      color:"",
-      price:productData.price
-    }]
-  )
+  console.log("this is selectedDimension code" + selectedDimension.price);
+  const [productColors, setProductColors] = useState([]);
   console.log(selectedDimension);
   // const { addToCart } = useContext(CartContext);
   const { id } = useParams();
@@ -50,31 +39,36 @@ export default function ProductPage() {
           setProductData(response.data);
           setImages(response.data.gallery_images);
           setSelectedImage(response.data.gallery_images[0]);
-          setSelectedDimension(
-            {
-              dimension: "",
-              price: productData.price,
-            }
-        )
+          setSelectedDimension({
+            dimension: "",
+            price: productData.price,
+          });
           if (response.data.variants) {
-            let dimensionArray = response.data.variants.filter((item) => item.dimension);
-            let colorsArray = response.data.variants.filter((item) => item.color);
-        
+            let dimensionArray = response.data.variants.filter(
+              (item) => item.dimension
+            );
+            let colorsArray = response.data.variants.filter(
+              (item) => item.color
+            );
+
             if (dimensionArray.length > 0) {
-                setProductDimensions(dimensionArray.map((item) => ({
-                    dimension: item.dimension,
-                    price: item.variant_price
-                })));
+              setProductDimensions(
+                dimensionArray.map((item) => ({
+                  dimension: item.dimension,
+                  price: item.variant_price,
+                }))
+              );
             }
-        
+
             if (colorsArray.length > 0) {
-              setProductColors(colorsArray.map((item) => ({
-                    color: item.color,
-                    price: item.variant_price
-                })));
+              setProductColors(
+                colorsArray.map((item) => ({
+                  color: item.color,
+                  price: item.variant_price,
+                }))
+              );
             }
-        }
-        
+          }
         } else {
           console.log("Error Fetching Data:", response.status, response.data);
         }
@@ -123,7 +117,7 @@ export default function ProductPage() {
       images[(currentIndex - 1 + images.length) % images.length]
     );
   }
-return (
+  return (
     <section className="flex flex-col mx-auto max-w-[1200px] border-b py-5">
       <div className="max-w-7xl px-4 py-4">
         <div className="flex items-center space-x-2 text-dark text-sm">
@@ -225,7 +219,7 @@ return (
         <div className="mx-auto px-5 ">
           <h2 className="pt-4 text-3xl text-primary font-bold lg:pt-0">
             {productData.name}
-            {productData.available_quantity > 0  ? (
+            {productData.available_quantity > 0 ? (
               <span className="ml-4 bg-green-600 p-1 text-xs text-white rounded-full">
                 Disponible{" "}
               </span>
@@ -249,7 +243,7 @@ return (
               </p>
             </div> */}
           </div>
-       
+
           <p className="font-bold text-primary">
             Cathegory:{" "}
             <span className="font-normal">{productData.category}</span>
@@ -258,60 +252,56 @@ return (
             SKU: <span className="font-normal">{productData.reference}</span>
           </p>
           <p className="mt-4 text-4xl font-bold text-primary">
-            {selectedDimension.price || productData.price }DZD{" "}
+            {selectedDimension.price || productData.price}DZD{" "}
           </p>
           <p className="pt-5 text-sm leading-5 text-gray-500">
             {productData.description}
           </p>
-          {productDimensions &&(
+          {productDimensions.length > 0 && (
             <div className="mt-6">
-            <p className="pb-2 text-xs text-gray-500">Dimensions</p>
-            <div className="flex gap-1">
-              <select
-                name="dimensions"
-                onChange={(e) => {
-                  // Parse the selected option's value back to an object
-                  const selectedObj = JSON.parse(e.target.value);
-                  setSelectedDimension(selectedObj); // Set the whole object to selectedDimension
-                }}
-                id=""
-                className="rounded-lg w-36 px-2  outline-none space-x-2 focus:border-none focus:outline-none"
-              >
-                 <option value="">
-                      Dimensions
-                    </option>
-                {productDimensions.map((x, index) => {
-                  return (
-                    <option value={JSON.stringify(x)} key={index}>
-                      {x.dimension}
-                    </option>
-                  );
-                })}
-              </select>
+              <p className="pb-2 text-xs text-gray-500">Dimensions</p>
+              <div className="flex gap-1">
+                <select
+                  name="dimensions"
+                  onChange={(e) => {
+                    // Parse the selected option's value back to an object
+                    const selectedObj = JSON.parse(e.target.value);
+                    setSelectedDimension(selectedObj); // Set the whole object to selectedDimension
+                  }}
+                  id=""
+                  className="rounded-lg w-36 px-2  outline-none space-x-2 focus:border-none focus:outline-none"
+                >
+                  <option value="">Dimensions</option>
+                  {productDimensions.map((x, index) => {
+                    return (
+                      <option value={JSON.stringify(x)} key={index}>
+                        {x.dimension}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
-          </div>
           )}
-          
+
           <div className="mt-6">
-           {productColors && (
-           <div>
-            <p className="pb-2 text-xs text-gray-500">Couleurs</p>
-            <div className="flex gap-1">
-            {productColors.map((x, index) => {
-  return (
-    <div
-      key={index}
-      onClick={() => setSelectedDimension(x)}
-      style={{ backgroundColor: `#${x.color}` }}
-      className="h-8 w-8 cursor-pointer border rounded-full border-white focus:ring-2 active:ring-2"
-    />
-  );
-})}
-            </div>
-
-           </div>
-
-           )}
+            {productColors.length > 0 && (
+              <div>
+                <p className="pb-2 text-xs text-gray-500">Couleurs</p>
+                <div className="flex gap-1">
+                  {productColors.map((x, index) => {
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => setSelectedDimension(x)}
+                        style={{ backgroundColor: `${x.color}` }}
+                        className="h-8 w-8 cursor-pointer border rounded-full border-white focus:ring-2 active:ring-2"
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-7 flex flex-row items-center gap-2">
@@ -322,7 +312,6 @@ return (
               image={productData.image}
               price={selectedDimension.price}
             />
-         
           </div>
         </div>
       </div>
@@ -337,7 +326,6 @@ return (
           >
             Produits Similaires{" "}
           </span>
-        
         </div>
 
         <div className="tab-content mt-2">
@@ -347,7 +335,6 @@ return (
               <SimilarProducts />
             </div>
           )}
-        
         </div>
       </div>
     </section>
