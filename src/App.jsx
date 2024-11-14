@@ -24,7 +24,7 @@ import NewBillPage from "./AdminPages/NewBillPage";
 import EditPurchaseOrderPage from "./AdminPages/EditBill";
 import EtatstockPage from "./AdminPages/EtatstockPage";
 import Invoice from "./AdminPages/InvoicePage";
-import Fournisseurs from "./AdminPages/Fournisseurs";
+import Fournisseurs from "./AdminPages/fournisseurs";
 import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
 
 const App = () => (
