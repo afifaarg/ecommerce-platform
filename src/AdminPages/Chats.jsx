@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ChatUserCard from "../AdminComponents/ChatUserCard";
-import SelectChatWaiter from "../AdminComponents/SelectChatWait/SelectChatWaiter";
+// import SelectChatWaiter from "../AdminComponents/SelectChatWait/SelectChatWaiter";
 import PageTitle from "../AdminComponents/Typography/PageTitle";
 import SectionTitle from "../AdminComponents/Typography/SectionTitle";
 import { Card, CardBody, Button } from "@windmill/react-ui";
@@ -78,7 +78,7 @@ const Chats = () => {
         <div className="md:col-span-3">
           {!selectedChat ? (
             <div className="mt-32 flex flex-col justify-center items-center">
-              <SelectChatWaiter />
+              {/* <SelectChatWaiter /> */}
               <p className="text-gray-600 dark:text-gray-400">
                 Sélectionnez un chat
               </p>

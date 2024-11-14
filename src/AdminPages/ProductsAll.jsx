@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import PageTitle from "../AdminComponents/Typography/PageTitle";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
+import JsBarcode from "jsbarcode"; // Import jsbarcode
+import Barcode from "react-barcode";
 import {
   Card,
   CardBody,
@@ -98,6 +100,42 @@ const ProductsAll = () => {
     setIsModalOpen(false);
   }
 
+  const printBarcode = (reference, price) => {
+    // Open a new window
+    const printWindow = window.open("", "_blank", "width=600,height=400");
+
+    // Write the content to the print window
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Barcode</title>
+          <style>
+            body { text-align: center; padding: 20px; }
+            .barcode-container { margin-top: 50px; }
+          </style>
+        </head>
+        <body>
+          <div class="barcode-container">
+            <div> ${price} DZD</div>
+            <div>
+              <svg id="barcode"></svg>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+            <script>
+              JsBarcode("#barcode", "${reference}", {
+                format: "CODE128",
+                width: 2,
+                height: 100,
+                displayValue: true
+              });
+              window.print();  // Trigger the print dialog
+            </script>
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close(); // Close the document to render the content
+  };
   return (
     <div>
       <PageTitle>All Products</PageTitle>
@@ -161,40 +199,31 @@ const ProductsAll = () => {
         </CardBody>
       </Card>
       {/* Delete product model */}
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Modal className="w-1/2 bg-white mx-auto p-8 rounded-lg" isOpen={isModalOpen} onClose={closeModal}>
         <ModalHeader className="flex items-center">
-          Delete Product
+          Supprimer Produit
           {/* </div> */}
         </ModalHeader>
         <ModalBody>
-          Make sure you want to delete product{" "}
+        Êtes-vous sûr de vouloir supprimer  le produit{" "}
           {selectedDeleteProduct && `"${selectedDeleteProduct.name}"`}
         </ModalBody>
+
         <ModalFooter>
-          {/* I don't like this approach. Consider passing a prop to ModalFooter
-           * that if present, would duplicate the buttons in a way similar to this.
-           * Or, maybe find some way to pass something like size="large md:regular"
-           * to Button
-           */}
-          <div className="hidden sm:block">
-            <Button layout="outline" onClick={closeModal}>
-              Cancel
-            </Button>
-          </div>
-          <div className="hidden sm:block">
-            <Button onClick={handleDeleteProduits}>Delete</Button>
-          </div>
-          <div className="block w-full sm:hidden">
-            <Button block size="large" layout="outline" onClick={closeModal}>
-              Cancel
-            </Button>
-          </div>
-          <div className="block w-full sm:hidden">
-            <Button block size="large" onClick={handleDeleteProduits}>
-              Delete
-            </Button>
-          </div>
+          <span
+            onClick={closeModal}
+            className="text-primary font-bold cursor-pointer hover:underline mr-4"
+          >
+            Annuler
+          </span>
+          <button
+            onClick={handleDeleteProduits}
+            className="bg-red-500 px-4 py-2 text-white font-bold rounded-lg hover:shadow-lg"
+          >
+            Supprimer
+          </button>
         </ModalFooter>
+        
       </Modal>
 
       <TableContainer className="mb-8">
@@ -212,9 +241,16 @@ const ProductsAll = () => {
           <TableBody>
             {data.map((product) => (
               <TableRow className="text-center" key={product.id}>
-                <TableCell>{product.reference}</TableCell>
+                <TableCell>
+                <div className="flex items-center justify-center">
+                    {/* <Barcode value={product.reference} width={1} height={25} /> */}
+                    <span>
+                    {product.reference}
+                    </span>
+                </div>
+                </TableCell>
                 <TableCell>{product.name}</TableCell>
-                <TableCell className="text-sm">{product.qty}</TableCell>
+                <TableCell className="text-sm">{product.available_quantity}</TableCell>
                 <TableCell className="text-sm">{product.cost_price}</TableCell>
                 <TableCell className="text-sm">{product.price}</TableCell>
                 <TableCell>
@@ -231,6 +267,12 @@ const ProductsAll = () => {
                       className="bg-red-500 text-sm text-white p-1 px-2 rounded-lg hover:shadow-lg"
                     >
                       Supprimer
+                    </button>
+                    <button
+                      onClick={() => printBarcode(product.reference, product.price)} // Trigger print on click
+                      className="bg-gray-500 text-sm text-white p-1 px-1 rounded-lg hover:shadow-lg"
+                    >
+                      Imprimer Barcode
                     </button>
                   </div>
                 </TableCell>

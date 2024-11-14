@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -32,6 +32,7 @@ export default function BillingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedBon, setSelectedBill] = useState(null);
+  const printRef = useRef();
   const [formData, setFormData] = useState({
     bill_id: "",
     payment_method: "",
@@ -92,6 +93,78 @@ export default function BillingPage() {
       console.error("Error deleting bon:", error);
     }
   }
+  const handlePrint = () => {
+    const printContent = printRef.current;
+    const WindowPrint = window.open('', '', 'width=800,height=600');
+    WindowPrint.document.write(`
+      <html>
+        <head>
+          <title>Bon Achat</title>
+          <style>
+            /* Add your print styles here */
+            body {
+              font-family: Arial, sans-serif;
+              color: #333;
+            }
+            h2, h3 {
+              margin-top: 2;
+              text-align: center;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              padding: 8px;
+              text-align: left;
+              border-bottom: 1px solid #ddd;
+            }
+            .header, .footer {
+              margin-bottom: 1em;
+            }
+            .header{
+              border : 1px solid black;
+            }
+          </style>
+        </head>
+        <body>
+        <h2> Bon d'Achat</h2>
+          <div class="header">
+            <p><strong>ID Bon :</strong> ${selectedBon.bill_id}</p>
+            <p><strong>Nom du Fournisseur :</strong> ${selectedBon.fournisseur}</p>
+            <p><strong>Date du Bon :</strong> ${new Date(selectedBon.date).toLocaleDateString()}</p>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Reference d'article</th>
+                <th>Nom de l'Article</th>
+                <th>Prix Unitaire</th>
+                <th>Quantité</th>
+                <th>Prix Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${selectedBon.products.map(item => `
+                <tr>
+                  <td>${item.product_reference}</td>
+                  <td>${item.product_name}</td>
+                  <td>${item.unit_price}</td>
+                  <td>${item.quantity}</td>
+                  <td>${item.total_price} DZD</td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+          <div class="footer">
+            <p><strong>Total:</strong> ${selectedBon.products.reduce((total, item) => total + parseFloat(item.total_price), 0)} DZD</p>
+          </div>
+        </body>
+      </html>
+    `);
+    WindowPrint.document.close();
+    WindowPrint.print();
+  };
   return (
     <div>
       <PageTitle>Liste Bons d'Achat</PageTitle>
@@ -190,9 +263,9 @@ export default function BillingPage() {
       </TableContainer>
 
       {/* Delete product model */}
-      <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
+      <Modal className="w-1/2 bg-white mx-auto p-8 rounded-lg" isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
         <ModalHeader className="flex items-center">
-          Delete Bon
+          Supprimer Bon d'Achat
           {/* </div> */}
         </ModalHeader>
         <ModalBody>
@@ -200,35 +273,20 @@ export default function BillingPage() {
           {selectedBon && `"${selectedBon.bill_id}"`}
         </ModalBody>
         <ModalFooter>
-          {/* I don't like this approach. Consider passing a prop to ModalFooter
-           * that if present, would duplicate the buttons in a way similar to this.
-           * Or, maybe find some way to pass something like size="large md:regular"
-           * to Button
-           */}
-          <div className="hidden sm:block">
-            <Button layout="outline" onClick={closeDeleteModal}>
-              Cancel
-            </Button>
-          </div>
-          <div className="hidden sm:block">
-            <Button onClick={handleDeleteBills}>Delete</Button>
-          </div>
-          <div className="block w-full sm:hidden">
-            <Button
-              block
-              size="large"
-              layout="outline"
-              onClick={closeDeleteModal}
-            >
-              Cancel
-            </Button>
-          </div>
-          <div className="block w-full sm:hidden">
-            <Button block size="large" onClick={handleDeleteBills}>
-              Delete
-            </Button>
-          </div>
+          <span
+            onClick={closeDeleteModal}
+            className="text-primary font-bold cursor-pointer hover:underline mr-4"
+          >
+            Annuler
+          </span>
+          <button
+            onClick={handleDeleteBills}
+            className="bg-red-500 px-4 py-2 text-white font-bold rounded-lg hover:shadow-lg"
+          >
+            Supprimer
+          </button>
         </ModalFooter>
+
       </Modal>
       {selectedBon && (
         <Modal
@@ -236,7 +294,7 @@ export default function BillingPage() {
           onClose={closeModal}
           className="w-3/4 h-4/5top-1 md:w-1/2 mx-auto bg-white p-6 rounded-xl"
         >
-          <ModalBody>
+          <ModalBody ref={printRef}>
             <h2 className="text-lg font-semibold mb-4">Détails du Bon Achat</h2>
             <div className="border-b py-4">
               <p>
@@ -268,8 +326,8 @@ export default function BillingPage() {
                 <TableBody>
                   {selectedBon.products.map((item) => (
                     <TableRow key={item.id}>
-                      <TableCell>{item.product.reference}</TableCell>
-                      <TableCell>{item.product.name}</TableCell>
+                      <TableCell>{item.product_reference}</TableCell>
+                      <TableCell>{item.product_name}</TableCell>
                       <TableCell>{item.unit_price}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>{item.total_price} DZD</TableCell>
@@ -286,6 +344,12 @@ export default function BillingPage() {
             >
               Fermer
             </span>
+            <button
+              onClick={handlePrint}
+              className="bg-green-500 text-white mr-2 p-1 px-2 rounded-lg shadow-lg"
+            >
+              Imprimer le Bon
+            </button>
             {/* <button
               onClick={() =>
                 updateCommandeStatus(selectedCommande.id, "Confirmé")

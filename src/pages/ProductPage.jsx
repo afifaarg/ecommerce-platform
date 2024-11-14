@@ -225,7 +225,7 @@ return (
         <div className="mx-auto px-5 ">
           <h2 className="pt-4 text-3xl text-primary font-bold lg:pt-0">
             {productData.name}
-            {productData.availability ? (
+            {productData.available_quantity > 0  ? (
               <span className="ml-4 bg-green-600 p-1 text-xs text-white rounded-full">
                 Disponible{" "}
               </span>

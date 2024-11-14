@@ -183,7 +183,7 @@ const Customers = () => {
 
   return (
     <div>
-      <PageTitle>Liste des utilisateurs</PageTitle>
+      <PageTitle>Liste des Client</PageTitle>
 
       {/* <div className="grid gap-6 mb-8 md:grid-cols-2">
         <ChartCard title="User Growth">
@@ -222,7 +222,7 @@ const Customers = () => {
             onClick={toggleModal}
             className="p-2 bg-primary rounded-xl text-sm text-white font-bold border hover:bg-white hover:border-primary hover:text-primary"
           >
-            Add New User
+            Nouveau Client
           </button>
         </div>
       </div>
@@ -236,7 +236,7 @@ const Customers = () => {
         isOpen={isModalOpen}
         toggle={toggleModal}
       >
-        <ModalHeader toggle={toggleModal}>Add New User</ModalHeader>
+        <ModalHeader toggle={toggleModal}>Nouveau Client</ModalHeader>
         <ModalBody>
           <Label for="name">Name</Label>
           <Input
@@ -256,7 +256,7 @@ const Customers = () => {
             placeholder="Enter user email"
             className="mb-4"
           />
-          <Label for="type">User Type</Label>
+          <Label for="type">Type de Client</Label>
           <Select
             id="type"
             name="type"
@@ -271,12 +271,18 @@ const Customers = () => {
           </Select>
         </ModalBody>
         <ModalFooter>
-          <Button onClick={handleAddUser} className="bg-primary text-white">
-            Add User
-          </Button>
-          <Button onClick={toggleModal} className="bg-gray-500 text-white">
-            Cancel
-          </Button>
+          <span
+            onClick={toggleModal}
+            className="text-primary font-bold cursor-pointer hover:underline mr-4"
+          >
+            Annuler
+          </span>
+          <button
+            onClick={handleAddUser}
+            className="bg-red-500 px-4 py-2 text-white font-bold rounded-lg hover:shadow-lg"
+          >
+            Ajouter
+          </button>
         </ModalFooter>
       </Modal>
     </div>

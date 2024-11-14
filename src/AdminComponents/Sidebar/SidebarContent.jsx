@@ -123,7 +123,25 @@ function SidebarContent() {
             >
               <path d="M1000 940H776V790c0-36-10-63-30-81s-71.333-47.667-154-89c26.667-20 40-48 40-84 0-10.667-4.333-21.667-13-33-8.667-11.333-15-28.333-19-51-1.333-5.333-6-10.667-14-16s-12.667-19.333-14-42c0-16 4-26 12-30-4-22.667-6.667-42.667-8-60-2.667-25.333 5-51.333 23-78s49.667-40 95-40 77.333 13.333 96 40 26.667 52.667 24 78l-8 60c8 4 12 14 12 30-1.333 22.667-6 36.667-14 42-8 5.333-12.667 10.667-14 16-4 22.667-10.333 39.667-19 51-8.667 11.333-13 22.333-13 33 0 28 7 50 21 66s39.667 32 77 48c74.667 30.667 118 57.333 130 80 4 5.333 7 25.667 9 61s3.667 69 5 101v48M512 678c121.333 52 182 93.333 182 124v138H0V756c0-29.333 28-55.333 84-78 50.667-21.333 85.333-42.667 104-64s28-50.667 28-88c0-13.333-6.333-28-19-44s-21-38.667-25-68c-1.333-6.667-7.333-14-18-22s-17.333-26.667-20-56c0-9.333 1-17 3-23s4.333-10.333 7-13l4-2c-4-30.667-7.333-58-10-82-2.667-33.333 8.333-67.667 33-103s67-53 127-53 102.333 17.667 127 53 35.667 69.667 33 103l-10 82c9.333 5.333 14 18 14 38-2.667 29.333-9.333 48-20 56s-16.667 15.333-18 22c-4 29.333-12.333 52-25 68s-19 30.667-19 44c0 37.333 9.333 66.667 28 88s53.333 42.667 104 64" />
             </svg>
-            <span className="ml-4">Liste des Utilisateurs</span>
+            <span className="ml-4">Liste des Client</span>
+          </Link>
+        </li>
+        <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
+          <Link
+            exact
+            to="/admin/customers"
+            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            activeClassName="text-gray-800 dark:text-gray-100"
+          >
+            <svg
+              viewBox="0 0 1000 1000"
+              fill="currentColor"
+              height="1.5em"
+              width="1.5em"
+            >
+              <path d="M1000 940H776V790c0-36-10-63-30-81s-71.333-47.667-154-89c26.667-20 40-48 40-84 0-10.667-4.333-21.667-13-33-8.667-11.333-15-28.333-19-51-1.333-5.333-6-10.667-14-16s-12.667-19.333-14-42c0-16 4-26 12-30-4-22.667-6.667-42.667-8-60-2.667-25.333 5-51.333 23-78s49.667-40 95-40 77.333 13.333 96 40 26.667 52.667 24 78l-8 60c8 4 12 14 12 30-1.333 22.667-6 36.667-14 42-8 5.333-12.667 10.667-14 16-4 22.667-10.333 39.667-19 51-8.667 11.333-13 22.333-13 33 0 28 7 50 21 66s39.667 32 77 48c74.667 30.667 118 57.333 130 80 4 5.333 7 25.667 9 61s3.667 69 5 101v48M512 678c121.333 52 182 93.333 182 124v138H0V756c0-29.333 28-55.333 84-78 50.667-21.333 85.333-42.667 104-64s28-50.667 28-88c0-13.333-6.333-28-19-44s-21-38.667-25-68c-1.333-6.667-7.333-14-18-22s-17.333-26.667-20-56c0-9.333 1-17 3-23s4.333-10.333 7-13l4-2c-4-30.667-7.333-58-10-82-2.667-33.333 8.333-67.667 33-103s67-53 127-53 102.333 17.667 127 53 35.667 69.667 33 103l-10 82c9.333 5.333 14 18 14 38-2.667 29.333-9.333 48-20 56s-16.667 15.333-18 22c-4 29.333-12.333 52-25 68s-19 30.667-19 44c0 37.333 9.333 66.667 28 88s53.333 42.667 104 64" />
+            </svg>
+            <span className="ml-4">Liste des Fournisseurs</span>
           </Link>
         </li>
         <hr className="bg-[#000066]" />
@@ -167,37 +185,19 @@ function SidebarContent() {
         </li>
 
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
-          <Link
-            exact
-            to="/admin/logout"
-            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-            activeClassName="text-gray-800 dark:text-gray-100"
-          >
-            <svg
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              height="1.5em"
-              width="1.5em"
-            >
-              <path
-                fill="currentColor"
-                d="M2 14h14v2H0V0h2zm2.5-1a1.5 1.5 0 11.131-2.994l1.612-2.687a1.5 1.5 0 112.514 0l1.612 2.687a1.42 1.42 0 01.23-.002l2.662-4.658a1.5 1.5 0 111.14.651l-2.662 4.658a1.5 1.5 0 11-2.496.026L7.631 7.994a1.42 1.42 0 01-.262 0l-1.612 2.687A1.5 1.5 0 014.5 13z"
-              />
-            </svg>
-            <span className="ml-4">Statistiques de Produits</span>
-          </Link>
+         
         </li>
 
         <hr className="customeDivider mx-4 my-5" />
       </ul>
 
       <div className="px-6 w-full flex ">
-        <button className="bg-primary text-white p-2 mx-auto  rounded-lg">
+        <Link to="/admin" className="bg-primary text-white p-2 mx-auto  rounded-lg">
           Deconnexion
           <span className="ml-2 bg-primary" aria-hidden="true">
             +
           </span>
-        </button>
+        </Link>
       </div>
     </div>
   );
