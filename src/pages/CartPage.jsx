@@ -14,7 +14,7 @@ const Cart = () => {
     address: "",
   });
   const [loading, setLoading] = useState(false);
-  
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user_data"));
     if (userData) {
@@ -24,7 +24,7 @@ const Cart = () => {
         phone: userData.phone || "",
         address: userData.address || "",
       }));
-      console.log(orderData)
+      console.log(orderData);
     }
   }, []);
 
@@ -58,19 +58,27 @@ const Cart = () => {
       const cItems = cartItems.map((item) => ({
         product: 1, // The ID of the product
         quantity: item.quantity,
+        unit_price: parseFloat(item.price),
         total_price: item.price * item.quantity, // Calculate the total price for this item
       }));
 
+      console.log({
+        customer_fullname: orderData.name,
+        customer_phonenumber: orderData.phone,
+        shipping_address: orderData.address,
+        billing_address: orderData.address,
+        payment_status: "en attente",
+        items: [...cItems],
+      });
       const response = await axios.post(
-        "http://127.0.0.1:8000/backendAPI/orders/",
+        "https://ecommerce-platform-api.onrender.com/backendAPI/orders/",
         {
           customer_fullname: orderData.name,
           customer_phonenumber: orderData.phone,
           shipping_address: orderData.address,
           billing_address: orderData.address,
-          total_price: total,
           payment_status: "en attente",
-          items: cItems,
+          items: [...cItems],
         }
       );
 

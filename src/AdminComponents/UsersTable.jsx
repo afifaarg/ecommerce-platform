@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   TableBody,
   TableContainer,
   Table,
@@ -19,10 +24,10 @@ const UsersTable = ({ searchTerm, users }) => {
 
   useEffect(() => {
     const filteredData = users.filter((user) =>
-      user.full_name.toLowerCase().includes(searchTerm.toLowerCase())
+      user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setPaginatedData(filteredData.slice(page - 1, page));
-  }, [data, searchTerm, page]); // Dependencies updated
+  }, [users, searchTerm, page]); // Dependencies updated
   // pagination setup
   const totalResults = users.length;
 
@@ -37,6 +42,30 @@ const UsersTable = ({ searchTerm, users }) => {
     setData(users.slice(page - 1, page));
   }, [page, searchTerm]);
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedDeleteClient, setSelectedDeleteClient] = useState(null);
+  async function openDeleteModal(selectUser) {
+    const user = await users.find((user) => user.id === selectUser.id);
+    setSelectedDeleteClient(selectUser);
+    setIsDeleteModalOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+  const API_URL = "http://127.0.0.1:8000/backendAPI/clients/";
+  async function handleDeleteClient() {
+    try {
+      if (selectedDeleteClient) {
+        await axios.delete(`${API_URL}${selectedDeleteClient.id}/`);
+        closeDeleteModal();
+        alert("Client supprimée avec succès!");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error suppression du Client:", error);
+    }
+  }
   return (
     <div>
       {/* Table */}
@@ -45,8 +74,8 @@ const UsersTable = ({ searchTerm, users }) => {
           <TableHeader>
             <tr>
               <TableCell>Nom Complet</TableCell>
-              <TableCell>Nom d'utilisateur</TableCell>
-              <TableCell>Role</TableCell>
+
+              <TableCell>Email</TableCell>
               <TableCell>Adresse</TableCell>
               <TableCell>N° Téléphone</TableCell>
             </tr>
@@ -54,10 +83,28 @@ const UsersTable = ({ searchTerm, users }) => {
           <TableBody>
             {paginatedData.map((user, i) => (
               <TableRow key={i}>
-                <TableCell>{user.full_name}</TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
                 <TableCell>{user.address}</TableCell>
-                <TableCell>{user.username}</TableCell>
-                <TableCell>{user.phone_number}</TableCell>
+                <TableCell>{user.phone}</TableCell>
+                <TableCell>
+                  <div className="flex space-x-3 justify-center items-center">
+                    <button
+                      onClick={() => openAddModal(user)}
+                      size="small"
+                      className="bg-primary text-white text-sm p-1 px-2 rounded-lg hover:shadow-lg"
+                    >
+                      Modifier
+                    </button>
+                    <button
+                      onClick={() => openDeleteModal(user)}
+                      size="small"
+                      className="bg-red-500 text-sm text-white p-1 px-2 rounded-lg hover:shadow-lg"
+                    >
+                      Supprimer
+                    </button>
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -70,6 +117,32 @@ const UsersTable = ({ searchTerm, users }) => {
           />
         </TableFooter>
       </TableContainer>
+      {/* Delete Category Modal */}
+      <Modal
+        className="w-1/2 bg-white mx-auto p-8 rounded-lg"
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+      >
+        <ModalHeader>Supprimer le Client</ModalHeader>
+        <ModalBody>
+          Êtes-vous sûr de vouloir supprimer le Client{" "}
+          {selectedDeleteClient && `"${selectedDeleteClient.name}"`} ?
+        </ModalBody>
+        <ModalFooter>
+          <span
+            onClick={closeDeleteModal}
+            className="text-primary font-bold cursor-pointer hover:underline mr-4"
+          >
+            Annuler
+          </span>
+          <button
+            onClick={handleDeleteClient}
+            className="bg-red-500 px-4 py-2 text-white font-bold rounded-lg hover:shadow-lg"
+          >
+            Supprimer
+          </button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };

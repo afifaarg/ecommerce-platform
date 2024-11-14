@@ -42,7 +42,7 @@ export default function EditPurchaseOrderPage() {
   useEffect(() => {
     // Fetch product options from backend
     axios
-      .get("http://127.0.0.1:8000/backendAPI/produits/")
+      .get("https://ecommerce-platform-api.onrender.com/backendAPI/produits/")
       .then((response) => {
         setProductOptions(response.data);
       })
@@ -50,7 +50,9 @@ export default function EditPurchaseOrderPage() {
 
     // Fetch existing bill details based on the id
     axios
-      .get(`http://127.0.0.1:8000/backendAPI/buyingBills/${id}/`)
+      .get(
+        `https://ecommerce-platform-api.onrender.com/backendAPI/buyingBills/${id}/`
+      )
       .then((response) => {
         setBill(response.data);
       })

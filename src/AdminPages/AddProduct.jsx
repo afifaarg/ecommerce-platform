@@ -332,7 +332,6 @@ const AddProduct = () => {
                   <table className="min-w-full table-auto">
                     <thead>
                       <tr>
-                        <th className="border px-4 py-2">Type de variante</th>
                         <th className="border px-4 py-2">Valeur de variante</th>
                         <th className="border px-4 py-2">Prix de variante</th>
                         <th className="border px-4 py-2">Action</th>
@@ -341,13 +340,15 @@ const AddProduct = () => {
                     <tbody>
                       {variants.map((variant, index) => (
                         <tr key={index}>
-                          <td className="border px-4 py-2">{variant.type}</td>
                           <td className="border px-4 py-2">{variant.value}</td>
                           <td className="border px-4 py-2">{variant.price}</td>
                           <td className="border px-4 py-2">
-                            <Button onClick={() => handleRemoveVariant(index)}>
+                            <button
+                              className="text-red-500 font-bold bg-red-50"
+                              onClick={() => handleRemoveVariant(index)}
+                            >
                               Supprimer
-                            </Button>
+                            </button>
                           </td>
                         </tr>
                       ))}
@@ -355,10 +356,10 @@ const AddProduct = () => {
                   </table>
                 </div>
                 <button
-                  className="bg-blue-100 text-primary py-1 hover:shadow-lg"
+                  className="bg-blue-100 rounded-xl text-primary py-2 px-1 hover:shadow-lg"
                   onClick={() => setShowVariantModal(true)}
                 >
-                  Ajouter une variante
+                  + Ajouter une variante
                 </button>
               </CardBody>
             </Card>
@@ -366,10 +367,13 @@ const AddProduct = () => {
         </div>
       </div>
 
-      <div className="w-full mt-8">
-        <Button size="large" onClick={handleSubmit}>
+      <div className="w-full py-4 mb-4">
+        <button
+          className="px-4 py-2 bg-primary text-white rounded-xl hover:bg-white border font-bold hover:border-primary hover:text-primary"
+          onClick={handleSubmit}
+        >
           Ajouter le produit
-        </Button>
+        </button>
       </div>
 
       {/* Variant Modal */}
@@ -394,12 +398,14 @@ const AddProduct = () => {
           <option value="color">Couleur</option>
           <option value="text">Dimension</option>
         </select>
+
         <Label className="">Valeur de variante</Label>
         <Input
           className="mb-4 focus:border-none"
           value={variantValue}
           onChange={(e) => setVariantValue(e.target.value)}
           placeholder="Valeur de variante"
+          type={variantType === "color" ? "color" : "text"}
         />
         <Label>Prix de variante</Label>
         <Input

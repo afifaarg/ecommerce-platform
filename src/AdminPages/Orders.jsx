@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PageTitle from "../AdminComponents/Typography/PageTitle";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Card, CardBody, Label, Select } from "@windmill/react-ui";
 import OrdersTable from "../AdminComponents/OrdersTable";
 
@@ -51,8 +51,8 @@ const Orders = () => {
 
       {/* Sort */}
       <Card className="mt-5 mb-5 shadow-md">
-        <CardBody>
-          <div className="flex items-center">
+        <CardBody className="flex items-center w-full justify-between">
+          <div className="flex items-center justify-start">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Filtres Commandes
             </p>
@@ -67,6 +67,14 @@ const Orders = () => {
                 <option>Annulé</option>
               </Select>
             </Label>
+          </div>
+          <div>
+            <Link
+              to="/admin/newInvoice"
+              className="p-2 bg-primary rounded-xl text-sm text-white font-bold border hover:bg-white hover:border-primary hover:text-primary"
+            >
+              Nouvelle Commande
+            </Link>
           </div>
         </CardBody>
       </Card>

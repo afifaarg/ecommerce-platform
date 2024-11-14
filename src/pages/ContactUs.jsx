@@ -23,7 +23,7 @@ const ContactUs = () => {
     try {
       console.log(formData);
       const response = await axios.post(
-        "http://127.0.0.1:8000/backendAPI/contact/",
+        "https://ecommerce-platform-api.onrender.com/backendAPI/contact/",
         formData,
         {
           headers: {

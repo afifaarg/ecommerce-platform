@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -41,7 +41,8 @@ export default function BillingPage() {
     fournisseur: "",
   });
   const onPageChange = (p) => setPage(p);
-  const API_URL = "http://127.0.0.1:8000/backendAPI/buyingBills/";
+  const API_URL =
+    "https://ecommerce-platform-api.onrender.com/backendAPI/buyingBills/";
 
   useEffect(() => {
     axios
@@ -95,7 +96,7 @@ export default function BillingPage() {
   }
   const handlePrint = () => {
     const printContent = printRef.current;
-    const WindowPrint = window.open('', '', 'width=800,height=600');
+    const WindowPrint = window.open("", "", "width=800,height=600");
     WindowPrint.document.write(`
       <html>
         <head>
@@ -122,7 +123,12 @@ export default function BillingPage() {
             .header, .footer {
               margin-bottom: 1em;
             }
+            .footer{
+              display:flex;
+              justify-content: end;
+            }
             .header{
+              padding : 10px;
               border : 1px solid black;
             }
           </style>
@@ -131,8 +137,12 @@ export default function BillingPage() {
         <h2> Bon d'Achat</h2>
           <div class="header">
             <p><strong>ID Bon :</strong> ${selectedBon.bill_id}</p>
-            <p><strong>Nom du Fournisseur :</strong> ${selectedBon.fournisseur}</p>
-            <p><strong>Date du Bon :</strong> ${new Date(selectedBon.date).toLocaleDateString()}</p>
+            <p><strong>Nom du Fournisseur :</strong> ${
+              selectedBon.fournisseur
+            }</p>
+            <p><strong>Date du Bon :</strong> ${new Date(
+              selectedBon.date
+            ).toLocaleDateString()}</p>
           </div>
 
           <table>
@@ -146,18 +156,28 @@ export default function BillingPage() {
               </tr>
             </thead>
             <tbody>
-              ${selectedBon.products.map(item => `
+              ${selectedBon.products
+                .map(
+                  (item) => `
                 <tr>
-                  <td>${item.product_reference}</td>
-                  <td>${item.product_name}</td>
+                  <td>${item.reference}</td>
+                  <td>${item.name}</td>
                   <td>${item.unit_price}</td>
                   <td>${item.quantity}</td>
                   <td>${item.total_price} DZD</td>
-                </tr>`).join('')}
+                </tr>`
+                )
+                .join("")}
             </tbody>
           </table>
           <div class="footer">
-            <p><strong>Total:</strong> ${selectedBon.products.reduce((total, item) => total + parseFloat(item.total_price), 0)} DZD</p>
+            <p><strong>Total:</strong> ${selectedBon.products.reduce(
+              (total, item) => total + parseFloat(item.total_price),
+              0
+            )} DZD</p>
+          </div>
+          <div>
+           <strong>Signature & Cachet</strong>
           </div>
         </body>
       </html>
@@ -263,7 +283,11 @@ export default function BillingPage() {
       </TableContainer>
 
       {/* Delete product model */}
-      <Modal className="w-1/2 bg-white mx-auto p-8 rounded-lg" isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
+      <Modal
+        className="w-1/2 bg-white mx-auto p-8 rounded-lg"
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+      >
         <ModalHeader className="flex items-center">
           Supprimer Bon d'Achat
           {/* </div> */}
@@ -286,7 +310,6 @@ export default function BillingPage() {
             Supprimer
           </button>
         </ModalFooter>
-
       </Modal>
       {selectedBon && (
         <Modal
@@ -326,8 +349,8 @@ export default function BillingPage() {
                 <TableBody>
                   {selectedBon.products.map((item) => (
                     <TableRow key={item.id}>
-                      <TableCell>{item.product_reference}</TableCell>
-                      <TableCell>{item.product_name}</TableCell>
+                      <TableCell>{item.reference}</TableCell>
+                      <TableCell>{item.name}</TableCell>
                       <TableCell>{item.unit_price}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>{item.total_price} DZD</TableCell>

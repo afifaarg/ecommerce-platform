@@ -44,7 +44,8 @@ const ProductsAll = () => {
     setData(data.slice((page - 1) * resultsPerPage, page * resultsPerPage));
   }, [page, resultsPerPage]);
 
-  const API_URL = "http://127.0.0.1:8000/backendAPI/produits/";
+  const API_URL =
+    "https://ecommerce-platform-api.onrender.com/backendAPI/produits/";
 
   // Fetch categories when component mounts
   useEffect(() => {
@@ -138,16 +139,16 @@ const ProductsAll = () => {
   };
   return (
     <div>
-      <PageTitle>All Products</PageTitle>
+      <PageTitle>Liste des produits</PageTitle>
       {/* Breadcum */}
       <div className="flex text-gray-800 dark:text-gray-300">
-        <div className="flex items-center text-purple-600">
+        <div className="flex items-center text-primary">
           <NavLink exact to="/admin/administration-dashboard" className="mx-2">
             Dashboard
           </NavLink>
         </div>
         {">"}
-        <p className="mx-2">All Products</p>
+        <p className="mx-2">Tous les produits</p>
       </div>
       {/* Sort */}
       <Card className="mt-5 mb-5 shadow-md">
@@ -155,25 +156,8 @@ const ProductsAll = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                All Products
+                Tous les produits
               </p>
-
-              <Label className="mx-3">
-                <Select className="py-3">
-                  <option>Sort by</option>
-                  <option>Asc</option>
-                  <option>Desc</option>
-                </Select>
-              </Label>
-
-              <Label className="mx-3">
-                <Select className="py-3">
-                  <option>Filter by Category</option>
-                  <option>Electronics</option>
-                  <option>Cloths</option>
-                  <option>Mobile Accerssories</option>
-                </Select>
-              </Label>
 
               <Label className="mr-8">
                 <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
@@ -199,13 +183,17 @@ const ProductsAll = () => {
         </CardBody>
       </Card>
       {/* Delete product model */}
-      <Modal className="w-1/2 bg-white mx-auto p-8 rounded-lg" isOpen={isModalOpen} onClose={closeModal}>
+      <Modal
+        className="w-1/2 bg-white mx-auto p-8 rounded-lg"
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      >
         <ModalHeader className="flex items-center">
           Supprimer Produit
           {/* </div> */}
         </ModalHeader>
         <ModalBody>
-        Êtes-vous sûr de vouloir supprimer  le produit{" "}
+          Êtes-vous sûr de vouloir supprimer le produit{" "}
           {selectedDeleteProduct && `"${selectedDeleteProduct.name}"`}
         </ModalBody>
 
@@ -223,7 +211,6 @@ const ProductsAll = () => {
             Supprimer
           </button>
         </ModalFooter>
-        
       </Modal>
 
       <TableContainer className="mb-8">
@@ -242,25 +229,25 @@ const ProductsAll = () => {
             {data.map((product) => (
               <TableRow className="text-center" key={product.id}>
                 <TableCell>
-                <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center">
                     {/* <Barcode value={product.reference} width={1} height={25} /> */}
-                    <span>
-                    {product.reference}
-                    </span>
-                </div>
+                    <span>{product.reference}</span>
+                  </div>
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
-                <TableCell className="text-sm">{product.available_quantity}</TableCell>
+                <TableCell className="text-sm">
+                  {product.available_quantity}
+                </TableCell>
                 <TableCell className="text-sm">{product.cost_price}</TableCell>
                 <TableCell className="text-sm">{product.price}</TableCell>
                 <TableCell>
                   <div className="flex space-x-2 items-center justify-center">
-                    <Link
+                    {/* <Link
                       to={`/admin/product/${product.id}`}
                       className="bg-primary text-white text-sm p-1 px-2 rounded-lg hover:shadow-lg"
                     >
                       Modifier
-                    </Link>
+                    </Link> */}
 
                     <button
                       onClick={() => openModal(product.id)}
@@ -269,7 +256,9 @@ const ProductsAll = () => {
                       Supprimer
                     </button>
                     <button
-                      onClick={() => printBarcode(product.reference, product.price)} // Trigger print on click
+                      onClick={() =>
+                        printBarcode(product.reference, product.price)
+                      } // Trigger print on click
                       className="bg-gray-500 text-sm text-white p-1 px-1 rounded-lg hover:shadow-lg"
                     >
                       Imprimer Barcode

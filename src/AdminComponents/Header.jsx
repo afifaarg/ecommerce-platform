@@ -69,55 +69,14 @@ function Header() {
               isOpen={isNotificationsMenuOpen}
               onClose={() => setIsNotificationsMenuOpen(false)}
             >
-              <DropdownItem
-                tag="a"
-                href="/app/chats"
-                className="justify-between"
-              >
-                <span>Messages</span>
-                <Badge type="danger">13</Badge>
+              <DropdownItem className="justify-between">
+                <Link to={"admin/contact-forms"}>Formulaire Contact</Link>
               </DropdownItem>
-              <DropdownItem
-                tag="a"
-                href="/app/orders"
-                className="justify-between"
-              >
-                <span>Sales</span>
-                <Badge type="danger">2</Badge>
+              <DropdownItem className="justify-between">
+                <Link to={"admin/orders"}>Ventes</Link>
               </DropdownItem>
-              <DropdownItem onClick={() => alert("Alerts!")}>
-                <span>Alerts</span>
-              </DropdownItem>
-            </Dropdown>
-          </li>
-          {/* <!-- Profile menu --> */}
-          <li className="relative">
-            <button
-              className="rounded-full focus:shadow-outline-purple focus:outline-none"
-              onClick={handleProfileClick}
-              aria-label="Account"
-              aria-haspopup="true"
-            >
-              <Avatar
-                className="align-middle"
-                src={response.avatar}
-                alt=""
-                aria-hidden="true"
-              />
-            </button>
-            <Dropdown
-              align="right"
-              isOpen={isProfileMenuOpen}
-              onClose={() => setIsProfileMenuOpen(false)}
-            >
-              <DropdownItem tag="a" href="/app/manage-profile">
-                <span>Profile</span>
-              </DropdownItem>
-              <DropdownItem tag="a" href="/app/settings">
-                <span>Settings</span>
-              </DropdownItem>
-              <DropdownItem onClick={() => alert("Log out!")}>
-                <span>Log out</span>
+              <DropdownItem>
+                <Link to={"admin/etat-stock"}>Stock</Link>
               </DropdownItem>
             </Dropdown>
           </li>

@@ -15,7 +15,7 @@ const Chats = () => {
     const fetchContacts = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/backendAPI/contact/"
+          "https://ecommerce-platform-api.onrender.com/backendAPI/contact/"
         );
         setContacts(response.data);
       } catch (error) {
@@ -31,9 +31,12 @@ const Chats = () => {
 
   const handleCloseChat = async (id) => {
     try {
-      await axios.patch(`http://127.0.0.1:8000/backendAPI/contact/${id}/`, {
-        etat: "ferme",
-      });
+      await axios.patch(
+        `https://ecommerce-platform-api.onrender.com/backendAPI/contact/${id}/`,
+        {
+          etat: "ferme",
+        }
+      );
       setContacts((prevContacts) =>
         prevContacts.map((contact) =>
           contact.id === id ? { ...contact, etat: "ferme" } : contact

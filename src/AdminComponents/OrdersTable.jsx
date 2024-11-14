@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import {
   TableBody,
@@ -12,6 +12,7 @@ import {
   Pagination,
   Button,
   Modal,
+  ModalHeader,
   ModalBody,
   ModalFooter,
 } from "@windmill/react-ui";
@@ -22,10 +23,12 @@ export default function OrdersTable({ resultsPerPage, filter }) {
   const [totalResults, setTotalResults] = useState(0);
   const [commandes, setCommandes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCommande, setSelectedCommande] = useState(null);
-
+  const [selectedDeleteOrder, setSelectedDeleteOrder] = useState(null);
   const onPageChange = (p) => setPage(p);
-
+  const printRef = useRef();
+  const API_URL = "http://127.0.0.1:8000/backendAPI/orders/";
   useEffect(() => {
     const fetchCommandes = async () => {
       try {
@@ -46,10 +49,18 @@ export default function OrdersTable({ resultsPerPage, filter }) {
     setSelectedCommande(commande);
     setIsModalOpen(true);
   };
+  const openDeleteModal = (commande) => {
+    setSelectedDeleteOrder(commande);
+    setIsDeleteModalOpen(true);
+  };
 
   const closeModal = () => {
     setSelectedCommande(null);
     setIsModalOpen(false);
+  };
+  const closeDeleteModal = () => {
+    setSelectedDeleteOrder(null);
+    setIsDeleteModalOpen(false);
   };
 
   const updateCommandeStatus = async (commandeId, status) => {
@@ -82,15 +93,131 @@ export default function OrdersTable({ resultsPerPage, filter }) {
     );
   }, [page, resultsPerPage, filter, commandes]);
 
+  async function handleDeleteOrder() {
+    console.log("Deleting order ..." + selectedDeleteOrder);
+    try {
+      if (selectedDeleteOrder) {
+        setData(data.filter((item) => item.id != selectedDeleteOrder.id));
+        await axios.delete(`${API_URL}${selectedDeleteOrder.id}/`);
+        closeDeleteModal();
+        alert("Commande supprimée avec succès!");
+      }
+    } catch (error) {
+      console.error("Error Suppression commande:", error);
+    }
+  }
+  const handlePrint = () => {
+    const printContent = printRef.current;
+    const WindowPrint = window.open("", "", "width=800,height=600");
+    WindowPrint.document.write(`
+      <html>
+        <head>
+          <title>Facture de Vente</title>
+          <style>
+            /* Add your print styles here */
+            body {
+              font-family: Arial, sans-serif;
+              color: #333;
+            }
+            h2, h3 {
+              margin-top: 2;
+              text-align: center;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              padding: 8px;
+              text-align: left;
+              border-bottom: 1px solid #ddd;
+            }
+            .header, .footer {
+              margin-bottom: 1em;
+            }
+            .footer{
+              display:flex;
+              justify-content: end;
+            }
+            .header{
+              padding : 10px;
+              border : 1px solid black;
+            }
+            .cachetClass{
+              text-align:right;
+            }
+          </style>
+        </head>
+        <body>
+        <h2> FACTURE DE VENTE</h2>
+          <div class="header">
+            <p><strong>ID Bon :</strong># ${selectedCommande.id}</p>
+             <p><strong>Date du Bon :</strong> ${new Date(
+               selectedCommande.created_at
+             ).toLocaleDateString()}</p>
+            <p><strong>Nom du Client :</strong> ${
+              selectedCommande.customer_fullname
+            }</p>
+            <p><strong>Nom du Client :</strong> ${
+              selectedCommande.customer_phonenumber
+            }</p>
+            <p><strong>Adresse de Livraison :</strong> ${
+              selectedCommande.billing_address
+            }</p>
+           
+          </div>
+
+
+          <table>
+            <thead>
+              <tr>
+                <th>Reference d'article</th>
+                <th>Nom de l'Article</th>
+                <th>Prix Unitaire</th>
+                <th>Quantité</th>
+                <th>Prix Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${selectedCommande.items
+                .map(
+                  (item) => `
+                <tr>               
+                  <td>${item.product_reference}</td>
+                  <td>${item.product_name}</td>
+                  <td>${item.unit_price}</td>
+                  <td>${item.quantity}</td>
+                  <td>${item.total_price} DZD</td>
+                </tr>`
+                )
+                .join("")}
+            </tbody>
+          </table>
+          <div class="footer">
+            <p><strong>Total:</strong> ${selectedCommande.items.reduce(
+              (total, item) => total + parseFloat(item.total_price),
+              0
+            )} DZD</p>
+          </div>
+          <p class="cachetClass">
+           <strong>Signature & Cachet</strong>
+          </p>
+        </body>
+      </html>
+    `);
+    WindowPrint.document.close();
+    WindowPrint.print();
+  };
   return (
     <div>
       <TableContainer className="mb-8">
         <Table>
           <TableHeader>
-            <tr>
+            <tr className="text-center">
               <TableCell>Nom du Client</TableCell>
               <TableCell>ID de Commande</TableCell>
               <TableCell>Prix Total</TableCell>
+              <TableCell>Source</TableCell>
               <TableCell>Statut</TableCell>
               <TableCell>Date de Commande</TableCell>
               <TableCell>Actions</TableCell>
@@ -109,6 +236,17 @@ export default function OrdersTable({ resultsPerPage, filter }) {
                 </TableCell>
                 <TableCell>
                   <span className="text-sm">{commande.total_price} DZD</span>
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={`ml-4 w-14 text-sm text-center font-medium me-2 px-2.5 py-0.5 rounded  ${
+                      commande.client
+                        ? " bg-green-100 text-green-800 border-green-500 dark:bg-green-900 dark:text-green-300"
+                        : "bg-red-100 text-red-800 border-red-500 dark:bg-red-900 dark:text-red-300"
+                    } text-white font-semibold`}
+                  >
+                    {commande.client ? "Client" : "SiteWeb"}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <div
@@ -135,6 +273,12 @@ export default function OrdersTable({ resultsPerPage, filter }) {
                   >
                     Voir détails
                   </button>
+                  <button
+                    onClick={() => openDeleteModal(commande)}
+                    className="bg-red-500 text-sm text-white p-1 px-2 rounded-lg hover:shadow-lg"
+                  >
+                    Supprimer
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
@@ -156,7 +300,7 @@ export default function OrdersTable({ resultsPerPage, filter }) {
           onClose={closeModal}
           className="w-3/4 h-4/5top-1 md:w-1/2 mx-auto bg-white p-6 rounded-xl"
         >
-          <ModalBody>
+          <ModalBody ref={printRef}>
             <h2 className="text-lg font-semibold mb-4">
               Détails de la Commande
             </h2>
@@ -208,7 +352,7 @@ export default function OrdersTable({ resultsPerPage, filter }) {
                     <TableRow key={item.id}>
                       <TableCell>{item.product_reference}</TableCell>
                       <TableCell>{item.product_name}</TableCell>
-                      <TableCell>{item.prix_unitaire}</TableCell>
+                      <TableCell>{item.unit_price}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>{item.total_price} DZD</TableCell>
                     </TableRow>
@@ -224,6 +368,12 @@ export default function OrdersTable({ resultsPerPage, filter }) {
             >
               Fermer
             </span>
+            <button
+              onClick={handlePrint}
+              className="bg-gray-500 text-white mr-2 p-1 px-2 rounded-lg shadow-lg"
+            >
+              Imprimer le Bon
+            </button>
             <button
               onClick={() =>
                 updateCommandeStatus(selectedCommande.id, "Confirmé")
@@ -243,6 +393,36 @@ export default function OrdersTable({ resultsPerPage, filter }) {
           </ModalFooter>
         </Modal>
       )}
+      {/* Delete product model */}
+      <Modal
+        className="w-1/2 bg-white mx-auto p-8 rounded-lg"
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+      >
+        <ModalHeader className="flex items-center">
+          Supprimer Commande
+          {/* </div> */}
+        </ModalHeader>
+        <ModalBody>
+          Êtes-vous sûr de vouloir supprimer le produit de{" "}
+          {selectedDeleteOrder && `"${selectedDeleteOrder.customer_fullname}"`}
+        </ModalBody>
+
+        <ModalFooter>
+          <span
+            onClick={closeDeleteModal}
+            className="text-primary font-bold cursor-pointer hover:underline mr-4"
+          >
+            Annuler
+          </span>
+          <button
+            onClick={handleDeleteOrder}
+            className="bg-red-500 px-4 py-2 text-white font-bold rounded-lg hover:shadow-lg"
+          >
+            Supprimer
+          </button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }

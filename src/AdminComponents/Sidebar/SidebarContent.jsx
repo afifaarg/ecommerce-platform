@@ -2,8 +2,16 @@ import React from "react";
 import routes from "../../routes/sidebar";
 import { NavLink, Route, Link } from "react-router-dom";
 import SidebarSubmenu from "./SidebarSubmenu";
+import { useNavigate } from "react-router-dom";
 
 function SidebarContent() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    // Clear user data from local storage (or wherever it's stored)
+    localStorage.removeItem("isLoggedIn"); // Or "user" if you store the user info as a whole object
+    // Redirect to the login page
+    navigate("/private-space-admin");
+  };
   return (
     <div className="py-4 flex flex-col text-primary">
       <a
@@ -31,11 +39,10 @@ function SidebarContent() {
             <span className="ml-4">Tableau de Bord</span>
           </Link>
         </li>
-
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
           <Link
             exact
-            to="/admin/orders"
+            to="/admin/etat-stock"
             className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
             activeClassName="text-gray-800 dark:text-gray-100"
           >
@@ -45,12 +52,12 @@ function SidebarContent() {
               height="1.5em"
               width="1.5em"
             >
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path d="M20 22H4a1 1 0 01-1-1V3a1 1 0 011-1h16a1 1 0 011 1v18a1 1 0 01-1 1zm-1-2V4H5v16h14zM8 9h8v2H8V9zm0 4h8v2H8v-2z" />
+              <path d="M19.148 2.971A2.008 2.008 0 0017.434 2H6.566c-.698 0-1.355.372-1.714.971L2.143 7.485A.995.995 0 002 8a3.97 3.97 0 001 2.618V19c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-8.382A3.97 3.97 0 0022 8a.995.995 0 00-.143-.515l-2.709-4.514zm.836 5.28A2.003 2.003 0 0118 10c-1.103 0-2-.897-2-2 0-.068-.025-.128-.039-.192l.02-.004L15.22 4h2.214l2.55 4.251zM10.819 4h2.361l.813 4.065C13.958 9.137 13.08 10 12 10s-1.958-.863-1.993-1.935L10.819 4zM6.566 4H8.78l-.76 3.804.02.004C8.025 7.872 8 7.932 8 8c0 1.103-.897 2-2 2a2.003 2.003 0 01-1.984-1.749L6.566 4zM10 19v-3h4v3h-4zm6 0v-3c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v3H5v-7.142c.321.083.652.142 1 .142a3.99 3.99 0 003-1.357c.733.832 1.807 1.357 3 1.357s2.267-.525 3-1.357A3.99 3.99 0 0018 12c.348 0 .679-.059 1-.142V19h-3z" />
             </svg>
-            <span className="ml-4">Commandes</span>
+            <span className="ml-4">Etat de stock</span>
           </Link>
         </li>
+        <hr />
 
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
           <Link
@@ -88,7 +95,7 @@ function SidebarContent() {
             <span className="ml-4">Liste des produits</span>
           </Link>
         </li>
-
+        <hr />
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
           <Link
             exact
@@ -111,7 +118,7 @@ function SidebarContent() {
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
           <Link
             exact
-            to="/admin/customers"
+            to="/admin/fournisseurs"
             className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
             activeClassName="text-gray-800 dark:text-gray-100"
           >
@@ -123,9 +130,10 @@ function SidebarContent() {
             >
               <path d="M1000 940H776V790c0-36-10-63-30-81s-71.333-47.667-154-89c26.667-20 40-48 40-84 0-10.667-4.333-21.667-13-33-8.667-11.333-15-28.333-19-51-1.333-5.333-6-10.667-14-16s-12.667-19.333-14-42c0-16 4-26 12-30-4-22.667-6.667-42.667-8-60-2.667-25.333 5-51.333 23-78s49.667-40 95-40 77.333 13.333 96 40 26.667 52.667 24 78l-8 60c8 4 12 14 12 30-1.333 22.667-6 36.667-14 42-8 5.333-12.667 10.667-14 16-4 22.667-10.333 39.667-19 51-8.667 11.333-13 22.333-13 33 0 28 7 50 21 66s39.667 32 77 48c74.667 30.667 118 57.333 130 80 4 5.333 7 25.667 9 61s3.667 69 5 101v48M512 678c121.333 52 182 93.333 182 124v138H0V756c0-29.333 28-55.333 84-78 50.667-21.333 85.333-42.667 104-64s28-50.667 28-88c0-13.333-6.333-28-19-44s-21-38.667-25-68c-1.333-6.667-7.333-14-18-22s-17.333-26.667-20-56c0-9.333 1-17 3-23s4.333-10.333 7-13l4-2c-4-30.667-7.333-58-10-82-2.667-33.333 8.333-67.667 33-103s67-53 127-53 102.333 17.667 127 53 35.667 69.667 33 103l-10 82c9.333 5.333 14 18 14 38-2.667 29.333-9.333 48-20 56s-16.667 15.333-18 22c-4 29.333-12.333 52-25 68s-19 30.667-19 44c0 37.333 9.333 66.667 28 88s53.333 42.667 104 64" />
             </svg>
-            <span className="ml-4">Liste des Client</span>
+            <span className="ml-4">Liste des Fournisseurs</span>
           </Link>
         </li>
+        <hr />
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
           <Link
             exact
@@ -141,10 +149,29 @@ function SidebarContent() {
             >
               <path d="M1000 940H776V790c0-36-10-63-30-81s-71.333-47.667-154-89c26.667-20 40-48 40-84 0-10.667-4.333-21.667-13-33-8.667-11.333-15-28.333-19-51-1.333-5.333-6-10.667-14-16s-12.667-19.333-14-42c0-16 4-26 12-30-4-22.667-6.667-42.667-8-60-2.667-25.333 5-51.333 23-78s49.667-40 95-40 77.333 13.333 96 40 26.667 52.667 24 78l-8 60c8 4 12 14 12 30-1.333 22.667-6 36.667-14 42-8 5.333-12.667 10.667-14 16-4 22.667-10.333 39.667-19 51-8.667 11.333-13 22.333-13 33 0 28 7 50 21 66s39.667 32 77 48c74.667 30.667 118 57.333 130 80 4 5.333 7 25.667 9 61s3.667 69 5 101v48M512 678c121.333 52 182 93.333 182 124v138H0V756c0-29.333 28-55.333 84-78 50.667-21.333 85.333-42.667 104-64s28-50.667 28-88c0-13.333-6.333-28-19-44s-21-38.667-25-68c-1.333-6.667-7.333-14-18-22s-17.333-26.667-20-56c0-9.333 1-17 3-23s4.333-10.333 7-13l4-2c-4-30.667-7.333-58-10-82-2.667-33.333 8.333-67.667 33-103s67-53 127-53 102.333 17.667 127 53 35.667 69.667 33 103l-10 82c9.333 5.333 14 18 14 38-2.667 29.333-9.333 48-20 56s-16.667 15.333-18 22c-4 29.333-12.333 52-25 68s-19 30.667-19 44c0 37.333 9.333 66.667 28 88s53.333 42.667 104 64" />
             </svg>
-            <span className="ml-4">Liste des Fournisseurs</span>
+            <span className="ml-4">Liste des Client</span>
           </Link>
         </li>
-        <hr className="bg-[#000066]" />
+
+        <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
+          <Link
+            exact
+            to="/admin/orders"
+            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            activeClassName="text-gray-800 dark:text-gray-100"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              height="1.5em"
+              width="1.5em"
+            >
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M20 22H4a1 1 0 01-1-1V3a1 1 0 011-1h16a1 1 0 011 1v18a1 1 0 01-1 1zm-1-2V4H5v16h14zM8 9h8v2H8V9zm0 4h8v2H8v-2z" />
+            </svg>
+            <span className="ml-4">Commandes</span>
+          </Link>
+        </li>
         <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
           <Link
             exact
@@ -165,39 +192,21 @@ function SidebarContent() {
           </Link>
         </li>
 
-        <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
-          <Link
-            exact
-            to="/admin/etat-stock"
-            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-            activeClassName="text-gray-800 dark:text-gray-100"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              height="1.5em"
-              width="1.5em"
-            >
-              <path d="M19.148 2.971A2.008 2.008 0 0017.434 2H6.566c-.698 0-1.355.372-1.714.971L2.143 7.485A.995.995 0 002 8a3.97 3.97 0 001 2.618V19c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-8.382A3.97 3.97 0 0022 8a.995.995 0 00-.143-.515l-2.709-4.514zm.836 5.28A2.003 2.003 0 0118 10c-1.103 0-2-.897-2-2 0-.068-.025-.128-.039-.192l.02-.004L15.22 4h2.214l2.55 4.251zM10.819 4h2.361l.813 4.065C13.958 9.137 13.08 10 12 10s-1.958-.863-1.993-1.935L10.819 4zM6.566 4H8.78l-.76 3.804.02.004C8.025 7.872 8 7.932 8 8c0 1.103-.897 2-2 2a2.003 2.003 0 01-1.984-1.749L6.566 4zM10 19v-3h4v3h-4zm6 0v-3c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v3H5v-7.142c.321.083.652.142 1 .142a3.99 3.99 0 003-1.357c.733.832 1.807 1.357 3 1.357s2.267-.525 3-1.357A3.99 3.99 0 0018 12c.348 0 .679-.059 1-.142V19h-3z" />
-            </svg>
-            <span className="ml-4">Etat de stock</span>
-          </Link>
-        </li>
-
-        <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30">
-         
-        </li>
+        <li className="relative px-12 py-2 hover:bg-gray-50 hover:bg-opacity-30"></li>
 
         <hr className="customeDivider mx-4 my-5" />
       </ul>
 
       <div className="px-6 w-full flex ">
-        <Link to="/admin" className="bg-primary text-white p-2 mx-auto  rounded-lg">
+        <button
+          onClick={handleLogout}
+          className="bg-primary text-white p-2 mx-auto  rounded-lg"
+        >
           Deconnexion
           <span className="ml-2 bg-primary" aria-hidden="true">
             +
           </span>
-        </Link>
+        </button>
       </div>
     </div>
   );

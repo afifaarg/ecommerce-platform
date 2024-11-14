@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout"; // Layout component for user-facing pages
+import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
 import ContactUs from "./pages/ContactUs";
 import Productspage from "./pages/Productspage";
@@ -23,6 +23,9 @@ import BillingPage from "./AdminPages/BillingPage";
 import NewBillPage from "./AdminPages/NewBillPage";
 import EditPurchaseOrderPage from "./AdminPages/EditBill";
 import EtatstockPage from "./AdminPages/EtatstockPage";
+import Invoice from "./AdminPages/InvoicePage";
+import Fournisseurs from "./AdminPages/fournisseurs";
+import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
 
 const App = () => (
   <CartProvider>
@@ -36,28 +39,39 @@ const App = () => (
             <Route path="contact" element={<ContactUs />} />
             <Route path="cart" element={<Cart />} />
           </Route>
-          <Route path="admin/" element={<Login />} />
-          <Route element={<AdminLayout />}>
+
+          <Route path="private-space-admin/" element={<Login />} />
+
+          {/* Protect admin routes with PrivateRoute */}
+          <Route
+            element={
+              <PrivateRoute>
+                <AdminLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route
+              path="admin/administration-dashboard"
+              element={<Dashboard />}
+            />
             <Route path="admin/orders" element={<Orders />} />
             <Route path="admin/etat-stock" element={<EtatstockPage />} />
             <Route path="admin/products" element={<ProductsAll />} />
             <Route path="admin/categories" element={<CategoriesPage />} />
             <Route path="admin/add-product" element={<AddProduct />} />
             <Route path="admin/product/:id" element={<EditProduct />} />
-            <Route path="admin/orders" element={<Orders />} />
             <Route path="admin/customers" element={<Customers />} />
             <Route path="admin/contact-forms" element={<Chats />} />
             <Route path="admin/buying-bills-page" element={<BillingPage />} />
             <Route path="admin/new-buy-bill" element={<NewBillPage />} />
+            <Route path="admin/newInvoice" element={<Invoice />} />
+            <Route path="admin/fournisseurs" element={<Fournisseurs />} />
             <Route
               path="admin/edit-bill-buy/:id"
               element={<EditPurchaseOrderPage />}
             />
-            <Route
-              path="admin/administration-dashboard"
-              element={<Dashboard />}
-            />
           </Route>
+
           <Route path="*" element={<Page404 />} />
         </Routes>
       </BrowserRouter>

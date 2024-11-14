@@ -39,7 +39,7 @@ export default function EditProduct() {
   });
   const API_URL =
     "https://ecommerce-platform-api.onrender.com/backendAPI/categories/";
-  const PRODUCT_API = `http://127.0.0.1:8000/backendAPI/produits/${id}/`;
+  const PRODUCT_API = `https://ecommerce-platform-api.onrender.com/backendAPI//produits/${id}/`;
 
   useEffect(() => {
     // Fetch categories

@@ -44,7 +44,8 @@ const Customers = () => {
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
-    type: "client",
+    phone: "",
+    address: "",
   });
   const [userGrowthData, setUserGrowthData] = useState({
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -77,7 +78,7 @@ const Customers = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "https://ecommerce-platform-api.onrender.com/backendAPI/signup/"
+          "https://ecommerce-platform-api.onrender.com/backendAPI/clients/"
         ); // Replace with your API endpoint
         const data = await response.json();
         setUsers(data);
@@ -145,7 +146,7 @@ const Customers = () => {
     try {
       // Make API call to add new user (replace with your API endpoint)
       await fetch(
-        "https://ecommerce-platform-api.onrender.com/backendAPI/signup/",
+        "https://ecommerce-platform-api.onrender.com/backendAPI/clients/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -153,10 +154,10 @@ const Customers = () => {
         }
       );
       setIsModalOpen(false);
-      setNewUser({ name: "", email: "", type: "client" });
+      setNewUser({ name: "", email: "", phone: "", address: "" });
       // Refresh users list
       const response = await fetch(
-        "https://ecommerce-platform-api.onrender.com/backendAPI/signup/"
+        "https://ecommerce-platform-api.onrender.com/backendAPI/clients/"
       );
       const data = await response.json();
       setUsers(data);
@@ -229,8 +230,6 @@ const Customers = () => {
 
       <UsersTable resultsPerPage={10} users={users} searchTerm={searchTerm} />
 
-      {/* Modal to add new user */}
-
       <Modal
         className="bg-white mx-auto w-4/5 md:w-1/2 rounded-xl p-8"
         isOpen={isModalOpen}
@@ -238,37 +237,43 @@ const Customers = () => {
       >
         <ModalHeader toggle={toggleModal}>Nouveau Client</ModalHeader>
         <ModalBody>
-          <Label for="name">Name</Label>
+          <Label for="name">Nom Complet</Label>
           <Input
             id="name"
             name="name"
             value={newUser.name}
             onChange={handleInputChange}
-            placeholder="Enter user name"
+            placeholder="Nom & Prenom Du Client"
             className="mb-4"
           />
+
           <Label for="email">Email</Label>
           <Input
             id="email"
             name="email"
             value={newUser.email}
             onChange={handleInputChange}
-            placeholder="Enter user email"
+            placeholder="Email du client"
             className="mb-4"
           />
-          <Label for="type">Type de Client</Label>
-          <Select
-            id="type"
-            name="type"
-            value={newUser.type}
-            onChange={(e) =>
-              setNewUser((prev) => ({ ...prev, type: e.target.value }))
-            }
+          <Label for="email">Numéro de téléphone</Label>
+          <Input
+            id="phone"
+            name="phone"
+            value={newUser.phone}
+            onChange={handleInputChange}
+            placeholder="Numéro de téléphone du Client"
             className="mb-4"
-          >
-            <option value="client">Client</option>
-            <option value="admin">Admin</option>
-          </Select>
+          />
+          <Label for="email">Adresse du Client</Label>
+          <Input
+            id="address"
+            name="address"
+            value={newUser.address}
+            onChange={handleInputChange}
+            placeholder="Adresse du client"
+            className="mb-4"
+          />
         </ModalBody>
         <ModalFooter>
           <span

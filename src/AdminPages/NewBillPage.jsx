@@ -32,18 +32,26 @@ export default function NewPurchaseOrderPage() {
     total_price: 0,
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null); // Track selected product
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [fournisseursList, setFournisseurList] = useState([]);
 
   useEffect(() => {
-    // Fetch products from backend
     axios
-      .get("http://127.0.0.1:8000/backendAPI/produits/")
+      .get("https://ecommerce-platform-api.onrender.com/backendAPI/produits/")
       .then((response) => setProductOptions(response.data))
       .catch((error) => console.error("Error fetching products:", error));
 
-    // Generate Bon ID
     axios
-      .get("http://127.0.0.1:8000/backendAPI/buyingBills/")
+      .get(
+        "https://ecommerce-platform-api.onrender.com/backendAPI/fournisseurs/"
+      )
+      .then((response) => setFournisseurList(response.data))
+      .catch((error) => console.error("Error fetching fournisseurs:", error));
+
+    axios
+      .get(
+        "https://ecommerce-platform-api.onrender.com/backendAPI/buyingBills/"
+      )
       .then((response) => {
         const bills = response.data;
         const latestBillId = bills.reduce((max, bill) => {
@@ -75,7 +83,7 @@ export default function NewPurchaseOrderPage() {
   const confirmAddProduct = () => {
     if (selectedProduct) {
       const selected = productOptions.find(
-        (p) => p.id == selectedProduct.value
+        (p) => p.id === selectedProduct.value
       );
       if (selected) {
         const totalProductPrice = selected.cost_price * product.quantity;
@@ -102,12 +110,11 @@ export default function NewPurchaseOrderPage() {
   const submitBill = async () => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/backendAPI/buyingBills/",
+        "https://ecommerce-platform-api.onrender.com/backendAPI/buyingBills/",
         bill
       );
       console.log("Bill submitted:", response.data);
       alert("Bill successfully submitted!");
-      // Reset the bill after submission
       setBill({
         bill_id: "",
         payment_method: "",
@@ -143,9 +150,12 @@ export default function NewPurchaseOrderPage() {
   };
 
   return (
-    <div>
+    <div className="container mx-auto px-6 py-8">
+      {/* Page Title */}
       <PageTitle>Nouveau Bon d'Achat</PageTitle>
-      <div className="flex text-gray-800 dark:text-gray-300">
+
+      {/* Navigation Breadcrumb */}
+      <div className="flex text-gray-800 dark:text-gray-300 mb-6">
         <div className="flex items-center text-primary">
           <NavLink exact to="/admin/administration-dashboard" className="mx-2">
             Tableau de Bord
@@ -160,9 +170,11 @@ export default function NewPurchaseOrderPage() {
         <p className="mx-2">Nouveau Bon d'Achat</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 mb-8">
+      {/* Bill Information Form */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* Bill ID */}
         <div>
-          <label htmlFor="">ID BON</label>
+          <Label>ID BON</Label>
           <Input
             className="mb-4"
             value={bill.bill_id}
@@ -172,23 +184,33 @@ export default function NewPurchaseOrderPage() {
             disabled
           />
         </div>
+
+        {/* Fournisseur */}
         <div>
-          <label htmlFor="">Fournisseur</label>
-          <Input
-            className="mb-4"
+          <Label>Fournisseur</Label>
+          <WindmillSelect
             value={bill.fournisseur}
-            name="fournisseur"
             onChange={handleBillChange}
-            placeholder="Fournisseur"
-          />
+            name="fournisseur"
+            className="mb-4 py-2"
+          >
+            <option value="">Sélectionner un fournisseur</option>
+            {fournisseursList?.map((item, index) => (
+              <option key={index} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </WindmillSelect>
         </div>
+
+        {/* Payment Method */}
         <div>
-          <label htmlFor="">Mode de Paiement</label>
+          <Label>Mode de Paiement</Label>
           <WindmillSelect
             value={bill.payment_method}
             onChange={handleBillChange}
             name="payment_method"
-            className="mb-4"
+            className="mb-4 py-2"
           >
             <option value="">Sélectionner un mode de paiement</option>
             <option value="Cash">Cash</option>
@@ -197,10 +219,11 @@ export default function NewPurchaseOrderPage() {
         </div>
       </div>
 
+      {/* Products Table */}
       <div className="overflow-x-auto mb-4">
-        <table className="w-full bg-gray-100 rounded">
+        <table className="w-full bg-gray-100 rounded-xl">
           <thead>
-            <tr className="text-left bg-gray-200">
+            <tr className="text-left bg-gray-50 ">
               <th className="py-2 px-4">Produit</th>
               <th className="py-2 px-4">Prix Achat Unitaire</th>
               <th className="py-2 px-4">Quantité</th>
@@ -218,83 +241,80 @@ export default function NewPurchaseOrderPage() {
             ))}
           </tbody>
         </table>
-        <div className=" mt-4 flex justify-between border-b pb-4">
+
+        <div className="mt-4 flex justify-between border-b pb-4">
           <button
             onClick={openModal}
-            className="w-fit py-2 px-4 bg-primary text-white rounded hover:shadow-lg hover:scale-90 transform ease-in"
+            className="py-2 px-4 bg-primary text-white rounded hover:shadow-lg hover:scale-90 transform ease-in"
           >
             Ajouter un Produit
           </button>
         </div>
       </div>
 
-      <div className="text-right font-bold">
-        Montant Total: {bill.total_amount} DZD
+      {/* Total Amount */}
+      <div className="mb-6 flex justify-between">
+        <div className="text-xl font-semibold"></div>
+        <div className="text-xl font-semibold">
+          Montant Total : <span>{bill.total_amount} DZD</span>
+        </div>
       </div>
 
-      <div className="text-right mt-4 flex justify-between border-t py-2">
-        <div></div>
+      {/* Submit Bill Button */}
+      <div className="mb-4 flex justify-end">
         <button
           onClick={submitBill}
-          className="py-2 px-6 bg-white border border-primary text-primary hover:text-white hover:bg-primary rounded font-bold"
+          className="px-4 py-2 bg-primary text-white rounded-xl hover:bg-white border font-bold hover:border-primary hover:text-primary"
         >
-          Valider le Bon
+          Soumettre Bon d'Achat
         </button>
       </div>
 
-      {isModalOpen && (
-        <Modal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          className="w-3/4 md:w-1/2 mx-auto bg-white p-6 rounded-xl"
-        >
-          <ModalBody>
-            <h2 className="text-lg font-semibold mb-4">Ajouter Un Produit</h2>
+      {/* Modal for Product Selection */}
+      <Modal
+        className="bg-white w-1/2 mx-auto p-8 rounded-xl"
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      >
+        <ModalBody>
+          <h2 className="text-xl font-semibold mb-4">Ajouter un Produit</h2>
+          <div className="mb-4">
             <Label>Produit</Label>
             <Select
               options={optionsProductSelect}
               onChange={HandleSelection}
-              className="mt-2 mb-4"
               placeholder="Sélectionner un produit"
             />
+          </div>
+
+          <div className="mb-4">
             <Label>Quantité</Label>
             <Input
               type="number"
               value={product.quantity}
               onChange={(e) =>
-                setProduct((prev) => ({
-                  ...prev,
-                  quantity: e.target.value,
-                  total_price: prev.unit_price * e.target.value,
-                }))
+                setProduct({ ...product, quantity: e.target.value })
               }
-              className="w-full p-2 border border-gray-300 rounded mb-4"
+              min="1"
             />
+          </div>
+
+          <div className="mb-4">
             <Label>Prix Unitaire</Label>
             <Input
               type="number"
               value={product.unit_price}
+              onChange={(e) =>
+                setProduct({ ...product, unit_price: e.target.value })
+              }
               disabled
-              className="w-full p-2 border border-gray-300 rounded mb-4"
             />
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              onClick={confirmAddProduct}
-              className="py-2 px-6 bg-primary text-white rounded font-bold"
-            >
-              Ajouter Produit
-            </Button>
-            <Button
-              onClick={closeModal}
-              className="py-2 px-6 bg-gray-500 text-white rounded font-bold"
-            >
-              Annuler
-            </Button>
-          </ModalFooter>
-        </Modal>
-      )}
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={confirmAddProduct}>Ajouter</Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }
