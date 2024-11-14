@@ -106,7 +106,7 @@ const Navbar = () => {
                 onClick={() => setFlyer(!flyer)}
               >
                 <span>Nos Produits</span>
-                <svg
+                {/* <svg
                   className={`ml-2 h-5 w-5 text-primary transition-transform ease-out duration-200 ${
                     flyer ? "rotate-180" : "rotate-0"
                   }`}
@@ -120,10 +120,9 @@ const Navbar = () => {
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                     clipRule="evenodd"
                   />
-                </svg>
+                </svg> */}
               </button>
-
-              {/* Dropdown */}
+              {/* Dropdown
               <div
                 className={`${
                   flyer
@@ -156,7 +155,7 @@ const Navbar = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <a
               href="#about"
@@ -224,7 +223,6 @@ const Navbar = () => {
                         : "opacity-0 translate-y-1 pointer-events-none right-0 "
                     } transition flex flex-col bg-gray-100 rounded-lg border w-36 shadow-lg ease-out duration-200 absolute z-10 mt-3  sm:px-0 right-2 `}
                   >
-                  
                     <a
                       onClick={handleLogout}
                       className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base font-medium text-gray-700  "
@@ -318,7 +316,6 @@ const Navbar = () => {
                       : "opacity-0 translate-y-1 pointer-events-none right-0 "
                   } transition flex flex-col bg-gray-100 rounded-lg border w-36 shadow-lg ease-out duration-200 absolute z-10 mt-3  sm:px-0 right-2 `}
                 >
-                 
                   <a
                     onClick={handleLogout}
                     className=" cursor-pointer hover:bg-gray-200 rounded-lg  whitespace-nowrap inline-flex items-center space-x-2 justify-center px-2 py-2  w-full text-base font-medium text-gray-700  "
@@ -377,7 +374,7 @@ const Navbar = () => {
                 onClick={() => setFlyer(!flyer)}
               >
                 <span>Categories</span>
-                <svg
+                {/* <svg
                   className={`ml-2 h-5 w-5 text-primary hover:text-primary-dark transition-transform ease-out duration-200 ${
                     flyer ? "rotate-180" : "rotate-0"
                   }`}
@@ -391,10 +388,10 @@ const Navbar = () => {
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                     clipRule="evenodd"
                   />
-                </svg>
+                </svg> */}
               </button>
 
-              {/* Dropdown */}
+              {/* Dropdown
               <div
                 className={`${
                   flyer
@@ -424,7 +421,7 @@ const Navbar = () => {
                     ))}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <a

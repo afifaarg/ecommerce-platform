@@ -18,13 +18,13 @@ import AdminLayout from "./containers/Layout";
 import { CartProvider } from "./providers/CartProvider";
 import { SidebarProvider } from "./contexts/SidebarContext";
 import "./index.css";
-import CategoriesPage from "./AdminPages/categoriesPage";
+import CategoriesPage from "./AdminPages/CategoriesPage";
 import BillingPage from "./AdminPages/BillingPage";
 import NewBillPage from "./AdminPages/NewBillPage";
 import EditPurchaseOrderPage from "./AdminPages/EditBill";
 import EtatstockPage from "./AdminPages/EtatstockPage";
 import Invoice from "./AdminPages/InvoicePage";
-import Fournisseurs from "./AdminPages/fournisseurs";
+import Fournisseurs from "./AdminPages/Fournisseurs";
 import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
 
 const App = () => (
