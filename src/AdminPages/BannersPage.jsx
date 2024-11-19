@@ -35,7 +35,8 @@ export default function BannersPage() {
     const file = event.target.files[0];
     setFile(file);
   };
-  const API_URL = "http://127.0.0.1:8000/backendAPI/banners/";
+  const API_URL =
+    "https://ecommerce-platform-api.onrender.com/backendAPI/banners/";
 
   useEffect(() => {
     fetchBanners();
