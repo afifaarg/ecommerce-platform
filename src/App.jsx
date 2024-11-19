@@ -26,6 +26,7 @@ import EtatstockPage from "./AdminPages/EtatstockPage";
 import Invoice from "./AdminPages/InvoicePage";
 import Fournisseurs from "./AdminPages/fournisseurs";
 import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
+import BannersPage from "./AdminPages/BannersPage";
 
 const App = () => (
   <CartProvider>
@@ -55,6 +56,7 @@ const App = () => (
               element={<Dashboard />}
             />
             <Route path="admin/orders" element={<Orders />} />
+            <Route path="admin/banners" element={<BannersPage />} />
             <Route path="admin/etat-stock" element={<EtatstockPage />} />
             <Route path="admin/products" element={<ProductsAll />} />
             <Route path="admin/categories" element={<CategoriesPage />} />
